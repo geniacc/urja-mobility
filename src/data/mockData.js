@@ -17,10 +17,10 @@ export const categories = [
             title: "TK-LiFe-5145 (V2 Medium)", 
             desc: "51V Series (City Speed / Standard)", 
             specs: "51V • Li-Ion", 
-            image: "/assets/e2w-main.png",
+            image: "/assets/51V 45AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/e2w-product.jpg",
+              specImage: "/assets/51V 45AH (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -62,10 +62,10 @@ export const categories = [
             title: "TK-LiFe-5160 (V2)", 
             desc: "51V Series (City Speed / Standard)", 
             specs: "51V • Li-Ion", 
-            image: "/assets/e2w-main.png",
+            image: "/assets/64V 32Ah_ 33.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/e2w-product.jpg",
+              specImage: "/assets/64V 32Ah_ 33 (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -108,10 +108,10 @@ export const categories = [
             title: "TK LiFe-6148 (Hebby/Heavy Series)", 
             desc: "60V Series (High Performance)", 
             specs: "60V • Li-Ion", 
-            image: "/assets/e2w-main.png",
+            image: "/assets/61V 48AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/e2w-product.jpg",
+              specImage: "/assets/61V 48AH (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -154,10 +154,10 @@ export const categories = [
             title: "TK-LiFe-6432 (Lite)", 
             desc: "64V Series (Efficiency / Lite)", 
             specs: "64V • Li-Ion", 
-            image: "/assets/e2w-main.png",
+            image: "/assets/64V 32Ah_ 33.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/e2w-product.jpg",
+              specImage: "/assets/64V 32Ah_ 33 (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -209,10 +209,10 @@ export const categories = [
             title: "51V 105AH", 
             desc: "51V Series E-Rickshaw", 
             specs: "51V • 105AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/51V 105AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/51v-105ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -254,10 +254,10 @@ export const categories = [
             title: "51V 132AH", 
             desc: "51V Series E-Rickshaw", 
             specs: "51V • 132AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/51V 132AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/51v-132ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -299,10 +299,10 @@ export const categories = [
             title: "51V 153AH", 
             desc: "51V Series E-Rickshaw", 
             specs: "51V • 153AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/51V 153AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/51v-153ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -344,10 +344,10 @@ export const categories = [
             title: "51V 232AH", 
             desc: "51V Series E-Rickshaw", 
             specs: "51V • 232AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/51V 232AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/51v-232ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -390,10 +390,10 @@ export const categories = [
             title: "61V 105AH", 
             desc: "61V Series E-Rickshaw", 
             specs: "61V • 105AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/61V 105Ah d.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/61V-105Ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -435,10 +435,10 @@ export const categories = [
             title: "61V 132AH", 
             desc: "61V Series E-Rickshaw", 
             specs: "61V • 132AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/61V 132AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/61V-132Ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -480,10 +480,10 @@ export const categories = [
             title: "61V 153AH", 
             desc: "61V Series E-Rickshaw", 
             specs: "61V • 153AH", 
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/61V 153AH.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/61v-153ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -528,7 +528,7 @@ export const categories = [
             image: "/assets/erickshaw-main.png",
             details: {
               heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/erickshaw-product.jpg",
+              specImage: "/assets/61v-232ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -716,6 +716,52 @@ export const categories = [
                   title: "Thermal shock",
                   desc: "Ability to withstand thermal shock with no fire or explosion",
                   icon: "thermometer"
+                }
+              ]
+            }
+          },
+          { 
+            id: "t4000tk", 
+            title: "TK Series (Ultra) 4.0KW", 
+            desc: "Three Phase Solar GTI", 
+            specs: "4.0KW", 
+            image: "/assets/Three Phase Solar GTI T4.0K.jpg",
+            details: {
+              heroImage: "/assets/Three-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Three Phase Solar GTI T4.0K.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart control system",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "User-friendly operation and easy installation.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Advanced safety mechanisms for secure operation.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Consistent performance with durable design.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Control and efficiency with power export limiting.",
+                  icon: "zap"
                 }
               ]
             }
@@ -2319,13 +2365,328 @@ export const categories = [
         id: "gti",
         title: "GTI (Grid Tie Inverters)",
         items: [
-          { id: "s1000tk", title: "S1000TK", desc: "Single Phase GTI", specs: "1kW", image: "/assets/Single Phase Solar GTI.png" },
-          { id: "s2200tk", title: "S2200TK", desc: "Single Phase GTI", specs: "2.2kW", image: "/assets/Single Phase Solar GTI.png" },
-          { id: "s3000tk", title: "S3000TK", desc: "Single Phase GTI", specs: "3kW", image: "/assets/Single Phase Solar GTI.png" },
-          { id: "s3600tk", title: "S3600TK", desc: "Single Phase GTI", specs: "3.6kW", image: "/assets/Single Phase Solar GTI.png" },
-          { id: "s4400tk", title: "S4400TK", desc: "Single Phase GTI", specs: "4.4kW", image: "/assets/Single Phase Solar GTI.png" },
-          { id: "s5000tk", title: "S5000TK", desc: "Single Phase GTI", specs: "5kW", image: "/assets/Single Phase Solar GTI.png" },
-          { id: "s6000tk", title: "S6000TK", desc: "Single Phase GTI", specs: "6kW", image: "/assets/Single Phase Solar GTI.png" }
+          { 
+            id: "s1000tk", 
+            title: "TK Series (Ultra) 1.0KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "1kW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S1000TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "Compact and easy-to-install design makes it user-friendly.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Die-casting premium design ensuring durability and safety.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Flexible connectivity options including WiFi, GPRS, and LAN.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Includes a power export limit function for better control and efficiency.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "s2200tk", 
+            title: "TK Series (Ultra) 2.2KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "2.2kW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S2200TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "Compact and easy-to-install design makes it user-friendly.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Die-casting premium design ensuring durability and safety.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Flexible connectivity options including WiFi, GPRS, and LAN.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Includes a power export limit function for better control and efficiency.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "s3000tk", 
+            title: "TK Series (Ultra) 3.0KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "3.0KW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S3000TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart control system",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "User-friendly operation and easy installation.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Advanced safety mechanisms for secure operation.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Consistent performance with durable design.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Control and efficiency with power export limiting.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "s3600tk", 
+            title: "TK Series (Ultra) 3.6KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "3.6KW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S3600TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart control system",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "User-friendly operation and easy installation.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Advanced safety mechanisms for secure operation.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Consistent performance with durable design.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Control and efficiency with power export limiting.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "s4400tk", 
+            title: "TK Series (Ultra) 4.4KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "4.4KW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S4400TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart control system",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "User-friendly operation and easy installation.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Advanced safety mechanisms for secure operation.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Consistent performance with durable design.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Control and efficiency with power export limiting.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "s5000tk", 
+            title: "TK Series (Ultra) 5.0KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "5.0KW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S5000TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart control system",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "User-friendly operation and easy installation.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Advanced safety mechanisms for secure operation.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Consistent performance with durable design.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Control and efficiency with power export limiting.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "s6000tk", 
+            title: "TK Series (Ultra) 6.0KW", 
+            desc: "Single Phase Solar GTI", 
+            specs: "6.0KW", 
+            image: "/assets/Single Phase Solar GTI.png",
+            details: {
+              heroImage: "/assets/Single-Phase-Solar-GTI-Banner.jpg",
+              specImage: "/assets/Single Phase Solar GTI S6000TK.jpg",
+              overview: "This device features a big LCD display for clear and convenient monitoring. It boasts a die-casting premium design, ensuring both durability and a sleek appearance. With WiFi, GPRS, and LAN communication options, it offers flexible connectivity to suit different installation environments. The system also includes a power export limit function for better control and efficiency. Additionally, its compact and easy-to-install design makes it user-friendly and ideal for various applications.",
+              keyFeatures: [
+                "Smart control system",
+                "Simpler",
+                "Safer",
+                "Great Reliability",
+                "Power Export Limit"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart control system",
+                  desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                  icon: "zap"
+                },
+                {
+                  title: "Simpler",
+                  desc: "User-friendly operation and easy installation.",
+                  icon: "target"
+                },
+                {
+                  title: "Safer",
+                  desc: "Advanced safety mechanisms for secure operation.",
+                  icon: "shield"
+                },
+                {
+                  title: "Great Reliability",
+                  desc: "Consistent performance with durable design.",
+                  icon: "shield"
+                },
+                {
+                  title: "Power Export Limit",
+                  desc: "Control and efficiency with power export limiting.",
+                  icon: "zap"
+                }
+              ]
+            }
+          }
         ]
       },
       {
@@ -2336,33 +2697,708 @@ export const categories = [
             id: "home-hybrid",
             title: "Single Phase Home",
             items: [
-              { id: "tk-3khb", title: "TK 3KHB", desc: "Single Phase Hybrid", specs: "3kW", image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png" },
-              { id: "tk-3k6hb", title: "TK 3K6HB", desc: "Single Phase Hybrid", specs: "3.6kW", image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png" },
-              { id: "tk-5khb", title: "TK 5KHB", desc: "Single Phase Hybrid", specs: "5kW", image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png" },
-              { id: "tk-6khb-1ph", title: "TK 6KHB", desc: "Single Phase Hybrid", specs: "6kW", image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png" }
+              { 
+                id: "tk-3khb", 
+                title: "TK 3KHB-D1/LV-ECO", 
+                desc: "Single Phase & LV Battery", 
+                specs: "3kW", 
+                image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                details: {
+                  heroImage: "/assets/Banner (3).jpg",
+                  specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                  overview: "A high-performance residential solar hybrid inverter built for efficient and uninterrupted home power. Delivers excellent PV utilization with dual MPPTs and supports lithium-ion batteries. Ensures safe, seamless backup during outages with a durable, IP65-rated compact design. Equipped with a smart touchscreen and Wi-Fi for easy monitoring and intelligent energy control.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-3k6hb", 
+                title: "TK 3K6HB-D1/LV-ECO", 
+                desc: "Single Phase & LV Battery", 
+                specs: "3.6kW", 
+                image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                details: {
+                  heroImage: "/assets/Banner (3).jpg",
+                  specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                  overview: "A high-performance residential solar hybrid inverter built for efficient and uninterrupted home power. Delivers excellent PV utilization with dual MPPTs and supports lithium-ion batteries. Ensures safe, seamless backup during outages with a durable, IP65-rated compact design. Equipped with a smart touchscreen and Wi-Fi for easy monitoring and intelligent energy control.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-5khb", 
+                title: "TK 5KHB-D1/LV-ECO", 
+                desc: "Single Phase & LV Battery", 
+                specs: "5kW", 
+                image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                details: {
+                  heroImage: "/assets/Banner (3).jpg",
+                  specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                  overview: "A high-performance residential solar hybrid inverter built for efficient and uninterrupted home power. Delivers excellent PV utilization with dual MPPTs and supports lithium-ion batteries. Ensures safe, seamless backup during outages with a durable, IP65-rated compact design. Equipped with a smart touchscreen and Wi-Fi for easy monitoring and intelligent energy control.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-6khb-1ph", 
+                title: "TK 6KHB-D1/LV-ECO", 
+                desc: "Single Phase & LV Battery", 
+                specs: "6kW", 
+                image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                details: {
+                  heroImage: "/assets/Banner (3).jpg",
+                  specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+                  overview: "A high-performance residential solar hybrid inverter built for efficient and uninterrupted home power. Delivers excellent PV utilization with dual MPPTs and supports lithium-ion batteries. Ensures safe, seamless backup during outages with a durable, IP65-rated compact design. Equipped with a smart touchscreen and Wi-Fi for easy monitoring and intelligent energy control.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              }
             ]
           },
           {
             id: "small-ci-hybrid",
             title: "3 Phase Small C&I",
             items: [
-              { id: "tk-6khb-3ph", title: "TK 6KHB", desc: "3 Phase Hybrid", specs: "6kW", image: "/assets/Three phase low voltage hybrid inverter 6-20KW.png" },
-              { id: "tk-8khb", title: "TK 8KHB", desc: "3 Phase Hybrid", specs: "8kW", image: "/assets/Three phase low voltage hybrid inverter 6-20KW.png" },
-              { id: "tk-10khb", title: "TK 10KHB", desc: "3 Phase Hybrid", specs: "10kW", image: "/assets/Three phase low voltage hybrid inverter 6-20KW.png" },
-              { id: "tk-12khb-s", title: "TK 12KHB", desc: "3 Phase Hybrid", specs: "12kW", image: "/assets/Three phase low voltage hybrid inverter 6-20KW.png" },
-              { id: "tk-15khb-s", title: "TK 15KHB", desc: "3 Phase Hybrid", specs: "15kW", image: "/assets/Three phase low voltage hybrid inverter 6-20KW.png" },
-              { id: "tk-20khb-s", title: "TK 20KHB", desc: "3 Phase Hybrid", specs: "20kW", image: "/assets/Three phase low voltage hybrid inverter 6-20KW.png" }
+              { 
+                id: "tk-6khb-3ph", 
+                title: "TK 6KHB-D3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "6kW", 
+                image: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-8khb", 
+                title: "TK 8KHB-D3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "8kW", 
+                image: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-10khb", 
+                title: "TK 10KHB-T3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "10kW", 
+                image: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-12khb-s", 
+                title: "TK 12KHB-T3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "12kW", 
+                image: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-15khb-s", 
+                title: "TK 15KHB-T3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "15kW", 
+                image: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-20khb-s", 
+                title: "TK 20KHB-T3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "20kW", 
+                image: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase low voltage hybrid inverter 6-20KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP65-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              }
             ]
           },
           {
             id: "medium-ci-hybrid",
             title: "3 Phase Medium C&I",
             items: [
-              { id: "tk-12khb-m", title: "TK 12KHB", desc: "3 Phase Hybrid", specs: "12kW", image: "/assets/Three phase high voltage hybrid inverter 12-30KW.png" },
-              { id: "tk-15khb-m", title: "TK 15KHB", desc: "3 Phase Hybrid", specs: "15kW", image: "/assets/Three phase high voltage hybrid inverter 12-30KW.png" },
-              { id: "tk-20khb-m", title: "TK 20KHB", desc: "3 Phase Hybrid", specs: "20kW", image: "/assets/Three phase high voltage hybrid inverter 12-30KW.png" },
-              { id: "tk-25khb", title: "TK 25KHB", desc: "3 Phase Hybrid", specs: "25kW", image: "/assets/Three phase high voltage hybrid inverter 12-30KW.png" },
-              { id: "tk-30khb", title: "TK 30KHB", desc: "3 Phase Hybrid", specs: "30kW", image: "/assets/Three phase high voltage hybrid inverter 12-30KW.png" }
+              { 
+                id: "tk-12khb-m", 
+                title: "TK 12KHB-D3", 
+                desc: "Three Phase & LV Battery", 
+                specs: "12kW", 
+                image: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---2.jpg",
+                  specImage: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                  overview: "A high-efficiency hybrid solar inverter designed for residential and small-to-medium commercial applications. Delivers up to 98.4% efficiency with high MPPT current, unbalanced output, and advanced parallel operation. Supports high battery charge/discharge capacity for reliable performance under continuous and overload conditions. Built with IP66 protection, premium components, smart commissioning, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP66-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-15khb-m", 
+                title: "TK 15KHB-D3", 
+                desc: "Three Phase & LV Battery", 
+                specs: "15kW", 
+                image: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---2.jpg",
+                  specImage: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                  overview: "A high-efficiency hybrid solar inverter designed for residential and small-to-medium commercial applications. Delivers up to 98.4% efficiency with high MPPT current, unbalanced output, and advanced parallel operation. Supports high battery charge/discharge capacity for reliable performance under continuous and overload conditions. Built with IP66 protection, premium components, smart commissioning, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP66-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-20khb-m", 
+                title: "TK 20KHB-D3", 
+                desc: "Three Phase & LV Battery", 
+                specs: "20kW", 
+                image: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---2.jpg",
+                  specImage: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                  overview: "A high-efficiency hybrid solar inverter designed for residential and small-to-medium commercial applications. Delivers up to 98.4% efficiency with high MPPT current, unbalanced output, and advanced parallel operation. Supports high battery charge/discharge capacity for reliable performance under continuous and overload conditions. Built with IP66 protection, premium components, smart commissioning, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP66-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-25khb", 
+                title: "TK 25KHB-T3/LV", 
+                desc: "Three Phase & LV Battery", 
+                specs: "25kW", 
+                image: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---1.jpg",
+                  specImage: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                  overview: "A powerful hybrid solar inverter designed for residential homes and small commercial applications. Features multiple MPPTs for high PV input, faster charging, and efficient energy utilization. Supports lithium-ion batteries with seamless backup during power outages. Built with IP65 protection, smart monitoring, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP66-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              },
+              { 
+                id: "tk-30khb", 
+                title: "TK 30KHB-T3", 
+                desc: "Three Phase & LV Battery", 
+                specs: "30kW", 
+                image: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                details: {
+                  heroImage: "/assets/Banner---2.jpg",
+                  specImage: "/assets/Three phase high voltage hybrid inverter 12-30KW (5).png",
+                  overview: "A high-efficiency hybrid solar inverter designed for residential and small-to-medium commercial applications. Delivers up to 98.4% efficiency with high MPPT current, unbalanced output, and advanced parallel operation. Supports high battery charge/discharge capacity for reliable performance under continuous and overload conditions. Built with IP66 protection, premium components, smart commissioning, and intelligent energy management for long-term reliability.",
+                  keyFeatures: [
+                    "Smart control system",
+                    "Excellent Performance",
+                    "High Flexibility",
+                    "Safety & Reliability",
+                    "Intelligent Maintenance"
+                  ],
+                  safetyFeatures: [
+                    {
+                      title: "Smart control system",
+                      desc: "Monitor system performance in real-time via smartphone app or web portal using our advanced monitoring platform.",
+                      icon: "zap"
+                    },
+                    {
+                      title: "Excellent Performance",
+                      desc: "High efficiency and dual MPPTs for maximum PV utilization.",
+                      icon: "activity"
+                    },
+                    {
+                      title: "High Flexibility",
+                      desc: "Compatible with lithium-ion batteries and supports various installation environments.",
+                      icon: "sliders"
+                    },
+                    {
+                      title: "Safety & Reliability",
+                      desc: "IP66-rated durable design ensures safe operation.",
+                      icon: "shield"
+                    },
+                    {
+                      title: "Intelligent Maintenance",
+                      desc: "Smart monitoring and easy maintenance via touchscreen and Wi-Fi.",
+                      icon: "tool"
+                    }
+                  ]
+                }
+              }
             ]
           }
         ]
