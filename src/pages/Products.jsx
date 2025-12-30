@@ -82,7 +82,7 @@ export default function Products() {
     <div className="page-container" style={{ background: 'var(--bg)', minHeight: '100vh', overflowX: 'hidden' }}>
       
       {/* Hero Section */}
-      <section style={{ 
+      <section className="products-hero-grid" style={{ 
         position: 'relative', 
         padding: '6rem 2rem 4rem', 
         display: 'grid', 
@@ -93,6 +93,7 @@ export default function Products() {
       }}>
         {/* Hero Text */}
         <motion.div
+          className="products-hero-text"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -143,6 +144,7 @@ export default function Products() {
 
         {/* Hero 3D Scene */}
         <motion.div
+          className="products-hero-visual"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
@@ -311,7 +313,7 @@ export default function Products() {
           layout 
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
             gap: '2.5rem',
             justifyContent: 'center'
           }}

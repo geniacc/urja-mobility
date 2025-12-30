@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BatteryCharging, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Footer() {
@@ -23,7 +23,7 @@ export default function Footer() {
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 5, repeatDelay: 2 }}
               >
-                <BatteryCharging size={24} style={{ display: 'inline', marginRight: '8px' }} />
+                <img src="/assets/logo.png" alt="Urja" style={{ width: 24, height: 24, objectFit: "contain" }} />
               </motion.div>
               Urja
             </div>
@@ -46,13 +46,13 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Contact</h4>
             <ul>
-              <li style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#9ca3af' }}>
+              <li className="footer-contact-item">
                 <MapPin size={16} /> 123 Energy Lane, Tech City
               </li>
-              <li style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#9ca3af' }}>
+              <li className="footer-contact-item">
                 <Phone size={16} /> +1 (555) 123-4567
               </li>
-              <li style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#9ca3af' }}>
+              <li className="footer-contact-item">
                 <Mail size={16} /> hello@urja.com
               </li>
             </ul>
@@ -60,7 +60,7 @@ export default function Footer() {
 
           <div className="footer-col">
             <h4>Follow Us</h4>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div className="social-links">
               <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Facebook size={20} /></motion.a>
               <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Twitter size={20} /></motion.a>
               <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Linkedin size={20} /></motion.a>

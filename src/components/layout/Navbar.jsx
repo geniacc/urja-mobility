@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Menu, X, BatteryCharging } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
@@ -44,16 +44,16 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className={`navbar curved ${visible || isOpen ? 'visible' : 'hidden'}`}>
+    <nav className={`navbar curved ${visible || isOpen ? 'visible' : 'hidden'} ${isOpen ? 'navbar-open' : ''}`}>
       <div className="container nav-inner">
         <NavLink to="/" className="brand">
           <motion.div
             whileHover={{ rotate: 360 }}
             transition={{ duration: 0.6 }}
           >
-            <BatteryCharging size={32} color="var(--accent)" />
+            <img src="/assets/logo.png" alt="Urja" style={{ width: 32, height: 32, objectFit: "contain" }} />
           </motion.div>
-          <span style={{ background: 'var(--gradient-main)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span className="brand-text">
             Urja
           </span>
         </NavLink>
@@ -79,15 +79,7 @@ export default function Navbar() {
                   {isActive && (
                     <motion.div
                       layoutId="underline"
-                      style={{
-                        position: 'absolute',
-                        bottom: '-4px',
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'var(--gradient-main)',
-                        boxShadow: '0 0 8px var(--primary)'
-                      }}
+                      className="nav-underline"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
@@ -105,26 +97,12 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                background: 'rgba(3, 7, 18, 0.95)',
-                backdropFilter: 'blur(20px)',
-                borderBottom: '1px solid rgba(255,255,255,0.1)',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '1rem'
-              }}
             >
               {links.map((link) => (
                 <NavLink 
                   key={link.path}
                   to={link.path} 
-                  className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
-                  style={{ padding: '1rem 0', fontSize: '1.2rem' }}
+                  className={({ isActive }) => isActive ? "mobile-menu-link active" : "mobile-menu-link"}
                 >
                   {link.label}
                 </NavLink>

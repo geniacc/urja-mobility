@@ -19,7 +19,7 @@ export const categories = [
             specs: "51V • Li-Ion", 
             image: "/assets/51V 45AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/51V 45AH (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -62,10 +62,10 @@ export const categories = [
             title: "TK-LiFe-5160 (V2)", 
             desc: "51V Series (City Speed / Standard)", 
             specs: "51V • Li-Ion", 
-            image: "/assets/64V 32Ah_ 33.png",
+            image: "/assets/51V 60AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
-              specImage: "/assets/64V 32Ah_ 33 (1).png",
+              heroImage: "/assets/Two-Wheeler.jpg",
+              specImage: "/assets/51V 60AH (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
@@ -110,7 +110,7 @@ export const categories = [
             specs: "60V • Li-Ion", 
             image: "/assets/61V 48AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/61V 48AH (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -156,7 +156,7 @@ export const categories = [
             specs: "64V • Li-Ion", 
             image: "/assets/64V 32Ah_ 33.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/64V 32Ah_ 33 (1).png",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -211,7 +211,7 @@ export const categories = [
             specs: "51V • 105AH", 
             image: "/assets/51V 105AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-105ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -256,7 +256,7 @@ export const categories = [
             specs: "51V • 132AH", 
             image: "/assets/51V 132AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-132ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -301,7 +301,7 @@ export const categories = [
             specs: "51V • 153AH", 
             image: "/assets/51V 153AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-153ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -346,7 +346,7 @@ export const categories = [
             specs: "51V • 232AH", 
             image: "/assets/51V 232AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-232ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -392,7 +392,7 @@ export const categories = [
             specs: "61V • 105AH", 
             image: "/assets/61V 105Ah d.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61V-105Ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -437,7 +437,7 @@ export const categories = [
             specs: "61V • 132AH", 
             image: "/assets/61V 132AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61V-132Ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -482,7 +482,7 @@ export const categories = [
             specs: "61V • 153AH", 
             image: "/assets/61V 153AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61v-153ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -525,9 +525,9 @@ export const categories = [
             title: "61V 232AH", 
             desc: "61V Series E-Rickshaw", 
             specs: "61V • 232AH",
-            image: "/assets/erickshaw-main.png",
+            image: "/assets/61V 232AH.png",
             details: {
-              heroImage: "/assets/EV-banner.jpg",
+              heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61v-232ah-product.jpg",
               overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
@@ -1551,10 +1551,10 @@ export const categories = [
             title: "Solar Wind Storage Battery", 
             desc: "Hybrid Storage", 
             specs: "Solar+Wind",
-            image: "/assets/solar-street-light-main.png",
+            image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
             details: {
               heroImage: "/assets/Solar-banner.jpg",
-              specImage: "/assets/solar-street-light-product.jpg",
+              specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
               overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
@@ -1585,6 +1585,42 @@ export const categories = [
                   title: "Smart BMS",
                   desc: "Advanced protection against overcharge, over-discharge, and short circuits.",
                   icon: "shield"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "hybrid-inverters",
+        title: "Hybrid Inverters",
+        items: [
+          { 
+            id: "eco-hybrid-3-6kw", 
+            title: "ECO Hybrid Inverter", 
+            desc: "Single Phase Low Voltage", 
+            specs: "3-6KW", 
+            image: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+            details: {
+              heroImage: "/assets/Solar-banner.jpg",
+              specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
+              overview: "High efficiency single phase hybrid inverter designed for residential and small commercial applications. Features low voltage support and seamless integration with battery storage systems.",
+              keyFeatures: [
+                "High Efficiency",
+                "Smart Energy Management",
+                "IP65 Protection",
+                "Silent Operation"
+              ],
+              safetyFeatures: [
+                {
+                  title: "IP65 Rated",
+                  desc: "Suitable for outdoor installation with full protection against dust and water.",
+                  icon: "shield"
+                },
+                {
+                  title: "Smart Monitoring",
+                  desc: "Real-time monitoring via mobile app and web interface.",
+                  icon: "zap"
                 }
               ]
             }

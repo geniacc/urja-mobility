@@ -10,7 +10,7 @@ export default function Contact() {
         <p className="section-subtitle">Have questions about our products? We're here to help.</p>
       </div>
 
-      <div className="hero-grid" style={{ alignItems: 'start', gap: '4rem' }}>
+      <div className="hero-grid align-start">
         {/* Contact Info */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -19,9 +19,9 @@ export default function Contact() {
         >
           <div style={{ marginBottom: '3rem' }}>
             <h3 style={{ marginBottom: '1.5rem' }}>Contact Information</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '48px', height: '48px', background: 'var(--bg-2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}>
+            <div className="contact-info-list">
+              <div className="contact-info-item">
+                <div className="contact-icon-box">
                   <Mail size={24} />
                 </div>
                 <div>
@@ -30,8 +30,8 @@ export default function Contact() {
                 </div>
               </div>
               
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '48px', height: '48px', background: 'var(--bg-2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}>
+              <div className="contact-info-item">
+                <div className="contact-icon-box">
                   <Phone size={24} />
                 </div>
                 <div>
@@ -40,8 +40,8 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '48px', height: '48px', background: 'var(--bg-2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}>
+              <div className="contact-info-item">
+                <div className="contact-icon-box">
                   <MapPin size={24} />
                 </div>
                 <div>
@@ -52,18 +52,18 @@ export default function Contact() {
             </div>
           </div>
 
-          <div style={{ background: 'var(--bg-2)', padding: '2rem', borderRadius: 'var(--radius)' }}>
+          <div className="business-hours">
             <h4 style={{ marginBottom: '1rem' }}>Business Hours</h4>
-            <ul style={{ color: 'var(--muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <li style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <ul className="hours-list">
+              <li className="hours-item">
                 <span>Monday - Friday</span>
                 <span>9:00 AM - 6:00 PM</span>
               </li>
-              <li style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <li className="hours-item">
                 <span>Saturday</span>
                 <span>10:00 AM - 4:00 PM</span>
               </li>
-              <li style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <li className="hours-item">
                 <span>Sunday</span>
                 <span>Closed</span>
               </li>

@@ -2364,16 +2364,6 @@ export default function Hero({ categories }) {
               initial={{ opacity: 0, y: 16, scale: 0.98 }}
               animate={{ opacity: 1, y: [0, -2, 0], scale: 1 }}
               transition={{ duration: 0.7, y: { repeat: Infinity, duration: 8, ease: "easeInOut" } }}
-              style={{ 
-                position: 'absolute', 
-                top: '15vh', 
-                left: '10vw', 
-                width: '50vw',
-                // Box styles removed for cleaner look
-                pointerEvents: 'none',
-                zIndex: 10,
-                fontFamily: 'var(--font-sans)'
-              }}
               className="hero-copy"
             >
               <motion.h1 
@@ -2409,15 +2399,7 @@ export default function Hero({ categories }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              style={{ 
-                position: 'absolute', 
-                top: '120vh', 
-                right: '10vw', 
-                width: '40vw',
-                textAlign: 'right',
-                pointerEvents: 'none',
-                fontFamily: 'var(--font-sans)'
-              }}
+              className="hero-about"
             >
               <div className="hero-title">About Us</div>
               <div className="hero-sub" style={{ marginLeft: 'auto' }}>
@@ -2430,14 +2412,7 @@ export default function Hero({ categories }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              style={{ 
-                position: 'absolute', 
-                top: '230vh', 
-                left: '10vw', 
-                width: '40vw',
-                pointerEvents: 'none',
-                fontFamily: 'var(--font-sans)'
-              }}
+              className="hero-products"
             >
               <div className="hero-title">Products</div>
               <div className="hero-sub">
@@ -2459,14 +2434,7 @@ export default function Hero({ categories }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              style={{ 
-                position: 'absolute', 
-                top: '350vh', 
-                width: '100%',
-                textAlign: 'center',
-                pointerEvents: 'none',
-                fontFamily: 'var(--font-sans)'
-              }}
+              className="hero-contact"
             >
               <div className="hero-title center">Say Hello</div>
               <div className="hero-sub center" style={{ margin: '2rem auto', maxWidth: '600px' }}>

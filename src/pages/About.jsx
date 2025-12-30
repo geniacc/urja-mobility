@@ -10,7 +10,7 @@ export default function About() {
         <p className="section-subtitle">Empowering the world with sustainable energy.</p>
       </div>
 
-      <div className="hero-grid" style={{ alignItems: 'start' }}>
+      <div className="hero-grid align-start">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -24,21 +24,21 @@ export default function About() {
             Our mission is to accelerate the world's transition to renewable energy by providing reliable storage solutions for every need—from personal electronics to grid-scale infrastructure.
           </p>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '3rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--accent)', marginBottom: '0.5rem' }}>12+</h3>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <h3>12+</h3>
               <p>Years of Innovation</p>
             </div>
-            <div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--accent)', marginBottom: '0.5rem' }}>50+</h3>
+            <div className="stat-item">
+              <h3>50+</h3>
               <p>Patents Filed</p>
             </div>
-            <div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--accent)', marginBottom: '0.5rem' }}>3</h3>
+            <div className="stat-item">
+              <h3>3</h3>
               <p>Global R&D Centers</p>
             </div>
-            <div>
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--accent)', marginBottom: '0.5rem' }}>100%</h3>
+            <div className="stat-item">
+              <h3>100%</h3>
               <p>Commitment to Safety</p>
             </div>
           </div>
@@ -56,8 +56,8 @@ export default function About() {
             style={{ width: '100%', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-lg)' }}
           />
           <div className="about-overlay">
-            <h4 style={{ marginBottom: '0.5rem', color: 'var(--text)' }}>Sustainability First</h4>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Our manufacturing process uses 100% renewable energy and closed-loop water systems.</p>
+            <h4>Sustainability First</h4>
+            <p>Our manufacturing process uses 100% renewable energy and closed-loop water systems.</p>
           </div>
         </motion.div>
       </div>

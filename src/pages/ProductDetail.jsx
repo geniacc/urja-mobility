@@ -393,7 +393,7 @@ export default function ProductDetail() {
              >
                Applications
              </motion.h2>
-             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
                {details.applications.map((app, idx) => (
                  <motion.div 
                    key={idx}
@@ -582,7 +582,7 @@ export default function ProductDetail() {
 
       {/* Key Features Section */}
       <section style={{ padding: '8rem 2rem', background: 'var(--bg-2)', overflow: 'hidden', position: 'relative' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '6rem', alignItems: 'center' }}>
+        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '6rem', alignItems: 'center' }}>
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
