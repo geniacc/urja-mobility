@@ -7,6 +7,8 @@ import ProductDetail from "./pages/ProductDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
+import Career from "./pages/Career";
+import NewsMedia from "./pages/NewsMedia";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "career",
+        element: <Career />,
+      },
+      {
+        path: "news-media",
+        element: <NewsMedia />,
       },
       {
         path: "contact",

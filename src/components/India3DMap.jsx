@@ -1,305 +1,428 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import * as THREE from 'three';
-import Globe from 'react-globe.gl';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import Map, { Marker, Popup, NavigationControl } from 'react-map-gl/maplibre';
+import maplibregl from 'maplibre-gl';
+import { Card, Typography, Button, Badge, Input, ConfigProvider, Segmented } from 'antd';
+import { 
+  EnvironmentFilled, 
+  SearchOutlined, 
+  CloseCircleOutlined, 
+  FilterFilled,
+  ThunderboltFilled 
+} from '@ant-design/icons';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-const useResponsive = () => {
-  const [state, setState] = useState({
-    isMobile: false,
-    mobileLite: false,
-  });
+const { Text, Title } = Typography;
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const checkDevice = () => {
-      const isMobile = window.innerWidth <= 768;
-      const mobileLite = isMobile || (navigator.connection && navigator.connection.saveData);
-      setState({ isMobile, mobileLite });
-    };
-
-    checkDevice();
-    window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
-  }, []);
-
-  return state;
-};
-
-const DEFAULT_MARKERS = [
-  { id: 'delhi', name: 'Delhi', lat: 28.6139, lng: 77.2090, type: 'service', region: 'North', status: 'active', services: ['Install', 'Maintenance'], website: 'https://delhi.gov.in' },
-  { id: 'bhopal', name: 'Bhopal', lat: 23.2599, lng: 77.4126, type: 'manufacturing', region: 'Central', status: 'active', services: ['Manufacturing'], website: 'https://mp.gov.in' },
-  { id: 'hyderabad', name: 'Hyderabad', lat: 17.3850, lng: 78.4867, type: 'service_distribution', region: 'South', status: 'planning', services: ['Distribution', 'Support'], website: 'https://telangana.gov.in' },
-  { id: 'guwahati', name: 'Guwahati', lat: 26.1445, lng: 91.7362, type: 'service', region: 'East', status: 'active', services: ['Install'], website: 'https://assam.gov.in' },
-  { id: 'kolkata', name: 'Kolkata', lat: 22.5726, lng: 88.3639, type: 'service_distribution', region: 'East', status: 'active', services: ['Distribution', 'Service'], website: 'https://wb.gov.in' },
-  { id: 'chennai', name: 'Chennai', lat: 13.0827, lng: 80.2707, type: 'service', region: 'South', status: 'active', services: ['Install', 'Maintenance'], website: 'https://tn.gov.in' },
+// --- 1. GEOCODED DATA FROM YOUR TEXT LIST ---
+const DEALER_DATA = [
+  { id: 1, name: 'Siliguri (Sevoke Rd)', city: 'Siliguri', state: 'West Bengal', lat: 26.7271, lng: 88.3953, type: 'dealer', address: 'SHIRISH ROY, SEVOKE ROAD, BHAKTINAGAR, 734006', website: 'https://urjamobility.in' },
+  { id: 2, name: 'Banda', city: 'Banda', state: 'Uttar Pradesh', lat: 25.4833, lng: 80.3333, type: 'dealer', address: 'Swaraj Colony Gali no 3 Jail Road Banda 210001', website: 'https://urjamobility.in' },
+  { id: 3, name: 'Kanpur', city: 'Kanpur', state: 'Uttar Pradesh', lat: 26.4499, lng: 80.3319, type: 'dealer', address: '31/17 Block -4 Govind Nagar Kanpur', website: 'https://urjamobility.in' },
+  { id: 4, name: 'Agra', city: 'Agra', state: 'Uttar Pradesh', lat: 27.1767, lng: 78.0081, type: 'dealer', address: '5E, 10, Ashok Vihar, Azam Para, Shahganj', website: 'https://urjamobility.in' },
+  { id: 5, name: 'Gorakhpur (Sahjanwa)', city: 'Gorakhpur', state: 'Uttar Pradesh', lat: 26.7606, lng: 83.3732, type: 'dealer', address: 'Bharwal bharsad sahjanwa gorakhpur', website: 'https://urjamobility.in' },
+  { id: 6, name: 'Kolkata', city: 'Kolkata', state: 'West Bengal', lat: 22.6542, lng: 88.4384, type: 'dealer', address: '5, Italgacha Road, Flat B1 2ND Floor, 700074', website: 'https://urjamobility.in' },
+  { id: 7, name: 'Bhojpur', city: 'Bhojpur', state: 'Bihar', lat: 25.5560, lng: 84.6603, type: 'dealer', address: 'KHANANI KHURD KHANANI KALA BHOJPUR', website: 'https://urjamobility.in' },
+  { id: 8, name: 'Lucknow', city: 'Lucknow', state: 'Uttar Pradesh', lat: 26.8467, lng: 80.9462, type: 'dealer', address: 'Ashok Vihar, Rajaji Puram, Lucknow 226017', website: 'https://urjamobility.in' },
+  { id: 9, name: 'Bareilly', city: 'Bareilly', state: 'Uttar Pradesh', lat: 28.3670, lng: 79.4304, type: 'dealer', address: 'Park Math And Trilok Vihar Colony, CB Ganj Bypass', website: 'https://urjamobility.in' },
+  { id: 10, name: 'Allahabad (Kalyani Devi)', city: 'Allahabad', state: 'Uttar Pradesh', lat: 25.4358, lng: 81.8463, type: 'dealer', address: '1123/A, KALYANI DEVI, ALLAHABAD', website: 'https://urjamobility.in' },
+  { id: 11, name: 'Prayagraj (Naini)', city: 'Prayagraj', state: 'Uttar Pradesh', lat: 25.3976, lng: 81.8672, type: 'dealer', address: 'PURA FATEH MOHAMMAD, Naini, Prayagraj 211008', website: 'https://urjamobility.in' },
+  { id: 12, name: 'Siliguri (Darjeeling)', city: 'Darjeeling', state: 'West Bengal', lat: 26.7139, lng: 88.3756, type: 'dealer', address: 'Sishudangi, Tomba, Matigara Darjeeling', website: 'https://urjamobility.in' },
+  { id: 13, name: 'Siwan', city: 'Siwan', state: 'Bihar', lat: 26.2196, lng: 84.3567, type: 'dealer', address: 'Korari Kala Daraundha, Siwan Bihar', website: 'https://urjamobility.in' },
+  { id: 14, name: 'Indore', city: 'Indore', state: 'Madhya Pradesh', lat: 22.7196, lng: 75.8577, type: 'dealer', address: 'Indore City Center', website: 'https://urjamobility.in' },
+  { id: 15, name: 'Barrackpore', city: 'Barrackpore', state: 'West Bengal', lat: 22.7630, lng: 88.3670, type: 'dealer', address: '53(15) Anima Rise, Port blair Line', website: 'https://urjamobility.in' },
+  { id: 16, name: 'Birbhum (Mayureswar)', city: 'Birbhum', state: 'West Bengal', lat: 23.9577, lng: 87.5255, type: 'dealer', address: 'Plot No. 745, J.L.No. 138 Mayureswar', website: 'https://urjamobility.in' },
+  { id: 17, name: 'Bhagalpur', city: 'Bhagalpur', state: 'Bihar', lat: 25.2425, lng: 86.9746, type: 'dealer', address: 'Ishachak Nilkanth Nagar, Bhikhanpur', website: 'https://urjamobility.in' },
+  { id: 18, name: 'Kahalgaon', city: 'Kahalgaon', state: 'Bihar', lat: 25.2638, lng: 87.2343, type: 'dealer', address: 'Ramzanipur Chauhadi, Kahalgaon Bhagalpur', website: 'https://urjamobility.in' },
 ];
 
-const STORAGE_KEY = 'india-3d-map-settings';
+const BRAND_GREEN = '#52c41a';
+const BRAND_ORANGE = '#ff7a45';
+const MAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+const VOYAGER_STYLE = "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json";
+const POSITRON_STYLE = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
+const STREETS_STYLE = "https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL"; // Example, sticking to free carto for now to avoid keys
+// Using Carto's Dark Matter, Voyager (Colorful), and Positron (Light)
+// Let's add a custom colorful one if possible, or just refine colors.
+// Actually, let's just make the markers pop more.
 
-const India3DMap = () => {
-  const { isMobile, mobileLite } = useResponsive();
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [markers] = useState(DEFAULT_MARKERS);
-  const [selected, setSelected] = useState(null);
-  const [tourPlaying, setTourPlaying] = useState(false);
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({ service: true, manufacturing: true, service_distribution: true });
-  const [showRoutes, setShowRoutes] = useState(true);
-  const [showBoundary, setShowBoundary] = useState(true);
-
-  const [indiaPolygon, setIndiaPolygon] = useState([]);
-  const [statePolygons, setStatePolygons] = useState([]);
-  const [worldCountries, setWorldCountries] = useState([]);
-  const [hoveredStateKey, setHoveredStateKey] = useState(null);
-  const [hoveredPoint, setHoveredPoint] = useState(null);
-  const [dataReady, setDataReady] = useState({ world: false, states: false });
-
-  const [size, setSize] = useState({ w: 800, h: 600 });
-
-  const globeRef = useRef(null);
-  const globeContainerRef = useRef(null);
-  const altitudeRef = useRef(2.3);
-
-  useEffect(() => {
-    const update = () => {
-      if (globeContainerRef.current) {
-        const rect = globeContainerRef.current.getBoundingClientRect();
-        setSize({
-          w: Math.max(300, Math.floor(rect.width)),
-          h: Math.max(300, Math.floor(rect.height))
-        });
-      } else {
-        setSize({
-          w: typeof window !== 'undefined' ? window.innerWidth : 800,
-          h: typeof window !== 'undefined' ? window.innerHeight : 600
-        });
-      }
-    };
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
-
-  const loadJsonWithFallbacks = async (urls = []) => {
-    for (const url of urls) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
-      } catch (err) {
-        console.warn(`Failed loading ${url}`, err);
-        continue;
-      }
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    loadJsonWithFallbacks([
-      'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/globe-data/world-countries.json'
-    ]).then(data => {
-      if (data?.features) {
-        setWorldCountries(data.features);
-        setDataReady(prev => ({ ...prev, world: true }));
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    loadJsonWithFallbacks([
-      'https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson'
-    ]).then(data => {
-      if (data?.features) {
-        setStatePolygons(data.features);
-        setIndiaPolygon(data.features);
-        setDataReady(prev => ({ ...prev, states: true }));
-      }
-    });
-  }, []);
-
-  const polygonData = useMemo(() => {
-    const base = worldCountries || [];
-    const overlay = showBoundary ? (statePolygons.length ? statePolygons : indiaPolygon) : [];
-    return [...base, ...overlay];
-  }, [worldCountries, statePolygons, indiaPolygon, showBoundary]);
-
-  const filtered = useMemo(() => {
-    const enabledTypes = Object.entries(filters).filter(([, enabled]) => enabled).map(([type]) => type);
-    const q = searchQuery.trim().toLowerCase();
-    return markers.filter(m => enabledTypes.includes(m.type) && (!q || m.name.toLowerCase().includes(q)));
-  }, [markers, filters, searchQuery]);
-
-  const countsAll = useMemo(() => ({
-    service: markers.filter(m => m.type === 'service').length,
-    manufacturing: markers.filter(m => m.type === 'manufacturing').length,
-    service_distribution: markers.filter(m => m.type === 'service_distribution').length,
-  }), [markers]);
-
-  const focusCity = (cityName) => {
-    const q = (cityName || '').trim().toLowerCase();
-    const target = markers.find(m => m.name.toLowerCase().includes(q));
-    if (!target) return;
-    setSelected(target);
-    if (globeRef.current) {
-      globeRef.current.pointOfView({ lat: target.lat, lng: target.lng, altitude: 2.1 }, 1000);
-    }
-  };
-  const zoomIn = () => {
-    if (!globeRef.current) return;
-    const cur = globeRef.current.pointOfView();
-    globeRef.current.pointOfView({ ...cur, altitude: Math.max(0.25, cur.altitude * 0.7) }, 400);
-  };
-
-  const zoomOut = () => {
-    if (!globeRef.current) return;
-    const cur = globeRef.current.pointOfView();
-    globeRef.current.pointOfView({ ...cur, altitude: Math.min(4.0, cur.altitude * 1.3) }, 400);
-  };
-
-  const resetView = () => {
-    setSelected(null);
-    setTourPlaying(false);
-    if (globeRef.current) {
-      globeRef.current.pointOfView({ lat: 21.0, lng: 78.0, altitude: 1.8 }, 1200);
-    }
-  };
-
-  useEffect(() => {
-    if (globeRef.current) {
-      globeRef.current.pointOfView({ lat: 21.0, lng: 78.0, altitude: 1.8 }, 1000);
-      const ctrls = globeRef.current.controls();
-      ctrls.enableZoom = true;
-      ctrls.autoRotate = false;
-      ctrls.enablePan = isMobile;
-    }
-  }, [isMobile]);
-
-  const getContinent = (feat) => feat?.properties?.CONTINENT || 'Asia';
-
-  const CONTINENT_COLORS = {
-    Africa: '#f59e0b', Asia: '#22c55e', Europe: '#60a5fa',
-    'North America': '#38bdf8', 'South America': '#84cc16',
-    Oceania: '#a78bfa', Antarctica: '#e5e7eb'
-  };
-
-  const isIndiaState = (feat) => feat?.properties?.ST_NM || feat?.properties?.NAME_1;
-
-  const FiltersPanel = () => (
-    <div style={{ position: 'absolute', top: 16, left: 16, width: isMobile ? 'calc(100% - 32px)' : 320, background: '#111827', border: '1px solid #374151', color: '#e5e7eb', padding: 16, borderRadius: 12, zIndex: 20 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-        <div style={{ fontWeight: 600 }}>Filters</div>
-        {isMobile && <button onClick={() => setFiltersOpen(false)} style={{ background:'#374151', border:'none', color:'white', borderRadius:4, padding:'2px 8px'}}>X</button>}
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 13, marginBottom: 12 }}>
-        {Object.keys(filters).map(key => (
-          <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
-            <input type="checkbox" checked={filters[key]} onChange={(e) => setFilters(f => ({ ...f, [key]: e.target.checked }))} />
-            {key.replace('_', ' ')}
-          </label>
-        ))}
-      </div>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <input
-          placeholder="Search City..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ flex: 1, background: '#0b1220', border: '1px solid #374151', color: 'white', borderRadius: 6, padding: '6px 10px' }}
-        />
-        <button onClick={() => focusCity(searchQuery)} style={{ background: '#2563eb', color: 'white', border: 'none', borderRadius: 6, padding: '0 12px' }}>Go</button>
-      </div>
-    </div>
-  );
-
-  return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', background: '#0b1220', display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
-      <div style={{ flex: isMobile ? '0 0 auto' : '0 0 35%', padding: isMobile ? 20 : 40, color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', pointerEvents: 'none', zIndex: 5 }}>
-        <h1 style={{ fontSize: isMobile ? 32 : 56, margin: 0, fontWeight: 800, lineHeight: 1.1 }}>Expanding<br/>As We Evolve</h1>
-        <h2 style={{ fontSize: 24, color: '#22c55e', marginTop: 10 }}>India Operations</h2>
-        <p style={{ color: '#94a3b8', maxWidth: 400, marginTop: 20 }}>
-          Interactive visualization of our manufacturing and service hubs across the subcontinent.
-        </p>
-      </div>
-      <div ref={globeContainerRef} style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-        {!filtersOpen && (
-          <button onClick={() => setFiltersOpen(true)} style={{ position: 'absolute', top: 20, left: 20, zIndex: 10, background: '#1f2937', color: 'white', border: '1px solid #374151', padding: '8px 16px', borderRadius: 8, cursor: 'pointer' }}>
-            Filters
-          </button>
-        )}
-        {filtersOpen && <FiltersPanel />}
-        <div style={{ position: 'absolute', top: 20, right: 20, display: 'flex', gap: 8, zIndex: 10 }}>
-           <button onClick={resetView} style={{ background: '#1f2937', color: 'white', border: '1px solid #374151', padding: '8px', borderRadius: 8, cursor: 'pointer' }}>Reset</button>
-           <button onClick={zoomIn} style={{ background: '#1f2937', color: 'white', border: '1px solid #374151', padding: '8px', borderRadius: 8, cursor: 'pointer' }}>+</button>
-           <button onClick={zoomOut} style={{ background: '#1f2937', color: 'white', border: '1px solid #374151', padding: '8px', borderRadius: 8, cursor: 'pointer' }}>-</button>
-        </div>
-        <Globe
-          ref={globeRef}
-          width={size.w}
-          height={size.h}
-          backgroundColor="#0b1220"
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-          bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-          backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-          polygonsData={polygonData}
-          polygonGeoJsonGeometry={(feat) => feat.geometry}
-          polygonCapColor={(feat) => {
-             if (isIndiaState(feat)) return 'rgba(56, 189, 248, 0.2)';
-             const cont = getContinent(feat);
-             return hexToRgba(CONTINENT_COLORS[cont] || '#555', 0.8);
-          }}
-          polygonSideColor={() => 'rgba(0,0,0,0.15)'}
-          polygonStrokeColor={(feat) => isIndiaState(feat) ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0)'}
-          polygonAltitude={(feat) => isIndiaState(feat) ? 0.005 : 0.001}
-          onPolygonHover={setHoveredStateKey}
-          polygonsTransitionDuration={300}
-          pointsData={filtered}
-          pointLat="lat"
-          pointLng="lng"
-          pointColor={d => d.status === 'active' ? '#22c55e' : '#f59e0b'}
-          pointAltitude={0.05}
-          pointRadius={0.5}
-          pointResolution={24}
-          onPointClick={setSelected}
-          onPointHover={setHoveredPoint}
-          labelsData={filtered}
-          labelLat="lat"
-          labelLng="lng"
-          labelText="name"
-          labelSize={1.5}
-          labelDotRadius={0.5}
-          labelColor={() => 'white'}
-          labelAltitude={0.06}
-        />
-        {hoveredPoint && (
-          <div style={{ position: 'absolute', bottom: 20, left: 20, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '8px 12px', borderRadius: 6, pointerEvents: 'none' }}>
-            <b>{hoveredPoint.name}</b><br/>
-            <span style={{ fontSize: 12, color: '#aaa' }}>{hoveredPoint.type}</span>
-          </div>
-        )}
-        {selected && (
-           <div style={{ position: 'absolute', bottom: 40, right: '50%', transform: 'translateX(50%)', width: 300, background: '#1e293b', border: '1px solid #475569', borderRadius: 12, padding: 16, color: 'white' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                 <h3 style={{ margin: '0 0 8px 0', color: '#22c55e' }}>{selected.name}</h3>
-                 <button onClick={() => setSelected(null)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>Close</button>
-              </div>
-              <div style={{ fontSize: 14, color: '#cbd5e1' }}>
-                 <p><b>Status:</b> {selected.status}</p>
-                 <p><b>Region:</b> {selected.region}</p>
-                 <p><b>Services:</b> {selected.services.join(', ')}</p>
-                 <a href={selected.website} target="_blank" rel="noreferrer" style={{ color: '#60a5fa', textDecoration: 'none' }}>Visit Website &rarr;</a>
-              </div>
-           </div>
-        )}
-      </div>
-    </div>
-  );
+const STATE_COLORS = {
+  'West Bengal': '#10b981', // Emerald Green
+  'Uttar Pradesh': '#3b82f6', // Bright Blue
+  'Bihar': '#ef4444', // Red
+  'Madhya Pradesh': '#d946ef' // Fuchsia
 };
-
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
+const India3DMap = () => {
+  const mapRef = useRef(null);
+  const [selected, setSelected] = useState(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+  const [showList, setShowList] = useState(false);
+  const [mapStyleUrl, setMapStyleUrl] = useState(MAP_STYLE);
+  const [showLabels, setShowLabels] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  
+  // Filters Logic
+  const [filters, setFilters] = useState({ 
+    dealer: true, 
+    partner: false, // kept structure for future
+    service_centre: false 
+  });
+
+  // Filter Data
+  const filteredMarkers = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return DEALER_DATA.filter(m => {
+      const matchesType = filters[m.type];
+      const matchesSearch = !q || 
+        m.name.toLowerCase().includes(q) || 
+        m.city.toLowerCase().includes(q) ||
+        m.state.toLowerCase().includes(q);
+      return matchesType && matchesSearch;
+    });
+  }, [filters, searchQuery]);
+  const stateStats = useMemo(() => {
+    const acc = {};
+    for (const m of filteredMarkers) {
+      acc[m.state] = (acc[m.state] || 0) + 1;
+    }
+    return acc;
+  }, [filteredMarkers]);
+
+  // View Control
+  const flyToLocation = (lat, lng) => {
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: [lng, lat],
+        zoom: 12, // Zoom in closer for street addresses
+        pitch: 50,
+        duration: 2000
+      });
+    }
+  };
+
+  const resetView = () => {
+    setSelected(null);
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: [78.9629, 22.5937],
+        zoom: isMobile ? 3.5 : 4,
+        pitch: 0,
+        duration: 2000
+      });
+    }
+  };
+
+  // Markers Rendering
+  const markers = useMemo(() => filteredMarkers.map((dealer) => (
+    <Marker
+      key={dealer.id}
+      longitude={dealer.lng}
+      latitude={dealer.lat}
+      anchor="bottom"
+      onClick={(e) => {
+        e.originalEvent.stopPropagation();
+        setSelected(dealer);
+        flyToLocation(dealer.lat, dealer.lng);
+      }}
+    >
+      <div className="marker-pin">
+        <EnvironmentFilled 
+           style={{ 
+             fontSize: isMobile ? '32px' : '28px', 
+             color: STATE_COLORS[dealer.state] || BRAND_ORANGE, 
+             filter: 'drop-shadow(0px 5px 5px rgba(0,0,0,0.5))' 
+           }} 
+        />
+        <div 
+          className="pulse-ring" 
+          style={{ 
+            background: hexToRgba(STATE_COLORS[dealer.state] || BRAND_ORANGE, 0.4),
+            ['--pulse-color-strong']: hexToRgba(STATE_COLORS[dealer.state] || BRAND_ORANGE, 0.7),
+            ['--pulse-color-transparent']: hexToRgba(STATE_COLORS[dealer.state] || BRAND_ORANGE, 0)
+          }} 
+        />
+        {showLabels && (
+          <div 
+            className="marker-label" 
+            style={{ 
+              borderColor: STATE_COLORS[dealer.state] || BRAND_ORANGE,
+              background: hexToRgba(STATE_COLORS[dealer.state] || BRAND_ORANGE, 0.15)
+            }}
+          >
+            {dealer.city}
+          </div>
+        )}
+      </div>
+    </Marker>
+  )), [filteredMarkers, isMobile]);
+
+  return (
+    <ConfigProvider theme={{ token: { colorPrimary: BRAND_GREEN, colorBgContainer: '#1f1f1f', colorText: '#fff' } }}>
+      <div style={{ position: 'relative', width: '100vw', height: '100vh', background: 'linear-gradient(180deg, #0b1220 0%, #0a1120 60%, #091120 100%)', overflow: 'hidden' }}>
+        
+        {/* Top Center Heading */}
+        <div style={{ position: 'absolute', top: 18, left: '50%', transform: 'translateX(-50%)', zIndex: 12, textAlign: 'center' }}>
+          <div style={{ padding: '8px 16px', borderRadius: 999, background: 'rgba(15, 23, 42, 0.65)', border: '1px solid #1f2a44', backdropFilter: 'blur(6px)' }}>
+            <Text style={{ fontWeight: 600, letterSpacing: 0.6, color: '#c9d7ff' }}>India Presence</Text>
+            <div style={{ fontSize: 12, color: '#9fb3ff' }}>Urja Mobility Dealer Network</div>
+          </div>
+        </div>
+        
+        {/* --- LEFT SIDEBAR / OVERLAY --- */}
+        <div style={{ 
+            position: 'absolute', top: 20, left: 20, zIndex: 10, 
+            display: 'flex', flexDirection: 'column', gap: 10, maxWidth: '320px' 
+        }}>
+          {/* Title Card */}
+          <Card bordered={false} size="small" style={{ background: 'linear-gradient(135deg, rgba(27, 38, 59, 0.9) 0%, rgba(17, 24, 39, 0.95) 100%)', backdropFilter: 'blur(8px)', border: '1px solid #203049' }}>
+            <Title level={4} style={{ margin: 0, color: '#e6f0ff', letterSpacing: 0.5 }}>Urja Mobility</Title>
+            <Text style={{ color: '#9fb3ff' }}>Nationwide Dealer Network</Text>
+          </Card>
+
+          {/* Toggle Filter Panel */}
+          <Button 
+            icon={<FilterFilled />} 
+            onClick={() => setFiltersOpen(!filtersOpen)}
+            type={filtersOpen ? 'primary' : 'default'}
+            style={{ background: filtersOpen ? BRAND_GREEN : 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', borderRadius: 999 }}
+          >
+            {filtersOpen ? 'Hide Filters' : 'Show Filters'}
+          </Button>
+          <Segmented 
+            options={[
+              { label: 'Dark', value: MAP_STYLE },
+              { label: 'Voyager', value: VOYAGER_STYLE },
+              { label: 'Light', value: POSITRON_STYLE }
+            ]}
+            value={mapStyleUrl}
+            onChange={v => setMapStyleUrl(v)}
+            size="small"
+          />
+          {isMobile && (
+            <Button onClick={() => setShowList(v => !v)} type={showList ? 'primary' : 'default'} style={{ borderRadius: 999 }}>
+              {showList ? 'Hide List' : 'Show List'}
+            </Button>
+          )}
+          <Button onClick={() => setShowLabels(v => !v)} type={showLabels ? 'primary' : 'default'} style={{ borderRadius: 999 }}>
+            {showLabels ? 'Hide Labels' : 'Show Labels'}
+          </Button>
+
+          {/* Filter & Search Panel */}
+          {filtersOpen && (
+             <Card bordered={false} size="small" style={{ background: 'rgba(23, 32, 50, 0.95)', border: '1px solid #223556', backdropFilter: 'blur(10px)', borderRadius: 12 }}>
+               <Input 
+                  placeholder="Search City or State..." 
+                  prefix={<SearchOutlined />} 
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  style={{ marginBottom: 12, borderRadius: 999 }}
+               />
+               
+               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                 <Button 
+                   type={filters.dealer ? 'primary' : 'default'} 
+                   onClick={() => setFilters(f => ({ ...f, dealer: !f.dealer }))}
+                   style={{ borderRadius: 999 }}
+                 >
+                   Dealers ({DEALER_DATA.length})
+                 </Button>
+                 <Button 
+                   type={filters.service_centre ? 'primary' : 'default'} 
+                   onClick={() => setFilters(f => ({ ...f, service_centre: !f.service_centre }))}
+                   style={{ borderRadius: 999 }}
+                 >
+                   Service Centres
+                 </Button>
+                 <Button 
+                   type={filters.partner ? 'primary' : 'default'} 
+                   onClick={() => setFilters(f => ({ ...f, partner: !f.partner }))}
+                   style={{ borderRadius: 999 }}
+                 >
+                   Partners
+                 </Button>
+               </div>
+               
+               <Button type="link" size="small" onClick={resetView} style={{ paddingLeft: 0, marginTop: 10 }}>
+                 Reset Map View
+               </Button>
+             </Card>
+          )}
+        </div>
+
+        {/* --- MAP COMPONENT --- */}
+        <Map
+          ref={mapRef}
+          mapLib={maplibregl}
+          initialViewState={{
+            longitude: 78.9629,
+            latitude: 22.5937,
+            zoom: isMobile ? 3.5 : 4,
+            pitch: 0,
+            bearing: 0,
+          }}
+          maxBounds={[
+            [65.0, 6.0],  // SW Limit
+            [98.0, 38.0]  // NE Limit
+          ]}
+          style={{ width: '100%', height: '100%' }}
+          mapStyle={mapStyleUrl}
+          dragRotate={!isMobile}
+          cooperativeGestures={true}
+        >
+          <NavigationControl position="bottom-right" visualizePitch={true} />
+
+          {/* Render Markers */}
+          {markers}
+
+          {/* Popup Card */}
+          {selected && (
+            <Popup
+              anchor="top"
+              longitude={selected.lng}
+              latitude={selected.lat}
+              onClose={() => setSelected(null)}
+              closeButton={false}
+              offset={15}
+              className="custom-popup"
+              maxWidth="300px"
+            >
+              <Card 
+                size="small" 
+                bordered={false} 
+                style={{ borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}
+                extra={<CloseCircleOutlined onClick={() => setSelected(null)} />}
+                title={<span style={{ color: STATE_COLORS[selected.state] || BRAND_ORANGE }}>{selected.city}</span>}
+              >
+                <Badge status="processing" color={BRAND_GREEN} text={<Text strong>{selected.name}</Text>} />
+                <div style={{ marginTop: 8, padding: 8, background: '#333', borderRadius: 4 }}>
+                  <Text type="secondary" style={{ fontSize: '12px' }}>
+                    {selected.address}<br/>
+                    {selected.state}
+                  </Text>
+                </div>
+               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                 <a href={`https://www.google.com/maps?q=${selected.lat},${selected.lng}`} target="_blank" rel="noreferrer" style={{ color: BRAND_GREEN, fontSize: '12px' }}>
+                   Directions →
+                 </a>
+                 <Button type="link" size="small" onClick={() => navigator.clipboard && navigator.clipboard.writeText(selected.address)} style={{ color: '#fff' }}>
+                   Copy Address
+                 </Button>
+                 <a href={selected.website} target="_blank" rel="noreferrer" style={{ color: '#fff', fontSize: '12px' }}>
+                   Website
+                 </a>
+                </div>
+                <div style={{ marginTop: 6, display: 'flex', gap: 8 }}>
+                  <Button size="small" onClick={() => navigator.clipboard && navigator.clipboard.writeText(`${selected.lat}, ${selected.lng}`)}>
+                    Copy Coords
+                  </Button>
+                </div>
+              </Card>
+            </Popup>
+          )}
+        </Map>
+        <div style={{ position: 'absolute', right: 20, top: 20, zIndex: 10, maxWidth: 280 }}>
+          <Card bordered={false} size="small" style={{ background: 'rgba(23,32,50,0.9)', border: '1px solid #223556', backdropFilter: 'blur(8px)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8 }}>
+              {Object.entries(stateStats).map(([state, count]) => (
+                <div key={state} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span 
+                      style={{ 
+                        width: 10, height: 10, borderRadius: 2, 
+                        background: STATE_COLORS[state] || BRAND_ORANGE 
+                      }} 
+                    />
+                    <Text style={{ color: '#e6f0ff', fontWeight: 500 }}>{state}</Text>
+                  </div>
+                  <Badge count={count} style={{ backgroundColor: STATE_COLORS[state] || BRAND_ORANGE }} />
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+        {isMobile && showList && (
+          <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20, zIndex: 10 }}>
+            <Card bordered={false} size="small" style={{ background: 'rgba(31,31,31,0.9)', backdropFilter: 'blur(8px)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                {filteredMarkers.slice(0, 8).map(item => (
+                  <Button key={item.id} onClick={() => { setSelected(item); mapRef.current && mapRef.current.flyTo({ center: [item.lng, item.lat], zoom: 12, pitch: 50, duration: 2000 }); }} style={{ textAlign: 'left' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <Text strong style={{ color: '#fff' }}>{item.city}</Text>
+                      <Text style={{ color: '#aaa', fontSize: 12 }}>{item.state}</Text>
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* --- CSS STYLES --- */}
+        <style>{`
+          .marker-pin {
+            cursor: pointer;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+          }
+          .marker-pin:hover {
+            transform: scale(1.12) translateY(-6px);
+          }
+          .pulse-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px; height: 10px;
+            background: var(--pulse-color-background, rgba(255, 122, 69, 0.4));
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            z-index: -1;
+          }
+          @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 var(--pulse-color-strong, rgba(255, 122, 69, 0.7)); }
+            70% { box-shadow: 0 0 0 15px var(--pulse-color-transparent, rgba(255, 122, 69, 0)); }
+            100% { box-shadow: 0 0 0 0 var(--pulse-color-transparent, rgba(255, 122, 69, 0)); }
+          }
+          /* Custom Popup Overrides */
+          .maplibregl-popup-content {
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+          }
+          .maplibregl-popup-tip {
+            border-bottom-color: #1f1f1f !important;
+          }
+          .marker-label {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 11px;
+            line-height: 1;
+            padding: 4px 6px;
+            border: 1px solid;
+            border-radius: 6px;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+          }
+        `}</style>
+      </div>
+    </ConfigProvider>
+  );
+};
 
 export default India3DMap;

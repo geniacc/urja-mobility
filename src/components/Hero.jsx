@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Cylinder, Box, Cone, Sphere, ScrollControls, Scroll, useScroll, Stars, Sparkles, Text, Cloud, Float, Torus } from "@react-three/drei";
+import { Environment, Cylinder, Box, Cone, Sphere, ScrollControls, Scroll, useScroll, Stars, Sparkles, Text, Cloud, Float, Torus, AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
@@ -153,6 +153,7 @@ export const Rikshaw = ({ scroll, mini = false, speed = 0.02 }) => {
   const lastOffset = useRef(0);
   const direction = useRef(1);
   const dummy = useMemo(() => new THREE.Object3D(), []);
+  const camTarget = useRef(new THREE.Vector3());
   const START_OFFSET_BASE = useMemo(() => {
     // Align start near Urja Mobility building index within Road generation (length 60)
     const idx = 1; // chosen TownBuilding slot
@@ -179,8 +180,7 @@ export const Rikshaw = ({ scroll, mini = false, speed = 0.02 }) => {
   }, []);
 
   useFrame((state, delta) => {
-    const timeOffset = (state.clock.elapsedTime * speed) % 1;
-    const offset = scroll?.offset ?? timeOffset;
+    const offset = scroll?.offset ?? lastOffset.current;
     const scrollDelta = (scroll?.offset ?? 0) - lastOffset.current;
     
     if (Math.abs(scrollDelta) > 0.0001) {
@@ -224,16 +224,13 @@ export const Rikshaw = ({ scroll, mini = false, speed = 0.02 }) => {
     // Use dummy quaternion (path orientation) instead of group quaternion (which includes roll)
     // to prevent camera from tilting with the rickshaw
     if (!mini) {
-      const cameraOffset = new THREE.Vector3(0, 8, 12); 
-      cameraOffset.applyQuaternion(dummy.quaternion);
-      const cameraPos = point.clone().add(cameraOffset);
-      
-      const lookAtOffset = new THREE.Vector3(0, 2, -10);
-      lookAtOffset.applyQuaternion(dummy.quaternion);
-      const lookAtPos = point.clone().add(lookAtOffset);
-
-      state.camera.position.lerp(cameraPos, 0.1);
-      state.camera.lookAt(lookAtPos);
+      const pathTangent = curve.getTangentAt(safeOffset);
+      const camDir = direction.current === -1 ? pathTangent.clone().negate() : pathTangent.clone();
+      const cameraPos = point.clone().sub(camDir.multiplyScalar(12)).add(new THREE.Vector3(0, 7, 0));
+      state.camera.position.lerp(cameraPos, 0.06);
+      const targetAhead = direction.current === -1 ? pathTangent.clone().negate() : pathTangent.clone();
+      camTarget.current.lerp(point.clone().add(targetAhead.multiplyScalar(6)).add(new THREE.Vector3(0, 2, 0)), 0.12);
+      state.camera.lookAt(camTarget.current);
     }
   });
 
@@ -965,6 +962,48 @@ const Road = () => {
     ]);
   }, []);
 
+  const GrassTufts = () => {
+    const ref = useRef();
+    const dummy = useMemo(() => new THREE.Object3D(), []);
+    const positions = useMemo(() => {
+      const pts = [];
+      for (let i = 0; i <= 50; i++) {
+        const t = i / 50;
+        const point = curve.getPointAt(t);
+        const tangent = curve.getTangentAt(t);
+        const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize();
+        const left = point.clone().add(normal.multiplyScalar(-18));
+        const right = point.clone().add(normal.multiplyScalar(18));
+        for (let j = 0; j < 2; j++) {
+          const base = j === 0 ? left : right;
+          const jitterX = (Math.random() - 0.5) * 2;
+          const jitterZ = (Math.random() - 0.5) * 2;
+          pts.push([base.x + jitterX, 0.02, base.z + jitterZ, Math.random() * 0.6 + 0.5]);
+        }
+      }
+      return pts;
+    }, [curve]);
+
+    useLayoutEffect(() => {
+      if (!ref.current) return;
+      positions.forEach((p, i) => {
+        dummy.position.set(p[0], p[1], p[2]);
+        dummy.scale.set(p[3], p[3], p[3]);
+        dummy.rotation.set(Math.random() * 0.2, Math.random() * Math.PI, Math.random() * 0.2);
+        dummy.updateMatrix();
+        ref.current.setMatrixAt(i, dummy.matrix);
+      });
+      ref.current.instanceMatrix.needsUpdate = true;
+    }, [positions, dummy]);
+
+    return (
+      <instancedMesh ref={ref} args={[null, null, positions.length]}>
+        <coneGeometry args={[0.15, 0.35, 5]} />
+        <meshStandardMaterial color="#15803d" roughness={1} />
+      </instancedMesh>
+    );
+  };
+
   return (
     <>
       {/* Ground Plane with more texture/color variation */}
@@ -972,21 +1011,19 @@ const Road = () => {
         <planeGeometry args={[500, 500]} />
         <meshStandardMaterial color="#86efac" roughness={1} />
       </mesh>
-      
-      {/* Grass Tufts - Removed for performance */}
-      {/* {Array.from({ length: 350 }).map((_, i) => { ... })} */}
+      <GrassTufts />
 
       {/* Asphalt Road - Pitch Black & Wider */}
       {/* Lowered to y=-1.2 so top surface is at y=0 (Radius 12 * Scale 0.1 = 1.2 height offset) */}
       <mesh position={[0, -1.2, 0]} scale={[1, 0.1, 1]} receiveShadow>
-         <tubeGeometry args={[curve, 60, 12, 8, false]} />
+         <tubeGeometry args={[curve, 48, 12, 8, false]} />
          <meshStandardMaterial color="#1c1917" roughness={0.8} metalness={0.1} />
       </mesh>
 
       {/* Road Markings - Dashed Lines */}
-      {Array.from({ length: 65 }).map((_, i) => {
+      {Array.from({ length: 50 }).map((_, i) => {
           // Evenly spaced dashes
-          const t = i / 70;
+          const t = i / 55;
           const point = curve.getPointAt(t);
           const tangent = curve.getTangentAt(t);
           const rotation = Math.atan2(tangent.x, tangent.z);
@@ -1001,7 +1038,7 @@ const Road = () => {
       {/* Sidewalks - Pushed out */}
       {/* Lowered to y=-1.61 so top surface is at y=-0.01 (Radius 16 * Scale 0.1 = 1.6 height offset) */}
       <mesh position={[0, -1.61, 0]} scale={[1, 0.1, 1]} receiveShadow>
-         <tubeGeometry args={[curve, 80, 16, 16, false]} />
+         <tubeGeometry args={[curve, 64, 16, 16, false]} />
          <meshStandardMaterial color="#cbd5e1" roughness={0.9} />
       </mesh>
       
@@ -1035,7 +1072,7 @@ const Road = () => {
       
       {/* Curb Stones - Raised edges on both sides */}
       <mesh position={[0, -1.15, 0]} scale={[1, 0.1, 1]}>
-         <tubeGeometry args={[curve, 80, 12.5, 16, false]} />
+         <tubeGeometry args={[curve, 64, 12.5, 16, false]} />
          <meshStandardMaterial color="#94a3b8" roughness={0.8} />
       </mesh>
 
@@ -1065,7 +1102,7 @@ const Road = () => {
       })}
 
       {/* Street Lamps along the road */}
-      {Array.from({ length: 8 }).map((_, i) => {
+      {Array.from({ length: 5 }).map((_, i) => {
            const t = i / 8;
            const point = curve.getPointAt(t);
            const tangent = curve.getTangentAt(t);
@@ -1133,12 +1170,12 @@ const Road = () => {
       })}
 
       {/* Eco Infrastructure: Wind Turbines & Solar Arrays & Solar Trees */}
-      {Array.from({ length: 5 }).map((_, i) => {
-           const t = 0.1 + (i / 5) * 0.85 + Math.random() * 0.02;
-           const point = curve.getPointAt(t);
-           const tangent = curve.getTangentAt(t);
-           const rotation = Math.atan2(tangent.x, tangent.z);
-           const side = i % 2 === 0 ? 1 : -1;
+      {Array.from({ length: 2 }).map((_, i) => {
+          const t = 0.1 + (i / 5) * 0.85 + Math.random() * 0.02;
+          const point = curve.getPointAt(t);
+          const tangent = curve.getTangentAt(t);
+          const rotation = Math.atan2(tangent.x, tangent.z);
+          const side = i % 2 === 0 ? 1 : -1;
            const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize();
            
            const type = Math.random();
@@ -1205,7 +1242,7 @@ const Road = () => {
       })}
 
       {/* Traffic Vehicles */}
-      {Array.from({ length: 4 }).map((_, i) => {
+      {Array.from({ length: 3 }).map((_, i) => {
            // Organized Traffic: Left Lane moves forward, Right Lane moves backward
            const isLeft = i % 2 === 0; // Alternate lanes for better distribution
            const laneOffset = isLeft ? -6 : 6;
@@ -1215,7 +1252,7 @@ const Road = () => {
            // CONSTANT Speed to prevent collisions (Physics requirement)
            // Left lane (forward): +0.02
            // Right lane (backward): -0.02
-           const speed = 0.02 * (isLeft ? 1 : -1);
+          const speed = 0.012 * (isLeft ? 1 : -1);
 
            // Spaced out start positions to ensure no overlap at spawn
            const startOffset = (i / 16) + (Math.random() * 0.01);
@@ -1231,7 +1268,7 @@ const Road = () => {
       })}
       
       {/* Moving Pedestrians Loop */}
-      {Array.from({ length: 5 }).map((_, i) => {
+      {Array.from({ length: 3 }).map((_, i) => {
            const side = i % 2 === 0 ? 1 : -1;
            const startOffset = Math.random();
            const color = Math.random() > 0.5 ? "#ef4444" : "#3b82f6";
@@ -1239,7 +1276,7 @@ const Road = () => {
       })}
 
       {/* Birds in the Sky */}
-      {Array.from({ length: 3 }).map((_, i) => {
+      {Array.from({ length: 2 }).map((_, i) => {
            const x = (Math.random() - 0.5) * 100;
            const z = (Math.random() - 0.5) * 300 - 50;
            const y = 15 + Math.random() * 10;
@@ -1249,7 +1286,7 @@ const Road = () => {
       })}
 
       {/* Town Buildings & Trees & Charging Stations Generation */}
-      {Array.from({ length: 25 }).map((_, i) => {
+      {Array.from({ length: 18 }).map((_, i) => {
           // Increased count to cover extended road
           const t = 0.02 + (i / 25) * 0.96; 
           
@@ -2295,19 +2332,16 @@ const RockField = ({ count = 30 }) => {
 const EnvironmentProps = () => (
   <group>
     {/* Background Forests (Detailed) */}
-    <Forest count={60} />
-    <RockField count={40} />
+  <Forest count={40} />
+  <RockField count={25} />
 
     {/* Distant Wind Farm */}
     <WindTurbine position={[-80, 0, -200]} rotation={[0, 0.5, 0]} />
-    <WindTurbine position={[-120, 0, -220]} rotation={[0, 0.6, 0]} />
     <WindTurbine position={[80, 0, -200]} rotation={[0, -0.5, 0]} />
 
     {/* Floating Volumetric Clouds */}
-    <Cloud position={[-40, 35, -120]} speed={0.15} opacity={0.5} segments={10} bounds={[60, 12, 60]} volume={10} color="#ffffff" />
-    <Cloud position={[10, 40, -160]} speed={0.18} opacity={0.55} segments={12} bounds={[70, 14, 70]} volume={12} color="#ffffff" />
-    <Cloud position={[60, 32, -110]} speed={0.14} opacity={0.5} segments={10} bounds={[50, 10, 50]} volume={9} color="#e6f2ff" />
-    <Cloud position={[-70, 38, -180]} speed={0.16} opacity={0.5} segments={12} bounds={[70, 14, 70]} volume={12} color="#e6f2ff" />
+  <Cloud position={[-40, 35, -120]} speed={0.12} opacity={0.5} segments={8} bounds={[50, 10, 50]} volume={8} color="#ffffff" />
+  <Cloud position={[10, 40, -160]} speed={0.14} opacity={0.5} segments={9} bounds={[55, 11, 55]} volume={9} color="#e6f2ff" />
     
     {/* Birds Flock */}
     <Bird position={[0, 25, -50]} speed={0.5} range={30} />
@@ -2321,20 +2355,19 @@ const Scene = () => {
   
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <directionalLight 
-        position={[50, 80, 20]} 
-        intensity={1.2} 
-        castShadow={false}
-      />
+      <ambientLight intensity={0.45} color="#cfe8ff" />
+      <directionalLight position={[50, 80, 20]} intensity={1} castShadow={false} color="#9ecaff" />
       
       {/* Soft Shadows for realism - Disabled for performance */}
       {/* <SoftShadows size={25} samples={10} focus={0} /> */}
 
       <color attach="background" args={['#0a0f1d']} />
-      <fog attach="fog" args={['#0a0f1d', 20, 140]} />
+      <fog attach="fog" args={['#0a0f1d', 18, 220]} />
       <Environment preset="night" />
-      <Stars />
+      <group>
+        <Stars radius={300} depth={120} count={3200} factor={3} saturation={0} fade speed={0.12} />
+        <Stars radius={120} depth={60} count={1200} factor={2} saturation={0.15} fade speed={0.07} />
+      </group>
       
       <Road />
       <EnvironmentProps />
@@ -2343,20 +2376,23 @@ const Scene = () => {
       {/* Contact Shadows for realism - Disabled for performance */}
       {/* <ContactShadows position={[0, -0.01, 0]} opacity={0.35} scale={12} blur={1} far={3} /> */}
 
-      {/* Atmospheric Particles */}
-      <Sparkles count={20} scale={[160, 40, 160]} size={5} speed={0.35} opacity={0.45} color="#fff" position={[0, 25, -100]} />
-
-      {/* Post Processing disabled */}
+      <Sparkles count={14} scale={[160, 40, 160]} size={5} speed={0.35} opacity={0.45} color="#fff" position={[0, 25, -100]} />
     </>
   );
 };
 
 export default function Hero({ categories }) {
   const navigate = useNavigate();
+  const palette = useMemo(() => {
+    const cols = (categories || []).map(c => c.color).filter(Boolean);
+    return cols.length ? cols : ['#22c55e', '#3b82f6', '#f59e0b'];
+  }, [categories]);
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: 'var(--bg)' }}>
-      <Canvas dpr={[1, 1]} shadows={false} camera={{ position: [5, 5, 10], fov: 60 }} gl={{ antialias: false, powerPreference: 'high-performance' }}>
+      <Canvas dpr={[0.8, 1]} shadows={false} camera={{ position: [5, 5, 10], fov: 70 }} gl={{ antialias: false, powerPreference: 'high-performance' }}>
+        <AdaptiveDpr />
+        <AdaptiveEvents />
         <ScrollControls pages={5} damping={0.3}>
           <Scene />
           <Scroll html style={{ width: '100%', height: '100%' }}>
@@ -2365,32 +2401,111 @@ export default function Hero({ categories }) {
               animate={{ opacity: 1, y: [0, -2, 0], scale: 1 }}
               transition={{ duration: 0.7, y: { repeat: Infinity, duration: 8, ease: "easeInOut" } }}
               className="hero-copy"
+              style={{ position: 'relative' }}
             >
+              <motion.div 
+                style={{ position: 'absolute', top: '-20%', left: '-10%', width: '40%', height: '60%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[0]}60 0%, transparent 70%)`, filter: 'blur(12px)', zIndex: -1 }}
+                animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <motion.div 
+                style={{ position: 'absolute', top: '10%', left: '20%', width: '50%', height: '40%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[1]}60 0%, transparent 70%)`, filter: 'blur(12px)', zIndex: -1 }}
+                animate={{ scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 5, repeat: Infinity }}
+              />
+              <motion.div 
+                style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '45%', height: '55%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[2 % palette.length]}60 0%, transparent 70%)`, filter: 'blur(12px)', zIndex: -1 }}
+                animate={{ scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 6, repeat: Infinity }}
+              />
               <motion.h1 
                 className="hero-headline"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
+                style={{ 
+                  fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
+                  lineHeight: 1.1, 
+                  marginBottom: '1rem',
+                  color: '#fff',
+                  letterSpacing: '-1.2px',
+                  textShadow: '0 24px 48px rgba(0,0,0,0.55)',
+                  WebkitTextStroke: '0.6px rgba(0,0,0,0.25)'
+                }}
               >
-                Drive the Future
+                {"Drive the Future".split(" ").map((word, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 50, rotate: 5 }}
+                    animate={{ opacity: 1, y: 0, rotate: 0 }}
+                    transition={{ delay: i * 0.12 + 0.1, type: "spring", stiffness: 100, damping: 20 }}
+                    style={{ display: 'inline-block', marginRight: '0.3em' }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
               </motion.h1>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: [1, 0.9, 1] }}
+                transition={{ duration: 0.8, delay: 0.3, repeat: Infinity, repeatDelay: 2 }}
+                style={{
+                  height: '4px',
+                  width: '60%',
+                  transformOrigin: 'left',
+                  background: `linear-gradient(90deg, ${palette[0]}, ${palette[1]}, ${palette[2 % palette.length]})`,
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
+                  borderRadius: '99px',
+                  marginBottom: '1rem'
+                }}
+              />
               <motion.p 
                 className="hero-sub"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
+                style={{ 
+                  fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', 
+                  maxWidth: '700px', 
+                  lineHeight: 1.8,
+                  background: `linear-gradient(90deg, ${palette[0]}, ${palette[1]}, ${palette[2 % palette.length]})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundSize: '200% auto',
+                  textShadow: '0 10px 32px rgba(0,0,0,0.6)',
+                  filter: 'saturate(1.4) contrast(1.2)'
+                }}
+                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
+                transition={{ duration: 6, repeat: Infinity, repeatType: 'reverse' }}
               >
                 Explore Urja’s world of fun, clean energy.
               </motion.p>
               <motion.div 
                 className="hero-chips"
                 initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: [0, -2, 0] }}
                 transition={{ duration: 0.5, delay: 0.35 }}
+                style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}
               >
-                <span className="hero-chip">EV</span>
-                <span className="hero-chip">Home</span>
-                <span className="hero-chip">Industrial</span>
+                {["EV", "Home", "Industrial"].map((label, i) => (
+                  <motion.span
+                    key={label}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: [0, -2, 0] }}
+                    transition={{ delay: 0.45 + i * 0.1, duration: 2, repeat: Infinity }}
+                    whileHover={{ scale: 1.08, rotate: 1 }}
+                    style={{
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: '999px',
+                      fontWeight: 600,
+                      color: '#fff',
+                      background: palette[i % palette.length],
+                      boxShadow: '0 6px 20px rgba(0,0,0,0.2)'
+                    }}
+                  >
+                    {label}
+                  </motion.span>
+                ))}
               </motion.div>
             </motion.div>
 
@@ -2401,10 +2516,50 @@ export default function Hero({ categories }) {
               transition={{ duration: 0.6 }}
               className="hero-about"
             >
-              <div className="hero-title">About Us</div>
-              <div className="hero-sub" style={{ marginLeft: 'auto' }}>
+              <motion.div 
+                className="hero-title"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                style={{ 
+                  fontWeight: 800,
+                  background: `linear-gradient(90deg, ${palette[0]}, ${palette[1 % palette.length]})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  letterSpacing: '-0.5px',
+                  textShadow: '0 18px 48px rgba(0,0,0,0.6)',
+                  filter: 'saturate(1.4) contrast(1.2)'
+                }}
+                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
+                transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
+              >
+                {"About Us".split(" ").map((w, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.08 }}
+                    style={{ display: 'inline-block', marginRight: '0.3em' }}
+                  >
+                    {w}
+                  </motion.span>
+                ))}
+              </motion.div>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                style={{ height: '3px', width: '40%', transformOrigin: 'left', background: `linear-gradient(90deg, ${palette[0]}, ${palette[1 % palette.length]})`, borderRadius: '99px', boxShadow: '0 12px 28px rgba(0,0,0,0.35)', margin: '0.5rem 0' }}
+              />
+              <motion.div 
+                className="hero-sub" 
+                style={{ marginLeft: 'auto', color: 'var(--text-primary)', textShadow: '0 6px 20px rgba(0,0,0,0.35)' }}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
+              >
                 We build safe, reliable batteries for mobility, homes, and industry.
-              </div>
+              </motion.div>
             </motion.div>
 
             <motion.div 
@@ -2414,16 +2569,58 @@ export default function Hero({ categories }) {
               transition={{ duration: 0.6 }}
               className="hero-products"
             >
-              <div className="hero-title">Products</div>
-              <div className="hero-sub">
+              <motion.div 
+                className="hero-title"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                style={{ 
+                  fontWeight: 800,
+                  background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  letterSpacing: '-0.5px',
+                  textShadow: '0 18px 48px rgba(0,0,0,0.6)',
+                  filter: 'saturate(1.4) contrast(1.2)'
+                }}
+                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
+                transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
+              >
+                {"Products".split(" ").map((w, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.08 }}
+                    style={{ display: 'inline-block', marginRight: '0.3em' }}
+                  >
+                    {w}
+                  </motion.span>
+                ))}
+              </motion.div>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                style={{ height: '3px', width: '40%', transformOrigin: 'left', background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`, borderRadius: '99px', boxShadow: '0 12px 28px rgba(0,0,0,0.35)', margin: '0.5rem 0' }}
+              />
+              <motion.div 
+                className="hero-sub"
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
+                style={{ color: 'var(--text-primary)', textShadow: '0 6px 20px rgba(0,0,0,0.35)' }}
+              >
                 Explore packs and systems engineered for performance and safety.
-              </div>
+              </motion.div>
               <motion.button 
                 onClick={() => navigate('/products')}
                 className="hero-btn"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, boxShadow: '0 14px 34px rgba(0,0,0,0.3)' }}
                 whileTap={{ scale: 0.98 }}
-                style={{ pointerEvents: 'auto' }}
+                animate={{ y: [0, -2, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                style={{ pointerEvents: 'auto', background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`, color: '#fff' }}
               >
                 See Catalog
               </motion.button>
@@ -2436,16 +2633,63 @@ export default function Hero({ categories }) {
               transition={{ duration: 0.6 }}
               className="hero-contact"
             >
-              <div className="hero-title center">Say Hello</div>
-              <div className="hero-sub center" style={{ margin: '2rem auto', maxWidth: '600px' }}>
+              <motion.div 
+                className="hero-title center"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                style={{ 
+                  fontWeight: 800,
+                  background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  letterSpacing: '-0.5px',
+                  textShadow: '0 18px 48px rgba(0,0,0,0.6)',
+                  filter: 'saturate(1.4) contrast(1.2)'
+                }}
+                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
+                transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
+              >
+                {"Say Hello".split(" ").map((w, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.08 }}
+                    style={{ display: 'inline-block', marginRight: '0.3em' }}
+                  >
+                    {w}
+                  </motion.span>
+                ))}
+              </motion.div>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                style={{ height: '3px', width: '40%', transformOrigin: 'left', background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`, borderRadius: '99px', boxShadow: '0 12px 28px rgba(0,0,0,0.35)', margin: '0.5rem auto' }}
+              />
+              <motion.div 
+                className="hero-sub center" 
+                style={{ margin: '2rem auto', maxWidth: '600px', color: 'var(--text-primary)', textShadow: '0 6px 20px rgba(0,0,0,0.35)' }}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
+              >
                 Partner with us to power a cleaner future.
-              </div>
+              </motion.div>
               <motion.button 
                 onClick={() => navigate('/contact')}
                 className="hero-btn large"
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.98 }}
-                style={{ pointerEvents: 'auto' }}
+                style={{ 
+                  pointerEvents: 'auto',
+                  background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`,
+                  color: '#fff',
+                  boxShadow: '0 12px 28px rgba(0,0,0,0.25)'
+                }}
+                animate={{ y: [0, -2, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
                 Contact Us
               </motion.button>

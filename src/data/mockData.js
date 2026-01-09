@@ -3443,11 +3443,68 @@ export const categories = [
   }
 ];
 
+export const teamMembers = [
+  { id: 1, name: "PANKAJ CHOPRA", department: "MANAGEMENT", role: "FOUNDER DIRECTOR & CEO", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=PANKAJ" },
+  { id: 2, name: "BEEKEY KUMAR", department: "CREDIT", role: "DEPUTY GENERAL MANAGER- CREDITS", image: "/assets/Beekey Kumar-Deputy General Manager- Credits.jpeg" },
+  { id: 3, name: "NAVEEN SHARMA", department: "MANAGEMENT", role: "CHIEF FINANCIAL OFFICER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=NAVEEN" },
+  { id: 4, name: "SANTOSH KUMAR", department: "MANAGEMENT", role: "CHIEF BUSINESS OFFICER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SANTOSH" },
+  { id: 5, name: "AMIT TYAGI", department: "MANAGEMENT", role: "BUSINESS HEAD", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AMIT" },
+  { id: 6, name: "ASHISH JHA", department: "MANAGEMENT", role: "BUSINESS HEAD", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ASHISH" },
+  { id: 7, name: "AMIT KUMAR PANDEY", department: "MANAGEMENT", role: "COMPANY SECRETARY", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AMIT" },
+  { id: 8, name: "PRITISH RANJAN", department: "IT", role: "CHIEF TECHNOLOGY OFFICER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=PRITISH" },
+  { id: 9, name: "SANJEEV KUMAR JHA", department: "CREDIT", role: "ASSISTANT VICE PRESIDENT", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SANJEEV" },
+  { id: 10, name: "AJIT KUMAR", department: "CREDIT", role: "ASSISTANT VICE PRESIDENT", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AJIT" },
+  { id: 11, name: "ANURAG SRIVASTAV", department: "IT", role: "ASSISTANT VICE PRESIDENT", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANURAG" },
+  { id: 12, name: "CHANDAN KUMAR JHA", department: "CREDIT", role: "ASSISTANT VICE PRESIDENT", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=CHANDAN" },
+  { id: 13, name: "MUKUND JHA", department: "ACCOUNTS", role: "ASSISTANT VICE PRESIDENT", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MUKUND" },
+  { id: 14, name: "PRAKASH SINGH", department: "OPERATIONS", role: "ASSISTANT VICE PRESIDENT", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=PRAKASH" },
+  { id: 15, name: "GAUTAM KUMAR", department: "HR", role: "ASSISTANT GENERAL MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=GAUTAM" },
+  { id: 16, name: "RAJEEV KUMAR SINGH", department: "ACCOUNTS", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=RAJEEV" },
+  { id: 17, name: "RAVI KANT TIWARI", department: "IT", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=RAVI" },
+  { id: 18, name: "JAI PRAKASH SINGH", department: "ADMIN", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=JAI" },
+  { id: 19, name: "SHIVENDRA SINGH", department: "ACCOUNTS", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SHIVENDRA" },
+  { id: 20, name: "ANSHUMAN SINGH", department: "ACCOUNTS", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANSHUMAN" },
+  { id: 21, name: "ALOK KUMAR", department: "ACCOUNTS", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ALOK" },
+  { id: 22, name: "RANJEET KUMAR SINGH", department: "ACCOUNTS", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=RANJEET" },
+  { id: 23, name: "SANJEEV KUMAR", department: "ACCOUNTS", role: "SENIOR MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SANJEEV" },
+  { id: 24, name: "SAURABH KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SAURABH" },
+  { id: 25, name: "SANJAY KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SANJAY" },
+  { id: 26, name: "RAKESH KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=RAKESH" },
+  { id: 27, name: "RAVI SHANKAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=RAVI" },
+  { id: 28, name: "SUNIL KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SUNIL" },
+  { id: 29, name: "VIKASH KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=VIKASH" },
+  { id: 30, name: "AMARJEET KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AMARJEET" },
+  { id: 31, name: "AMIT KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AMIT" },
+  { id: 32, name: "RAVI RANJAN", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=RAVI" },
+  { id: 33, name: "ROHIT KUMAR", department: "IT", role: "AFTER SALES SERVICE MANAGER", image: "/assets/Rohit Kumar-After Sales Service Manager.jpeg" },
+  { id: 34, name: "SUDHIR KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SUDHIR" },
+  { id: 35, name: "SUMIT KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SUMIT" },
+  { id: 36, name: "VIJAY KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=VIJAY" },
+  { id: 37, name: "VIVEK KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=VIVEK" },
+  { id: 38, name: "ABHISHEK KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ABHISHEK" },
+  { id: 39, name: "ADITYA KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ADITYA" },
+  { id: 40, name: "AJAY KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AJAY" },
+  { id: 41, name: "AKASH KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AKASH" },
+  { id: 42, name: "ANAND KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANAND" },
+  { id: 43, name: "ANIL KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANIL" },
+  { id: 44, name: "ANKIT KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANKIT" },
+  { id: 45, name: "ANOOP KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANOOP" },
+  { id: 46, name: "ANUJ KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ANUJ" },
+  { id: 47, name: "ARUN KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ARUN" },
+  { id: 48, name: "ASHOK KUMAR", department: "IT", role: "MANAGER", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=ASHOK" },
+  { id: 49, name: "DHIRANDRA SINGH NEGI", department: "OPERATIONS", role: "VICE PRESIDENT OPERATIONS", image: "/assets/Dhirandra Singh Negi- Vice President Operations.jpeg" },
+  { id: 50, name: "ANURAG SHARMA", department: "OPERATIONS", role: "ASSISTANT MANAGER OPERATIONS", image: "/assets/Anurag Sharma-Assistant Manager Operations.jpg" },
+  { id: 51, name: "BHARTI MISHRA", department: "SUPPORT", role: "CUSTOMER SUPPORT EXECUTIVE", image: "/assets/Bharti Mishra- Customer Support Executive.jpeg" },
+  { id: 52, name: "RITU", department: "SUPPORT", role: "EXECUTIVE-OPERATIONS & SUPPORT", image: "/assets/Ritu-Executive-Operations & Support.jpeg" },
+  { id: 53, name: "SANJU YADAV", department: "SUPPORT", role: "CUSTOMER SUPPORT EXECUTIVE", image: "/assets/Sanju Yadav- Customer Support Executive.jpeg" },
+  { id: 54, name: "SOURAV DEY", department: "SALES & MARKETING", role: "SALES & MARKETING EXECUTIVE", image: "/assets/Sourav Dey- Sales & Marketing Executive.jpg" },
+];
+
 export const stats = [
   { value: "500K+", label: "Batteries Deployed" },
   { value: "99.9%", label: "Uptime Reliability" },
-  { value: "15+", label: "Global Partners" },
-  { value: "24/7", label: "Expert Support" }
+  { value: "20+", label: "Cities Presence" },
+  { value: "24/7", label: "BaaS Support" }
 ];
 
 export const testimonials = [
@@ -3470,3 +3527,66 @@ export const testimonials = [
     text: "Switching to Urja's solid-state packs increased our drone flight times by 40%. A game changer for deliveries."
   }
 ];
+
+export const newsItems = [
+  {
+    id: 1,
+    type: "podcast",
+    title: "Why EV Users Avoid Ownership | Battery Leasing, Swapping & India's EV Future",
+    source: "The Vision Grid",
+    date: "2025-05-28",
+    duration: "1:09:08",
+    image: "https://img.youtube.com/vi/NXm7ppf8yAA/maxresdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/NXm7ppf8yAA",
+    description: "Deep dive into battery leasing vs swapping, EV infrastructure challenges, and how Urja's OpEx model wins",
+    keyPoints: [
+      "Battery = 50% of EV cost",
+      "Leasing costs ₹5 paisa/km",
+      "No public charging infrastructure needed",
+      "Technology agnostic approach"
+    ],
+    speakers: ["Anagh Ojha", "Pankaj Chopra", "Sachin Agarwal"],
+    tags: ["Battery Leasing", "EV Infrastructure", "Business Model"],
+    featured: true
+  },
+  {
+    id: 2,
+    type: "interview",
+    title: "Startup Mantra: Startup में कैसे हासिल होगी कामयाबी?",
+    source: "ET Now Swadesh",
+    date: "2024-10-18",
+    duration: "0:12:38",
+    image: "https://img.youtube.com/vi/Oclzom8YYks/maxresdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/Oclzom8YYks",
+    description: "Anagh Ojha discusses ₹100 crore funding, energy storage challenges, and PM Modi's EV vision",
+    keyPoints: [
+      "₹100 crore pre-sales funding",
+      "Battery storage = grid balancing solution",
+      "Supply chain dependency on lithium",
+      "E-rickshaw segment largest EV market in India"
+    ],
+    speakers: ["Anagh Ojha", "Krishna Veer Singh"],
+    tags: ["Funding", "Energy Storage", "EV Market"],
+    featured: false
+  }
+  ,
+  {
+    id: 3,
+    type: "article",
+    title: "Anagh Ojha: Engineering a Sustainable Future with Urja Mobility",
+    source: "Audience Reports",
+    date: "2024-??-??",
+    image: "/assets/urja-article-thumbnail.jpg",
+    articleUrl: "https://audiencereports.in/anagh-ojha-engineering-a-sustainable-future-wit/",
+    description: "A feature on Urja Mobility’s mission, Battery-as-a-Service model, and Anagh Ojha’s vision to democratize clean mobility in India.",
+    keyPoints: [
+      "Battery-as-a-Service enables accessible EV adoption",
+      "Solving real-world energy and infrastructure challenges",
+      "Building ecosystem through policy, partnerships, and education",
+      "Long-term vision focused on sustainability and inclusion"
+    ],
+    tags: ["BaaS", "EV Adoption", "Sustainability", "Clean Mobility"],
+    featured: false
+  }
+];
+

@@ -26,7 +26,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div style={{ fontWeight: '600' }}>Email Us</div>
-                  <div style={{ color: 'var(--muted)' }}>hello@urja.com</div>
+                  <div style={{ color: 'var(--muted)' }}>info@urjamobility.in</div>
                 </div>
               </div>
               
@@ -36,7 +36,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div style={{ fontWeight: '600' }}>Call Us</div>
-                  <div style={{ color: 'var(--muted)' }}>+1 (555) 123-4567</div>
+                  <div style={{ color: 'var(--muted)' }}>+918277343434</div>
                 </div>
               </div>
 
@@ -46,7 +46,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div style={{ fontWeight: '600' }}>Visit Us</div>
-                  <div style={{ color: 'var(--muted)' }}>123 Energy Lane, Tech City, TC 90210</div>
+                  <div style={{ color: 'var(--muted)' }}>Urja Mobility HQ, Delhi, India</div>
                 </div>
               </div>
             </div>
@@ -68,6 +68,13 @@ export default function Contact() {
                 <span>Closed</span>
               </li>
             </ul>
+          </div>
+
+          <div style={{ marginTop: '3rem', padding: '1.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>Our Culture</h4>
+            <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--muted)' }}>
+              Together, these cultural values create a work environment that balances high performance with purpose, encouraging every employee to drive impact through innovation, integrity, and customer-centricity.
+            </p>
           </div>
         </motion.div>
 

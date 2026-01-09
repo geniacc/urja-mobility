@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Hero from "../components/Hero";
 import PresenceMap from "../components/PresenceMap";
+import StrategicRoadmap from "../components/StrategicRoadmap";
+import BatteryIntelligence from "../components/BatteryIntelligence";
 import { categories, stats, testimonials } from "../data/mockData";
 import { motion } from "framer-motion";
 import { CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
@@ -68,11 +70,50 @@ const TestimonialSlider = ({ items }) => {
 };
 
 export default function Home() {
+  const marqueeRef = useRef(null);
   const partnerImages = [
     "/assets/1.png", "/assets/2.png", "/assets/3.png", "/assets/4.png", 
     "/assets/5.png", "/assets/6.png", "/assets/7.png", "/assets/8.png", 
     "/assets/9.png", "/assets/10.png", "/assets/11.png", "/assets/12.png"
   ];
+  const featuredProducts = useMemo(() => {
+    const list = [];
+    categories.forEach(cat => {
+      cat.subcategories?.forEach(sub => {
+        sub.items?.forEach(item => {
+          if (item.image) list.push({ title: item.title, image: item.image, color: cat.color });
+        });
+        sub.groups?.forEach(group => {
+          group.items?.forEach(item => {
+            if (item.image) list.push({ title: item.title, image: item.image, color: cat.color });
+          });
+        });
+      });
+    });
+    return list;
+  }, []);
+  useEffect(() => {
+    const el = marqueeRef.current;
+    if (!el) return;
+    let raf = 0;
+    const tick = () => {
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cards = el.querySelectorAll(".product-card");
+      cards.forEach((card) => {
+        const r = card.getBoundingClientRect();
+        const x = r.left + r.width / 2;
+        const dist = Math.abs(x - cx) / (rect.width / 2);
+        const minScale = 0.85;
+        const maxScale = 1.15;
+        const scale = minScale + Math.min(dist, 1) * (maxScale - minScale);
+        card.style.setProperty("--pos-scale", scale.toFixed(3));
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
   return (
     <>
       <Hero categories={categories} />
@@ -91,20 +132,12 @@ export default function Home() {
             <p className="section-subtitle">A quick glance at what we build.</p>
           </motion.div>
         </div>
-        
         {/* Marquee Row */}
-        <div className="marquee">
+        <div className="marquee" ref={marqueeRef}>
           <div className="marquee-inner">
             {/* Track A */}
             <div className="marquee-track">
-              {[
-                { title: "TK-LiFe-5145", tagline: "City Speed V2", spec: "51V • Li-Ion", badge: "New" },
-                { title: "Powercube 1.4", tagline: "Residential Storage", spec: "Standard+", badge: "Popular" },
-                { title: "LDP 24-150", tagline: "Solar Street Light", spec: "24V • 150Ah", badge: "Eco" },
-                { title: "Solid State Pack", tagline: "Drone Power", spec: "High Energy", badge: "Tech" },
-                { title: "TK500 W-Series", tagline: "EV Charger", spec: "500W • IP67", badge: "Fast" },
-                { title: "Solar Wind Storage", tagline: "Hybrid System", spec: "Smart Grid", badge: "Smart" }
-              ].map((p, i) => (
+              {featuredProducts.map((p, i) => (
                 <div 
                   key={`a-${i}`} 
                   className="product-card"
@@ -126,13 +159,11 @@ export default function Home() {
                     transition={{ type: "spring", stiffness: 120, damping: 12 }}
                   >
                     <div className="product-card-top">
-                      <span className="product-badge">{p.badge}</span>
+                      <span className="product-badge">Product</span>
                       <div className="product-spark" />
                     </div>
                     <div className="product-card-body">
-                      <h3>{p.title}</h3>
-                      <p>{p.tagline}</p>
-                      <div className="product-spec">{p.spec}</div>
+                      <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))' }} />
                     </div>
                   </motion.div>
                 </div>
@@ -140,14 +171,7 @@ export default function Home() {
             </div>
             {/* Track B (duplicate for seamless loop) */}
             <div className="marquee-track">
-              {[
-                { title: "TK-LiFe-6148", tagline: "Heavy Series", spec: "60V • Li-Ion", badge: "Pro" },
-                { title: "Powercube 2.7", tagline: "Home Backup", spec: "Premium+", badge: "Popular" },
-                { title: "Class I MHE", tagline: "Forklift Power", spec: "Industrial", badge: "Heavy" },
-                { title: "53.2V Smart", tagline: "UAV Battery", spec: "30Ah • BMS", badge: "Fast" },
-                { title: "TK3000 W-Series", tagline: "Rapid Charger", spec: "3000W", badge: "Ultra" },
-                { title: "TK-233 ESS", tagline: "Grid Storage", spec: "Industrial", badge: "Mega" }
-              ].map((p, i) => (
+              {featuredProducts.map((p, i) => (
                 <div 
                   key={`b-${i}`} 
                   className="product-card"
@@ -169,13 +193,11 @@ export default function Home() {
                     transition={{ type: "spring", stiffness: 120, damping: 12 }}
                   >
                     <div className="product-card-top">
-                      <span className="product-badge">{p.badge}</span>
+                      <span className="product-badge">Product</span>
                       <div className="product-spark" />
                     </div>
                     <div className="product-card-body">
-                      <h3>{p.title}</h3>
-                      <p>{p.tagline}</p>
-                      <div className="product-spec">{p.spec}</div>
+                      <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))' }} />
                     </div>
                   </motion.div>
                 </div>
@@ -252,7 +274,7 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="section-title">Trusted Partners</h2>
-            <p className="section-subtitle">Testimonials with image and navigation.</p>
+            <p className="section-subtitle">Driving impact together with our partners.</p>
           </motion.div>
           <TestimonialSlider
             items={partnerImages.map((img, i) => ({
@@ -265,6 +287,8 @@ export default function Home() {
         </div>
       </section>
 
+      <BatteryIntelligence />
+      <StrategicRoadmap />
       <PresenceMap />
     </>
   );

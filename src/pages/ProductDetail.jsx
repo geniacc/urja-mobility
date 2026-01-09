@@ -828,12 +828,13 @@ export default function ProductDetail() {
                   alignItems: 'center',
                   gap: '0.75rem',
                   padding: '1rem 2.5rem',
-                  background: 'var(--text-primary)',
-                  color: 'var(--bg)',
+                  background: accentColor,
+                  color: '#fff',
                   borderRadius: '16px',
-                  fontWeight: '600',
+                  fontWeight: '700',
                   textDecoration: 'none',
                   fontSize: '1.1rem',
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
                   zIndex: 2
                 }}
               >

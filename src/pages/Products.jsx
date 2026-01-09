@@ -99,46 +99,96 @@ export default function Products() {
           transition={{ duration: 0.8 }}
         >
           <div style={{ 
-            display: 'inline-block', 
-            padding: '0.5rem 1rem', 
-            background: `rgba(255, 255, 255, 0.05)`, 
-            borderRadius: '999px',
+            display: 'inline-block',
+            position: 'relative',
             color: accentColor,
-            fontWeight: '600',
+            fontWeight: 700,
+            letterSpacing: '0.5px',
             marginBottom: '1.5rem',
-            border: `1px solid ${accentColor}40`
+            fontSize: '1rem'
           }}>
-            {currentCategory?.tagline || "Next-Gen Energy Systems"}
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              style={{
+                color: accentColor,
+                textShadow: `0 6px 18px ${accentColor}40`
+              }}
+            >
+              {currentCategory?.tagline || "Next-Gen Energy Systems"}
+            </motion.span>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              style={{
+                position: 'absolute',
+                left: 0,
+                bottom: -6,
+                height: 2,
+                width: '100%',
+                transformOrigin: '0%',
+                background: accentColor,
+                boxShadow: `0 0 12px ${accentColor}80`
+              }}
+            />
           </div>
           <h1 style={{ 
-            fontSize: '4rem', 
+            fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
             lineHeight: 1.1, 
             marginBottom: '1.5rem',
-            background: 'linear-gradient(to right, #fff, #94a3b8)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            color: '#fff',
+            letterSpacing: '-1px',
+            textShadow: '0 20px 40px rgba(0,0,0,0.5)'
           }}>
-            {currentCategory?.title || "Power for Every Purpose"}
+            {(currentCategory?.title || "Power for Every Purpose").split(" ").map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 50, rotate: 5 }}
+                animate={{ opacity: 1, y: 0, rotate: 0 }}
+                transition={{ delay: i * 0.12 + 0.1, type: "spring", stiffness: 100, damping: 20 }}
+                style={{ display: 'inline-block', marginRight: '0.3em' }}
+              >
+                {word}
+              </motion.span>
+            ))}
           </h1>
-          <p style={{ 
-            fontSize: '1.2rem', 
-            color: 'var(--muted)', 
-            maxWidth: '500px', 
-            lineHeight: 1.6,
-            marginBottom: '2.5rem'
-          }}>
-            {currentCategory?.description || "From compact home backups to industrial-grade grid storage, discover the technology driving the clean energy revolution."}
-          </p>
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            style={{ 
+              fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', 
+              color: 'var(--text-primary)', 
+              maxWidth: '700px', 
+              lineHeight: 1.8,
+              marginBottom: '2.5rem',
+              textShadow: '0 6px 20px rgba(0,0,0,0.35)'
+            }}
+          >
+            {currentCategory?.description || "Urja Mobility specializes in Battery-as-a-Service (BaaS) and Energy-as-a-Service (EaaS) models that enable customers to lease high-performance lithium-ion batteries."}
+          </motion.p>
           
           <div style={{ display: 'flex', gap: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 6 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.7 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            >
               <Zap color="var(--primary)" size={24} />
               <span style={{ color: 'var(--text-secondary)' }}>High Efficiency</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 6 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.85 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            >
               <ShieldCheck color="var(--secondary)" size={24} />
               <span style={{ color: 'var(--text-secondary)' }}>Long Cycle Life</span>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
