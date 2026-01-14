@@ -70,7 +70,42 @@ export default function Footer() {
           </motion.div>
 
           <motion.div className="footer-col" variants={colVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <h4>Follow Us</h4>
+            <h4>Stay Updated</h4>
+            <p style={{ fontSize: '0.9rem', color: 'var(--muted)', marginBottom: '1rem' }}>
+              Subscribe to our newsletter for the latest updates on green energy.
+            </p>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                style={{
+                  padding: '0.8rem',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg-2)',
+                  color: 'var(--foreground)',
+                  flex: 1,
+                  fontSize: '0.9rem'
+                }}
+              />
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  padding: '0.8rem 1.2rem',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: 'var(--primary)',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                Go
+              </motion.button>
+            </div>
+            
+            <h4 style={{ marginTop: '2rem' }}>Follow Us</h4>
             <div className="social-links">
               <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Facebook size={20} /></motion.a>
               <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Twitter size={20} /></motion.a>

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Target, Eye, Lightbulb, Users, Zap, Globe } from "lucide-react";
 import TimelineDemo from "../components/ui/TimelineDemo";
 import TeamSphere from "../components/TeamSphere";
+import { teamMembers } from "../data/mockData";
 
 export default function About() {
+  const [teamView, setTeamView] = useState("sphere");
   return (
     <div style={{ paddingTop: "80px" }}> {/* Offset for fixed navbar */}
       
@@ -191,7 +193,43 @@ export default function About() {
           pointerEvents: "none"
         }} />
         <div style={{ position: "relative", zIndex: 1 }}>
-          <TeamSphere />
+          <div className="container" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+            <div style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 9999, padding: 6, display: "inline-flex", gap: 6 }}>
+              <button
+                onClick={() => setTeamView("sphere")}
+                style={{
+                  padding: "0.6rem 1rem",
+                  borderRadius: 9999,
+                  border: "none",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                  background: teamView === "sphere" ? "var(--primary)" : "transparent",
+                  color: teamView === "sphere" ? "#fff" : "var(--text)"
+                }}
+              >
+                3D Sphere
+              </button>
+              <button
+                onClick={() => setTeamView("belt")}
+                style={{
+                  padding: "0.6rem 1rem",
+                  borderRadius: 9999,
+                  border: "none",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                  background: teamView === "belt" ? "var(--secondary)" : "transparent",
+                  color: teamView === "belt" ? "#031432" : "var(--text)"
+                }}
+              >
+                Animated Belt
+              </button>
+            </div>
+          </div>
+          {teamView === "sphere" ? (
+            <TeamSphere />
+          ) : (
+            <TeamBelt />
+          )}
         </div>
       </section>
 
@@ -215,4 +253,97 @@ export default function About() {
 
     </div>
   );
+}
+
+function TeamBelt() {
+  const items = [...teamMembers, ...teamMembers];
+  return (
+    <div style={{ position: "relative", padding: "1rem 0" }}>
+      <style>{`
+        @keyframes teamBeltScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .team-belt:hover .team-track { animation-play-state: paused; }
+      `}</style>
+      <div
+        className="team-belt"
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          borderRadius: 24,
+          border: "1px solid var(--border)",
+          background: "linear-gradient(180deg, rgba(59,130,246,0.06), rgba(2,6,23,0.6))",
+          padding: "1rem 0"
+        }}
+      >
+        <div
+          className="team-track"
+          style={{
+            display: "flex",
+            width: "max-content",
+            gap: "1rem",
+            alignItems: "stretch",
+            animation: "teamBeltScroll 28s linear infinite"
+          }}
+        >
+          {items.map((m, i) => (
+            <motion.div
+              key={`${m.name}-${i}`}
+              whileHover={{ y: -4, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 260 }}
+              style={{
+                width: 260,
+                background: "var(--bg-2)",
+                borderRadius: 18,
+                border: "1px solid var(--border)",
+                boxShadow: "0 18px 50px -28px rgba(0,0,0,0.55)",
+                padding: "0.9rem",
+                flex: "0 0 auto",
+                position: "relative",
+                overflow: "hidden"
+              }}
+            >
+              <div style={{ position: "absolute", top: 0, left: 0, height: 3, width: "100%", background: "linear-gradient(90deg, var(--primary), var(--secondary))" }} />
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <img
+                  src={resolveImage(m)}
+                  alt={m.name}
+                  onError={(e) => {
+                    const alt = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(m.name || "URJA")}`;
+                    e.currentTarget.src = alt;
+                  }}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: "50%",
+                    border: "2px solid rgba(255,255,255,0.2)",
+                    objectFit: "cover"
+                  }}
+                />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#f8fafc", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.name}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#94a3b8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.role}</div>
+                </div>
+              </div>
+              <div style={{ marginTop: "0.6rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ fontSize: "0.7rem", color: "#64748b", textTransform: "uppercase", fontWeight: 800 }}>{m.department}</div>
+                <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.6)" }}>Team</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function resolveImage(m) {
+  const norm = (m?.name || "").trim().replace(/[^A-Za-z0-9\s-]/g, "").replace(/\s+/g, "-");
+  const png = norm ? `/assets/${norm}.png` : "";
+  const jpg = norm ? `/assets/${norm}.jpg` : "";
+  const provided = m?.image || "";
+  return provided || png || jpg || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(m?.name || "URJA")}`;
 }

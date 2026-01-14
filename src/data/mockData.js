@@ -1,9 +1,10 @@
 export const categories = [
   {
     id: "automotive",
-    title: "Automotive Lithium Battery",
+    title: "Mobility Batteries",
     tagline: "Powering the Move",
-    description: "High-performance Li-Ion and Lead-Acid batteries for the future of transportation.",
+    externalLink: "https://zuice.in/",
+    description: "High-performance Li-Ion batteries for the future of transportation.",
     color: "#ef4444", // Red
     image: "/assets/tuk-tuk.png",
     subcategories: [
@@ -21,7 +22,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/51V 45AH (1).png",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -66,7 +67,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/51V 60AH (1).png",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -112,7 +113,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/61V 48AH (1).png",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -158,7 +159,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Two-Wheeler.jpg",
               specImage: "/assets/64V 32Ah_ 33 (1).png",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -194,9 +195,9 @@ export const categories = [
               ]
             }
           },
-          // Lead-Acid
-          { id: "dynamite", title: "Dynamite Series", desc: "Lead-Acid / Legacy Series", specs: "Lead-Acid" },
-          { id: "niro", title: "Niro Series", desc: "Lead-Acid / Legacy Series", specs: "Lead-Acid" }
+          // Legacy
+          { id: "dynamite", title: "Dynamite Series", desc: "Legacy Series", specs: "Legacy" },
+          { id: "niro", title: "Niro Series", desc: "Legacy Series", specs: "Legacy" }
         ]
       },
       {
@@ -213,7 +214,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-105ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -258,7 +259,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-132ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -303,7 +304,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-153ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -348,7 +349,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/51v-232ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -394,7 +395,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61V-105Ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -439,7 +440,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61V-132Ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -484,7 +485,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61v-153ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -529,7 +530,7 @@ export const categories = [
             details: {
               heroImage: "/assets/three wheeler.jpg",
               specImage: "/assets/61v-232ah-product.jpg",
-              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional lead-acid batteries, delivering consistent power for a smoother ride.",
+              overview: "Trontek’s Electric Vehicle (EV) batteries are designed to power the future of transportation with high-efficiency lithium-ion technology. Whether for E-Rickshaws or E-Two Wheelers, our batteries ensure superior performance, longer cycle life, and rapid charging capabilities. Engineered for Indian road conditions, they offer robust safety features, including thermal stability and vibration resistance. With a focus on sustainability and cost-effectiveness, Trontek EV batteries provide a reliable and eco-friendly alternative to traditional batteries, delivering consistent power for a smoother ride.",
               keyFeatures: [
                 "High Energy Density",
                 "Fast Charging Support",
@@ -973,359 +974,12 @@ export const categories = [
   },
   {
     id: "inverter-battery",
-    title: "Inverter Lithium Battery",
+    title: "Zuice Solar Solutions",
     tagline: "Power for Life",
+    externalLink: "https://zuice.in/",
     description: "Reliable energy storage for homes, offices, and industries.",
     color: "#3b82f6", // Blue
     image: "/assets/Inveter-Lithium-Battery.png",
-    subcategories: [
-      {
-        id: "home",
-        title: "Home",
-        items: [
-          { 
-            id: "pc-1.4", 
-            title: "Powercube 1.4", 
-            desc: "Standard / Premium 1.4+", 
-            specs: "Residential", 
-            image: "/assets/home-product (1).png",
-            details: {
-              heroImage: "/assets/Home-internal-banner.jpg",
-              specImage: "/assets/home-product.jpg",
-              overview: "Powercube 1.4+ | Powercube 2.7+ is high-tech product, which is developed independently by Trontek Electronics Private Limited. It has outstanding advantages in power backing-up area for telecom, ATMʼs or UPS specified area, which is widely used in access network equipment, remote switching office, mobile telecom equipment, transmission equipment, satellite ground stations and telecom equipment.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          },
-          { 
-            id: "pc-2.7", 
-            title: "Powercube 2.7", 
-            desc: "Standard / Premium 2.7+", 
-            specs: "Residential", 
-            image: "/assets/home-product (1).png",
-            details: {
-              heroImage: "/assets/Home-internal-banner.jpg",
-              specImage: "/assets/home-product.jpg",
-              overview: "Powercube 1.4+ | Powercube 2.7+ is high-tech product, which is developed independently by Trontek Electronics Private Limited. It has outstanding advantages in power backing-up area for telecom, ATMʼs or UPS specified area, which is widely used in access network equipment, remote switching office, mobile telecom equipment, transmission equipment, satellite ground stations and telecom equipment.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        id: "small-office",
-        title: "Small Office",
-        items: [
-          { 
-            id: "tk-51200", 
-            title: "TK-51200", 
-            desc: "10.24kWh Storage", 
-            specs: "10.24kWh", 
-            image: "/assets/small-office-main (1).png",
-            details: {
-              heroImage: "/assets/Small-office-banner.jpg",
-              specImage: "/assets/small-office-product.jpg",
-              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          },
-          { 
-            id: "tk-51314", 
-            title: "TK-51314", 
-            desc: "16.08kWh Storage", 
-            specs: "16.08kWh", 
-            image: "/assets/small-office-main (1).png",
-            details: {
-              heroImage: "/assets/Small-office-banner.jpg",
-              specImage: "/assets/small-office-product.jpg",
-              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          },
-          { 
-            id: "tk-51560", 
-            title: "TK-51560", 
-            desc: "28.67kWh Storage", 
-            specs: "28.67kWh", 
-            image: "/assets/small-office-main (1).png",
-            details: {
-              heroImage: "/assets/Small-office-banner.jpg",
-              specImage: "/assets/small-office-product.jpg",
-              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        id: "industrial-pc",
-        title: "Industrial Power Cube",
-        items: [
-          { 
-            id: "tk-233", 
-            title: "TK-233", 
-            desc: "Industrial Power Cube", 
-            specs: "Industrial", 
-            image: "/assets/industrial-power-main (1).png",
-            details: {
-              heroImage: "/assets/Industrial-Power-Cube.jpg",
-              specImage: "/assets/industrial-power-product.jpg",
-              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          },
-          { 
-            id: "tk-418", 
-            title: "TK-418", 
-            desc: "Industrial Power Cube", 
-            specs: "Industrial", 
-            image: "/assets/industrial-power-main (1).png",
-            details: {
-              heroImage: "/assets/Industrial-Power-Cube.jpg",
-              specImage: "/assets/industrial-power-product.jpg",
-              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          },
-          { 
-            id: "tk-260", 
-            title: "TK-260", 
-            desc: "Industrial Power Cube", 
-            specs: "Industrial", 
-            image: "/assets/industrial-power-main (1).png",
-            details: {
-              heroImage: "/assets/Industrial-Power-Cube.jpg",
-              specImage: "/assets/industrial-power-product.jpg",
-              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
-              keyFeatures: [
-                "Smart Control System",
-                "High Safety",
-                "Long life battery",
-                "Advanced BMS Protection"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
-                  icon: "zap"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        id: "industrial-bess",
-        title: "Industrial BESS",
-        items: [
-          { 
-            id: "bess-20ft", 
-            title: "20ft Containerized BESS", 
-            desc: "3.7MWh / 5MWh", 
-            specs: "3.7-5MWh", 
-            image: "/assets/Bess-product (1).png",
-            details: {
-              heroImage: "/assets/Bess Banner.jpg",
-              specImage: "/assets/Bess-product.png",
-              overview: "It features high-speed communication and a power-controllable switch for AC output, ensuring efficient distribution. The system incorporates high-current, high-efficiency two-way active equalization technology for effective active balance. Its modular design allows for flexible indoor or outdoor installation, making it space-efficient. In terms of safety, it utilizes lithium iron phosphate batteries, known for their proven track record. The system achieves ≥90% charge and discharge efficiency, and supports over 6000 cycles under typical energy storage conditions, ensuring long-term durability and performance.",
-              keyFeatures: [
-                "Ultra-Long Cycle Life",
-                "High Efficiency",
-                "High Consistency",
-                "Safety and Reliability",
-                "Super Convenient",
-                "Intelligent and User-friendly"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "The system delivers long cycle life, high efficiency, safety, consistency, user-friendly features, and modular design for easy integration.",
-                  icon: "zap"
-                },
-                {
-                  title: "Ultra-Long Cycle Life",
-                  desc: "Self-developed high-quality energy storage battery cell with a rated cycle life of 8000 cls.",
-                  icon: "battery"
-                },
-                {
-                  title: "High Efficiency",
-                  desc: "Cell energy density ≥96%, save 30%–50% of energy consumption which compared with air-cooled system.",
-                  icon: "activity"
-                },
-                {
-                  title: "High Consistency",
-                  desc: "Cell temperature ≤3 °C, enhance system performance and service lifetime.",
-                  icon: "thermometer"
-                },
-                {
-                  title: "Safety and Reliability",
-                  desc: "Conform to global recognized safety certificates, include, IEC. UL. UN. Error- proofing measure applied to prevent mistakenly insertion.",
-                  icon: "shield"
-                },
-                {
-                  title: "Super Convenient",
-                  desc: "Modular and platform based system design with standard communication interface.",
-                  icon: "tool"
-                },
-                {
-                  title: "Intelligent and User-friendly",
-                  desc: "Downward-compatible with 20ft 5MWh container. Cloud support service with remote monitoring and fault diagnosis.",
-                  icon: "cpu"
-                }
-              ]
-            }
-          },
-          { 
-            id: "bess-liquid", 
-            title: "Liquid Cooling BESS Series", 
-            desc: "Advanced Thermal Management", 
-            specs: "Liquid Cooled", 
-            image: "/assets/Bess-product (1).png",
-            details: {
-              heroImage: "/assets/Bess Banner.jpg",
-              specImage: "/assets/Bess-product.png",
-              overview: "It features high-speed communication and a power-controllable switch for AC output, ensuring efficient distribution. The system incorporates high-current, high-efficiency two-way active equalization technology for effective active balance. Its modular design allows for flexible indoor or outdoor installation, making it space-efficient. In terms of safety, it utilizes lithium iron phosphate batteries, known for their proven track record. The system achieves ≥90% charge and discharge efficiency, and supports over 6000 cycles under typical energy storage conditions, ensuring long-term durability and performance.",
-              keyFeatures: [
-                "Ultra-Long Cycle Life",
-                "High Efficiency",
-                "High Consistency",
-                "Safety and Reliability",
-                "Super Convenient",
-                "Intelligent and User-friendly"
-              ],
-              safetyFeatures: [
-                {
-                  title: "Smart Control System",
-                  desc: "The system delivers long cycle life, high efficiency, safety, consistency, user-friendly features, and modular design for easy integration.",
-                  icon: "zap"
-                },
-                {
-                  title: "Ultra-Long Cycle Life",
-                  desc: "Self-developed high-quality energy storage battery cell with a rated cycle life of 8000 cls.",
-                  icon: "battery"
-                },
-                {
-                  title: "High Efficiency",
-                  desc: "Cell energy density ≥96%, save 30%–50% of energy consumption which compared with air-cooled system.",
-                  icon: "activity"
-                },
-                {
-                  title: "High Consistency",
-                  desc: "Cell temperature ≤3 °C, enhance system performance and service lifetime.",
-                  icon: "thermometer"
-                },
-                {
-                  title: "Safety and Reliability",
-                  desc: "Conform to global recognized safety certificates, include, IEC. UL. UN. Error- proofing measure applied to prevent mistakenly insertion.",
-                  icon: "shield"
-                },
-                {
-                  title: "Super Convenient",
-                  desc: "Modular and platform based system design with standard communication interface.",
-                  icon: "tool"
-                },
-                {
-                  title: "Intelligent and User-friendly",
-                  desc: "Downward-compatible with 20ft 5MWh container. Cloud support service with remote monitoring and fault diagnosis.",
-                  icon: "cpu"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: "solar-app",
-    title: "Lithium Battery Solar Application",
-    tagline: "Harness the Sun",
-    description: "Batteries designed for solar street lights and renewable integration.",
-    color: "#eab308", // Yellow
-    image: "/assets/solar-street-light-main.png",
     subcategories: [
       {
         id: "street-light-robots",
@@ -1340,7 +994,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Solar-banner.jpg",
               specImage: "/assets/solar-street-light-product.jpg",
-              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
+              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
                 "Deep Cycle Life (2000+ Cycles)",
@@ -1383,7 +1037,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Solar-banner.jpg",
               specImage: "/assets/solar-street-light-product.jpg",
-              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
+              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
                 "Deep Cycle Life (2000+ Cycles)",
@@ -1426,7 +1080,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Solar-banner.jpg",
               specImage: "/assets/solar-street-light-product.jpg",
-              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
+              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
                 "Deep Cycle Life (2000+ Cycles)",
@@ -1469,7 +1123,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Solar-banner.jpg",
               specImage: "/assets/solar-street-light-product.jpg",
-              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
+              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
                 "Deep Cycle Life (2000+ Cycles)",
@@ -1512,7 +1166,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Solar-banner.jpg",
               specImage: "/assets/solar-street-light-product.jpg",
-              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
+              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
                 "Deep Cycle Life (2000+ Cycles)",
@@ -1555,7 +1209,7 @@ export const categories = [
             details: {
               heroImage: "/assets/Solar-banner.jpg",
               specImage: "/assets/ECO Single phase low voltage hybrid inverter 3-6KW_img.png",
-              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional lead-acid technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
+              overview: "Trontek's LiFePO4 battery solutions offer a highly advanced and efficient alternative to traditional technology. Designed for solar street lights, cleaning robots, and renewable energy storage, these batteries provide superior cycle life, deep discharge capability, and maintenance-free operation. Built to withstand harsh environmental conditions, they ensure reliable power delivery for critical infrastructure and off-grid systems, making them the ideal choice for modern energy needs.",
               keyFeatures: [
                 "High Energy Density",
                 "Deep Cycle Life (2000+ Cycles)",
@@ -1964,13 +1618,354 @@ export const categories = [
             }
           }
         ]
+      },
+
+      {
+        id: "home",
+        title: "Home",
+        items: [
+          { 
+            id: "pc-1.4", 
+            title: "Powercube 1.4", 
+            desc: "Standard / Premium 1.4+", 
+            specs: "Residential", 
+            image: "/assets/home-product (1).png",
+            details: {
+              heroImage: "/assets/Home-internal-banner.jpg",
+              specImage: "/assets/home-product.jpg",
+              overview: "Powercube 1.4+ | Powercube 2.7+ is high-tech product, which is developed independently by Trontek Electronics Private Limited. It has outstanding advantages in power backing-up area for telecom, ATMʼs or UPS specified area, which is widely used in access network equipment, remote switching office, mobile telecom equipment, transmission equipment, satellite ground stations and telecom equipment.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "pc-2.7", 
+            title: "Powercube 2.7", 
+            desc: "Standard / Premium 2.7+", 
+            specs: "Residential", 
+            image: "/assets/home-product (1).png",
+            details: {
+              heroImage: "/assets/Home-internal-banner.jpg",
+              specImage: "/assets/home-product.jpg",
+              overview: "Powercube 1.4+ | Powercube 2.7+ is high-tech product, which is developed independently by Trontek Electronics Private Limited. It has outstanding advantages in power backing-up area for telecom, ATMʼs or UPS specified area, which is widely used in access network equipment, remote switching office, mobile telecom equipment, transmission equipment, satellite ground stations and telecom equipment.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "small-office",
+        title: "Small Office",
+        items: [
+          { 
+            id: "tk-51200", 
+            title: "TK-51200", 
+            desc: "10.24kWh Storage", 
+            specs: "10.24kWh", 
+            image: "/assets/small-office-main (1).png",
+            details: {
+              heroImage: "/assets/Small-office-banner.jpg",
+              specImage: "/assets/small-office-product.jpg",
+              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "tk-51314", 
+            title: "TK-51314", 
+            desc: "16.08kWh Storage", 
+            specs: "16.08kWh", 
+            image: "/assets/small-office-main (1).png",
+            details: {
+              heroImage: "/assets/Small-office-banner.jpg",
+              specImage: "/assets/small-office-product.jpg",
+              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "tk-51560", 
+            title: "TK-51560", 
+            desc: "28.67kWh Storage", 
+            specs: "28.67kWh", 
+            image: "/assets/small-office-main (1).png",
+            details: {
+              heroImage: "/assets/Small-office-banner.jpg",
+              specImage: "/assets/small-office-product.jpg",
+              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "industrial-pc",
+        title: "Industrial Power Cube",
+        items: [
+          { 
+            id: "tk-233", 
+            title: "TK-233", 
+            desc: "Industrial Power Cube", 
+            specs: "Industrial", 
+            image: "/assets/industrial-power-main (1).png",
+            details: {
+              heroImage: "/assets/Industrial-Power-Cube.jpg",
+              specImage: "/assets/industrial-power-product.jpg",
+              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "tk-418", 
+            title: "TK-418", 
+            desc: "Industrial Power Cube", 
+            specs: "Industrial", 
+            image: "/assets/industrial-power-main (1).png",
+            details: {
+              heroImage: "/assets/Industrial-Power-Cube.jpg",
+              specImage: "/assets/industrial-power-product.jpg",
+              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          },
+          { 
+            id: "tk-260", 
+            title: "TK-260", 
+            desc: "Industrial Power Cube", 
+            specs: "Industrial", 
+            image: "/assets/industrial-power-main (1).png",
+            details: {
+              heroImage: "/assets/Industrial-Power-Cube.jpg",
+              specImage: "/assets/industrial-power-product.jpg",
+              overview: "We are a well-established battery manufacturer from India, already achieved a production capacity of 1Gwh. With vast Research & Development, inhouse testing to Design & Develop - we produce fully customised Lithium energy storage solutions as per client's requirements. Trontek Home Energy Storage System comes in 3 variants (10.24kWh/16.08kWh/28.67kWh), all are compatible with major Inverter brands.",
+              keyFeatures: [
+                "Smart Control System",
+                "High Safety",
+                "Long life battery",
+                "Advanced BMS Protection"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "Operational insights and performance metrics can be viewed on smartphones. System can be controlled via remote.",
+                  icon: "zap"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "industrial-bess",
+        title: "Industrial BESS",
+        items: [
+          { 
+            id: "bess-20ft", 
+            title: "20ft Containerized BESS", 
+            desc: "3.7MWh / 5MWh", 
+            specs: "3.7-5MWh", 
+            image: "/assets/Bess-product (1).png",
+            details: {
+              heroImage: "/assets/Bess Banner.jpg",
+              specImage: "/assets/Bess-product.png",
+              overview: "It features high-speed communication and a power-controllable switch for AC output, ensuring efficient distribution. The system incorporates high-current, high-efficiency two-way active equalization technology for effective active balance. Its modular design allows for flexible indoor or outdoor installation, making it space-efficient. In terms of safety, it utilizes lithium iron phosphate batteries, known for their proven track record. The system achieves ≥90% charge and discharge efficiency, and supports over 6000 cycles under typical energy storage conditions, ensuring long-term durability and performance.",
+              keyFeatures: [
+                "Ultra-Long Cycle Life",
+                "High Efficiency",
+                "High Consistency",
+                "Safety and Reliability",
+                "Super Convenient",
+                "Intelligent and User-friendly"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "The system delivers long cycle life, high efficiency, safety, consistency, user-friendly features, and modular design for easy integration.",
+                  icon: "zap"
+                },
+                {
+                  title: "Ultra-Long Cycle Life",
+                  desc: "Self-developed high-quality energy storage battery cell with a rated cycle life of 8000 cls.",
+                  icon: "battery"
+                },
+                {
+                  title: "High Efficiency",
+                  desc: "Cell energy density ≥96%, save 30%–50% of energy consumption which compared with air-cooled system.",
+                  icon: "activity"
+                },
+                {
+                  title: "High Consistency",
+                  desc: "Cell temperature ≤3 °C, enhance system performance and service lifetime.",
+                  icon: "thermometer"
+                },
+                {
+                  title: "Safety and Reliability",
+                  desc: "Conform to global recognized safety certificates, include, IEC. UL. UN. Error- proofing measure applied to prevent mistakenly insertion.",
+                  icon: "shield"
+                },
+                {
+                  title: "Super Convenient",
+                  desc: "Modular and platform based system design with standard communication interface.",
+                  icon: "tool"
+                },
+                {
+                  title: "Intelligent and User-friendly",
+                  desc: "Downward-compatible with 20ft 5MWh container. Cloud support service with remote monitoring and fault diagnosis.",
+                  icon: "cpu"
+                }
+              ]
+            }
+          },
+          { 
+            id: "bess-liquid", 
+            title: "Liquid Cooling BESS Series", 
+            desc: "Advanced Thermal Management", 
+            specs: "Liquid Cooled", 
+            image: "/assets/Bess-product (1).png",
+            details: {
+              heroImage: "/assets/Bess Banner.jpg",
+              specImage: "/assets/Bess-product.png",
+              overview: "It features high-speed communication and a power-controllable switch for AC output, ensuring efficient distribution. The system incorporates high-current, high-efficiency two-way active equalization technology for effective active balance. Its modular design allows for flexible indoor or outdoor installation, making it space-efficient. In terms of safety, it utilizes lithium iron phosphate batteries, known for their proven track record. The system achieves ≥90% charge and discharge efficiency, and supports over 6000 cycles under typical energy storage conditions, ensuring long-term durability and performance.",
+              keyFeatures: [
+                "Ultra-Long Cycle Life",
+                "High Efficiency",
+                "High Consistency",
+                "Safety and Reliability",
+                "Super Convenient",
+                "Intelligent and User-friendly"
+              ],
+              safetyFeatures: [
+                {
+                  title: "Smart Control System",
+                  desc: "The system delivers long cycle life, high efficiency, safety, consistency, user-friendly features, and modular design for easy integration.",
+                  icon: "zap"
+                },
+                {
+                  title: "Ultra-Long Cycle Life",
+                  desc: "Self-developed high-quality energy storage battery cell with a rated cycle life of 8000 cls.",
+                  icon: "battery"
+                },
+                {
+                  title: "High Efficiency",
+                  desc: "Cell energy density ≥96%, save 30%–50% of energy consumption which compared with air-cooled system.",
+                  icon: "activity"
+                },
+                {
+                  title: "High Consistency",
+                  desc: "Cell temperature ≤3 °C, enhance system performance and service lifetime.",
+                  icon: "thermometer"
+                },
+                {
+                  title: "Safety and Reliability",
+                  desc: "Conform to global recognized safety certificates, include, IEC. UL. UN. Error- proofing measure applied to prevent mistakenly insertion.",
+                  icon: "shield"
+                },
+                {
+                  title: "Super Convenient",
+                  desc: "Modular and platform based system design with standard communication interface.",
+                  icon: "tool"
+                },
+                {
+                  title: "Intelligent and User-friendly",
+                  desc: "Downward-compatible with 20ft 5MWh container. Cloud support service with remote monitoring and fault diagnosis.",
+                  icon: "cpu"
+                }
+              ]
+            }
+          }
+        ]
       }
     ]
   },
+  
   {
     id: "drone",
     title: "Drone Lithium Battery",
     tagline: "Fly Longer",
+    externalLink: "https://zuice.in/",
     description: "High energy density batteries for UAVs and drones.",
     color: "#8b5cf6", // Violet
     image: "/assets/drone lithium battery.png",
@@ -2151,9 +2146,10 @@ export const categories = [
   },
   {
     id: "ev-charger",
-    title: "EV Charger",
-    tagline: "Charge Fast",
-    description: "Rapid charging solutions for the electric future.",
+    title: "Advanced Chargers",
+    tagline: "Next-Gen Charging Solutions",
+    externalLink: "https://zuice.in/",
+    description: "Cutting-edge charging solutions for the electric future.",
     color: "#10b981", // Emerald
     image: "/assets/TK3000W.png",
     subcategories: [
@@ -2393,6 +2389,7 @@ export const categories = [
     id: "inverter",
     title: "Inverter",
     tagline: "Smart Power Conversion",
+    externalLink: "https://zuice.in/",
     description: "High-efficiency inverters for seamless solar and grid integration.",
     color: "#f97316", // Orange
     image: "/assets/Single Phase Solar GTI.png",
@@ -3501,10 +3498,10 @@ export const teamMembers = [
 ];
 
 export const stats = [
-  { value: "500K+", label: "Batteries Deployed" },
-  { value: "99.9%", label: "Uptime Reliability" },
-  { value: "20+", label: "Cities Presence" },
-  { value: "24/7", label: "BaaS Support" }
+  { value: "10,000+", label: "Batteries Deployed", progress: 80 },
+  { value: "0.2%", label: "Annual Service Rate", progress: 95 },
+  { value: "6+", label: "Operational Cities", progress: 35 },
+  { value: "24/7", label: "BaaS Support", progress: 100 }
 ];
 
 export const testimonials = [

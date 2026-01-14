@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Hero from "../components/Hero";
+import ImpactStats from "../components/ImpactStats";
+import CallToAction from "../components/CallToAction";
 import PresenceMap from "../components/PresenceMap";
 import StrategicRoadmap from "../components/StrategicRoadmap";
 import BatteryIntelligence from "../components/BatteryIntelligence";
@@ -117,6 +119,7 @@ export default function Home() {
   return (
     <>
       <Hero categories={categories} />
+      <ImpactStats />
       
       {/* Feature Section: Moving Product Cards */}
       <section className="feature-marquee">
@@ -290,6 +293,7 @@ export default function Home() {
       <BatteryIntelligence />
       <StrategicRoadmap />
       <PresenceMap />
+      <CallToAction />
     </>
   );
 }

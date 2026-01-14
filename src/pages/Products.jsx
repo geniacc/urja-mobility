@@ -252,7 +252,13 @@ export default function Products() {
           {categories.map(cat => (
             <button
               key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
+              onClick={() => {
+                if (cat.externalLink) {
+                  window.open(cat.externalLink, '_blank');
+                } else {
+                  setActiveCategory(cat.id);
+                }
+              }}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
