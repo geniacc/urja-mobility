@@ -6,13 +6,21 @@ export const Timeline = ({ data }) => {
   const ref = useRef(null);
   const containerRef = useRef(null);
   const [height, setHeight] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
       setHeight(rect.height);
     }
-  }, [ref]);
+  }, [ref, isMobile]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -36,12 +44,12 @@ export const Timeline = ({ data }) => {
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
-          padding: "4rem 1rem",
+          padding: isMobile ? "2rem 1rem" : "4rem 1rem",
         }}
       >
         <h2
           style={{
-            fontSize: "2rem",
+            fontSize: isMobile ? "1.5rem" : "2rem",
             marginBottom: "1rem",
             color: "var(--text)",
             fontWeight: 800,
@@ -68,8 +76,8 @@ export const Timeline = ({ data }) => {
             key={index}
             style={{
               display: "grid",
-              gridTemplateColumns: "300px 1fr",
-              gap: "2rem",
+              gridTemplateColumns: isMobile ? "1fr" : "300px 1fr",
+              gap: isMobile ? "1rem" : "2rem",
               paddingTop: index === 0 ? "1rem" : "3rem",
               alignItems: "start",
             }}
@@ -116,7 +124,7 @@ export const Timeline = ({ data }) => {
               </div>
               <h3
                 style={{
-                  fontSize: "2.5rem",
+                  fontSize: isMobile ? "1.5rem" : "2.5rem",
                   fontWeight: 800,
                   letterSpacing: "-0.02em",
                   color: "var(--text-muted)",
@@ -126,7 +134,7 @@ export const Timeline = ({ data }) => {
               </h3>
             </motion.div>
 
-            <div style={{ width: "100%" }}>{item.content}</div>
+            <div style={{ width: "100%", paddingLeft: isMobile ? "3.5rem" : "0" }}>{item.content}</div>
           </div>
         ))}
 

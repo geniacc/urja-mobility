@@ -7,7 +7,7 @@ import StrategicRoadmap from "../components/StrategicRoadmap";
 import BatteryIntelligence from "../components/BatteryIntelligence";
 import { categories, stats, testimonials } from "../data/mockData";
 import { motion } from "framer-motion";
-import { CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -73,6 +73,10 @@ const TestimonialSlider = ({ items }) => {
 
 export default function Home() {
   const marqueeRef = useRef(null);
+  const [liveVisible, setLiveVisible] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
+  const [activeWhyIndex, setActiveWhyIndex] = useState(0);
   const partnerImages = [
     "/assets/1.png", "/assets/2.png", "/assets/3.png", "/assets/4.png", 
     "/assets/5.png", "/assets/6.png", "/assets/7.png", "/assets/8.png", 
@@ -93,6 +97,52 @@ export default function Home() {
       });
     });
     return list;
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const check = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop || typeof window === "undefined") return;
+    let hideTimer;
+    const onActivity = () => {
+      setLiveVisible(true);
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        setLiveVisible(false);
+      }, 2500);
+    };
+    window.addEventListener("mousemove", onActivity, { passive: true });
+    window.addEventListener("scroll", onActivity, { passive: true });
+    window.addEventListener("touchstart", onActivity, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onActivity);
+      window.removeEventListener("scroll", onActivity);
+      window.removeEventListener("touchstart", onActivity);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
+  }, [isDesktop]);
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") return;
+    const footer = document.querySelector("footer.footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setFooterVisible(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
   }, []);
   useEffect(() => {
     const el = marqueeRef.current;
@@ -121,7 +171,8 @@ export default function Home() {
       <Hero categories={categories} />
       <ImpactStats />
       
-      {/* Feature Section: Moving Product Cards */}
+      {/* Feature Section: Moving Product Cards (desktop only) */}
+      {isDesktop && (
       <section className="feature-marquee">
         <div className="container">
           <motion.div 
@@ -218,6 +269,7 @@ export default function Home() {
             </div>
           </div>
       </section>
+      )}
       
 
 
@@ -234,36 +286,55 @@ export default function Home() {
             <p className="section-subtitle">We don't just build batteries; we engineer reliability.</p>
           </motion.div>
 
-          <motion.div 
-            className="card-grid"
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
           >
-            {[
-              { title: "Advanced Safety", desc: "Multi-layer BMS protection against thermal runaway." },
-              { title: "Long Lifespan", desc: "Cells engineered for 5000+ charge cycles." },
-              { title: "Eco-Friendly", desc: "95% recyclable materials and sustainable manufacturing." }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                className="card"
-                variants={itemVariants}
-                animate={{ y: [0, -4, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5), 0 0 30px var(--primary-glow)"
-                }}
-              >
-                <div className="card-icon">
-                  <CheckCircle size={24} />
-                </div>
-                <h3>{feature.title}</h3>
-                <p>{feature.desc}</p>
-              </motion.div>
-            ))}
+            <div className="why-icons-row">
+              {[
+                { 
+                  title: "Advanced Safety", 
+                  desc: "Multi-layer BMS protection against thermal runaway.", 
+                  icon: <ShieldCheck size={20} /> 
+                },
+                { 
+                  title: "Long Lifespan", 
+                  desc: "Cells engineered for 5000+ charge cycles.", 
+                  icon: <Clock size={20} /> 
+                },
+                { 
+                  title: "Eco-Friendly", 
+                  desc: "95% recyclable materials and sustainable manufacturing.", 
+                  icon: <Leaf size={20} /> 
+                }
+              ].map((feature, i) => (
+                <motion.button
+                  key={feature.title}
+                  type="button"
+                  className={`why-icon ${activeWhyIndex === i ? "active" : ""}`}
+                  variants={itemVariants}
+                  whileHover={{ y: -4, scale: 1.03 }}
+                  onMouseEnter={() => setActiveWhyIndex(i)}
+                  onClick={() => setActiveWhyIndex(i)}
+                >
+                  <span className="why-icon-circle">
+                    {feature.icon}
+                  </span>
+                  <span className="why-icon-label">
+                    {feature.title}
+                  </span>
+                </motion.button>
+              ))}
+            </div>
+            <div className="why-detail">
+              {[
+                "Multi-layer BMS protection against thermal runaway.",
+                "Cells engineered for 5000+ charge cycles.",
+                "95% recyclable materials and sustainable manufacturing."
+              ][activeWhyIndex]}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -294,6 +365,130 @@ export default function Home() {
       <StrategicRoadmap />
       <PresenceMap />
       <CallToAction />
+      {isDesktop && liveVisible && !footerVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 18, x: -12 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          transition={{ duration: 0.25 }}
+          style={{
+            position: "fixed",
+            left: "1rem",
+            bottom: "1rem",
+            zIndex: 40,
+            pointerEvents: "none"
+          }}
+        >
+          <div
+            style={{
+              pointerEvents: "auto",
+              width: "min(320px, 80vw)",
+              borderRadius: "1.1rem",
+              padding: "0.85rem 0.95rem",
+              background: "rgba(15,23,42,0.96)",
+              border: "1px solid rgba(148,163,184,0.7)",
+              boxShadow: "0 18px 40px -24px rgba(0,0,0,0.9)",
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "0.75rem"
+            }}
+          >
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "999px",
+                background:
+                  "radial-gradient(circle at 30% 30%, #4ade80, #16a34a)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 0 18px rgba(34,197,94,0.7)",
+                flexShrink: 0
+              }}
+            >
+              <span
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: "999px",
+                  background: "#022c22",
+                  border: "2px solid #bbf7d0"
+                }}
+              />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "0.2rem"
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.82rem",
+                    fontWeight: 600,
+                    color: "#e5e7eb"
+                  }}
+                >
+                  Live Grid Status
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.72rem",
+                    color: "#22c55e",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.25rem"
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "999px",
+                      background: "#22c55e"
+                    }}
+                  />
+                  Stable
+                </span>
+              </div>
+              <p
+                style={{
+                  fontSize: "0.75rem",
+                  color: "#9ca3af",
+                  marginBottom: "0.45rem"
+                }}
+              >
+                Monitoring more than 10,000 deployed batteries and energy nodes
+                in real time.
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.6rem",
+                  fontSize: "0.72rem",
+                  color: "#e5e7eb"
+                }}
+              >
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginBottom: "0.1rem" }}>Packs online</div>
+                  <div style={{ fontWeight: 700, color: "#4ade80" }}>96%</div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginBottom: "0.1rem" }}>Charging nodes</div>
+                  <div style={{ fontWeight: 700, color: "#38bdf8" }}>84%</div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ marginBottom: "0.1rem" }}>Field tickets</div>
+                  <div style={{ fontWeight: 700, color: "#f97316" }}>7 open</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </>
   );
 }

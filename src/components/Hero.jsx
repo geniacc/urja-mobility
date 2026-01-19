@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Cylinder, Box, Cone, Sphere, ScrollControls, Scroll, useScroll, Stars, Sparkles, Text, Cloud, Float, Torus, AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
+import { Environment, Cylinder, Box, Cone, Sphere, ScrollControls, Scroll, useScroll, Stars, Sparkles, Text, Float, Torus, AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
@@ -2339,10 +2339,7 @@ const EnvironmentProps = () => (
     <WindTurbine position={[-80, 0, -200]} rotation={[0, 0.5, 0]} />
     <WindTurbine position={[80, 0, -200]} rotation={[0, -0.5, 0]} />
 
-    {/* Floating Volumetric Clouds */}
-  <Cloud position={[-40, 35, -120]} speed={0.12} opacity={0.5} segments={8} bounds={[50, 10, 50]} volume={8} color="#ffffff" />
-  <Cloud position={[10, 40, -160]} speed={0.14} opacity={0.5} segments={9} bounds={[55, 11, 55]} volume={9} color="#e6f2ff" />
-    
+  
     {/* Birds Flock */}
     <Bird position={[0, 25, -50]} speed={0.5} range={30} />
     <Bird position={[10, 28, -60]} speed={0.6} range={35} />
@@ -2424,7 +2421,7 @@ export default function Hero({ categories }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 style={{ 
-                  fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
+                  fontSize: 'clamp(2.4rem, 6vw, 5.5rem)', 
                   lineHeight: 1.1, 
                   marginBottom: '1rem',
                   color: '#fff',
@@ -2475,8 +2472,6 @@ export default function Hero({ categories }) {
                   textShadow: '0 10px 32px rgba(0,0,0,0.6)',
                   filter: 'saturate(1.4) contrast(1.2)'
                 }}
-                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
-                transition={{ duration: 6, repeat: Infinity, repeatType: 'reverse' }}
               >
                 Explore Urja’s world of fun, clean energy.
               </motion.p>
@@ -2530,8 +2525,6 @@ export default function Hero({ categories }) {
                   textShadow: '0 18px 48px rgba(0,0,0,0.6)',
                   filter: 'saturate(1.4) contrast(1.2)'
                 }}
-                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
-                transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
               >
                 {"About Us".split(" ").map((w, i) => (
                   <motion.span
@@ -2583,8 +2576,6 @@ export default function Hero({ categories }) {
                   textShadow: '0 18px 48px rgba(0,0,0,0.6)',
                   filter: 'saturate(1.4) contrast(1.2)'
                 }}
-                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
-                transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
               >
                 {"Products".split(" ").map((w, i) => (
                   <motion.span
@@ -2647,8 +2638,6 @@ export default function Hero({ categories }) {
                   textShadow: '0 18px 48px rgba(0,0,0,0.6)',
                   filter: 'saturate(1.4) contrast(1.2)'
                 }}
-                animate={{ backgroundPosition: ['0% 0%', '100% 0%'] }}
-                transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
               >
                 {"Say Hello".split(" ").map((w, i) => (
                   <motion.span

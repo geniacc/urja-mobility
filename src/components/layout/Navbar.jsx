@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, Boxes, Info, Newspaper, Briefcase, Phone } from "lucide-react";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 
 export default function Navbar() {
@@ -46,86 +46,111 @@ export default function Navbar() {
     { path: "/login", label: "Login" },
   ];
 
+  const bottomLinks = [
+    { path: "/", label: "Home", icon: <Home size={18} /> },
+    { path: "/products", label: "Products", icon: <Boxes size={18} /> },
+    { path: "/about", label: "About", icon: <Info size={18} /> },
+    { path: "/news-media", label: "News", icon: <Newspaper size={18} /> },
+    { path: "/contact", label: "Contact", icon: <Phone size={18} /> },
+  ];
+
   const linkVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } }
   };
 
   return (
-    <nav className={`navbar curved ${visible || isOpen ? 'visible' : 'hidden'} ${isOpen ? 'navbar-open' : ''}`}>
-      <div className="container nav-inner">
-        <motion.div className="nav-progress" style={{ scaleX: scrollYProgress }} />
-        <NavLink to="/" className="brand">
-          <motion.div
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="brand-glow" />
-            <img src="/assets/logo.png" alt="Logo" style={{ width: 92, height: 92, objectFit: "contain" }} />
-          </motion.div>
-        </NavLink>
-        
-        <motion.button 
-          className="mobile-toggle"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-          whileTap={{ scale: 0.92, rotate: -8 }}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </motion.button>
-
-        <motion.div 
-          className="nav-links desktop-only"
-          initial="hidden"
-          animate="visible"
-          key={visible ? 'links-visible' : 'links-hidden'}
-          transition={{ staggerChildren: 0.03 }}
-        >
-          {links.map((link) => (
-            <motion.div key={link.path} variants={linkVariants} whileHover={{ y: -2 }}>
-              <NavLink 
-                to={link.path} 
-                className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
-              >
-                {({ isActive }) => (
-                  <>
-                    <span className="nav-link-text">{link.label}</span>
-                    {isActive && (
-                      <motion.div
-                        layoutId="underline"
-                        className="nav-underline"
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                  </>
-                )}
-              </NavLink>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div 
-              className="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+    <>
+      <nav className={`navbar curved ${visible || isOpen ? 'visible' : 'hidden'} ${isOpen ? 'navbar-open' : ''}`}>
+        <div className="container nav-inner">
+          <motion.div className="nav-progress" style={{ scaleX: scrollYProgress }} />
+          <NavLink to="/" className="brand">
+            <motion.div
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
             >
-              {links.map((link) => (
-                <NavLink 
-                  key={link.path}
-                  to={link.path} 
-                  className={({ isActive }) => isActive ? "mobile-menu-link active" : "mobile-menu-link"}
-                >
-                  {link.label}
-                </NavLink>
-              ))}
+              <div className="brand-glow" />
+              <img src="/assets/logo.png" alt="Logo" style={{ width: 92, height: 92, objectFit: "contain" }} />
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </nav>
+          </NavLink>
+          
+          <motion.button 
+            className="mobile-toggle"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+            whileTap={{ scale: 0.92, rotate: -8 }}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </motion.button>
+
+          <motion.div 
+            className="nav-links desktop-only"
+            initial="hidden"
+            animate="visible"
+            key={visible ? 'links-visible' : 'links-hidden'}
+            transition={{ staggerChildren: 0.03 }}
+          >
+            {links.map((link) => (
+              <motion.div key={link.path} variants={linkVariants} whileHover={{ y: -2 }}>
+                <NavLink 
+                  to={link.path} 
+                  className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <span className="nav-link-text">{link.label}</span>
+                      {isActive && (
+                        <motion.div
+                          layoutId="underline"
+                          className="nav-underline"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div 
+                className="mobile-menu"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {links.map((link) => (
+                  <NavLink 
+                    key={link.path}
+                    to={link.path} 
+                    className={({ isActive }) => isActive ? "mobile-menu-link active" : "mobile-menu-link"}
+                  >
+                    {link.label}
+                  </NavLink>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </nav>
+
+      <nav className="bottom-nav">
+        {bottomLinks.map((link) => (
+          <NavLink
+            key={link.path}
+            to={link.path}
+            className={({ isActive }) =>
+              isActive ? "bottom-nav-item active" : "bottom-nav-item"
+            }
+          >
+            <span className="bottom-nav-icon">{link.icon}</span>
+            <span className="bottom-nav-label">{link.label}</span>
+          </NavLink>
+        ))}
+      </nav>
+    </>
   );
 }

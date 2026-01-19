@@ -107,8 +107,26 @@ export default function Footer() {
             
             <h4 style={{ marginTop: '2rem' }}>Follow Us</h4>
             <div className="social-links">
-              <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Facebook size={20} /></motion.a>
-              <motion.a href="#" whileHover="hover" variants={socialIconVariants}><Twitter size={20} /></motion.a>
+              <motion.a 
+                href="https://www.facebook.com/urjagloballimited" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Facebook"
+                whileHover="hover" 
+                variants={socialIconVariants}
+              >
+                <Facebook size={20} />
+              </motion.a>
+              <motion.a 
+                href="https://x.com/MobilityUrja/with_replies" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Twitter / X"
+                whileHover="hover" 
+                variants={socialIconVariants}
+              >
+                <Twitter size={20} />
+              </motion.a>
               <motion.a 
                 href="https://www.linkedin.com/company/urjamobility/" 
                 target="_blank" 

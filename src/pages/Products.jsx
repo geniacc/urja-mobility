@@ -13,6 +13,7 @@ export default function Products() {
   const [activeSubcategory, setActiveSubcategory] = useState(categories[0].subcategories[0]?.id);
   const [activeGroup, setActiveGroup] = useState(null);
   const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Update subcategory and group when category changes
   useEffect(() => {
@@ -65,6 +66,16 @@ export default function Products() {
 
   const accentColor = currentCategory ? currentCategory.color : "#22c55e";
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const check = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   // Icon helper
   const getCategoryIcon = (id) => {
     switch(id) {
@@ -78,18 +89,22 @@ export default function Products() {
     }
   };
 
+  const heroPadding = isMobile ? '5rem 1.5rem 2.5rem' : '6rem 2rem 4rem';
+  const heroGap = isMobile ? '2.5rem' : '4rem';
+  const heroMinHeight = isMobile ? 'auto' : '80vh';
+
   return (
     <div className="page-container" style={{ background: 'var(--bg)', minHeight: '100vh', overflowX: 'hidden' }}>
       
       {/* Hero Section */}
       <section className="products-hero-grid" style={{ 
         position: 'relative', 
-        padding: '6rem 2rem 4rem', 
+        padding: heroPadding, 
         display: 'grid', 
         gridTemplateColumns: '1fr 1fr', 
-        gap: '4rem',
+        gap: heroGap,
         alignItems: 'center',
-        minHeight: '80vh'
+        minHeight: heroMinHeight
       }}>
         {/* Hero Text */}
         <motion.div
@@ -228,7 +243,17 @@ export default function Products() {
         borderBottom: '1px solid var(--border)',
         background: 'rgba(255,255,255,0.02)'
       }}>
-        <div className="container" style={{ padding: '3rem 2rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
+        <div 
+          className="container" 
+          style={{ 
+            padding: isMobile ? '2.5rem 1.25rem' : '3rem 2rem', 
+            display: 'grid', 
+            gridTemplateColumns: isMobile 
+              ? 'repeat(2, minmax(0, 1fr))' 
+              : 'repeat(4, 1fr)', 
+            gap: isMobile ? '1.5rem' : '2rem'
+          }}
+        >
           {stats.map((stat, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '2.5rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{stat.value}</div>
@@ -239,15 +264,18 @@ export default function Products() {
       </section>
 
       {/* Products Grid Section */}
-      <section className="container" style={{ padding: "6rem 2rem" }}>
+      <section 
+        className="container" 
+        style={{ padding: isMobile ? "4rem 1.5rem 5rem" : "6rem 2rem" }}
+      >
         
         {/* Category Tabs (Main Groups) */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
-          marginBottom: '2rem',
+          marginBottom: isMobile ? '1.5rem' : '2rem',
           flexWrap: 'wrap',
-          gap: '1.5rem'
+          gap: isMobile ? '1rem' : '1.5rem'
         }}>
           {categories.map(cat => (
             <button
@@ -264,7 +292,7 @@ export default function Products() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '1rem 1.5rem',
+                padding: isMobile ? '0.75rem 1rem' : '1rem 1.5rem',
                 borderRadius: '16px',
                 border: '1px solid',
                 borderColor: activeCategory === cat.id ? cat.color : 'var(--border)',
@@ -273,7 +301,7 @@ export default function Products() {
                 fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                minWidth: '120px'
+                minWidth: isMobile ? '110px' : '120px'
               }}
             >
               {cat.image ? (
@@ -302,14 +330,16 @@ export default function Products() {
           <div style={{ 
             display: 'flex', 
             justifyContent: 'center', 
-            marginBottom: currentSubcategory?.groups?.length > 0 ? '1rem' : '4rem',
+            marginBottom: currentSubcategory?.groups?.length > 0 ? (isMobile ? '0.75rem' : '1rem') : (isMobile ? '3rem' : '4rem'),
             flexWrap: 'wrap',
             gap: '0.5rem',
             padding: '0.5rem',
             background: 'var(--bg-2)',
             borderRadius: '99px',
             width: 'fit-content',
-            margin: currentSubcategory?.groups?.length > 0 ? '0 auto 1rem auto' : '0 auto 4rem auto',
+            margin: currentSubcategory?.groups?.length > 0 
+              ? (isMobile ? '0 auto 0.75rem auto' : '0 auto 1rem auto') 
+              : (isMobile ? '0 auto 3rem auto' : '0 auto 4rem auto'),
             border: '1px solid var(--border)'
           }}>
             {currentCategory.subcategories.map(sub => (
@@ -338,7 +368,7 @@ export default function Products() {
           <div style={{ 
             display: 'flex', 
             justifyContent: 'center', 
-            marginBottom: '4rem',
+            marginBottom: isMobile ? '2.5rem' : '4rem',
             flexWrap: 'wrap',
             gap: '0.5rem',
           }}>
@@ -367,15 +397,23 @@ export default function Products() {
         {/* Grid */}
         <motion.div 
           layout 
+          className="products-grid"
           style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
-            gap: '2.5rem',
+            display: 'grid',
+            gridTemplateColumns: isMobile 
+              ? 'repeat(2, minmax(0, 1fr))' 
+              : 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: isMobile ? '1.5rem' : '2.5rem',
             justifyContent: 'center'
           }}
         >
           <AnimatePresence mode="popLayout">
-            {productsToDisplay.map(product => (
+            {productsToDisplay.map(product => {
+              const descriptionText = isMobile && product.desc
+                ? (product.desc.length > 110 ? product.desc.slice(0, 110) + "..." : product.desc)
+                : product.desc;
+
+              return (
               <motion.div
                 layout
                 key={product.id}
@@ -465,6 +503,34 @@ export default function Products() {
                   }}>
                     {product.specs}
                   </div>
+
+                  {isMobile && (
+                    <button
+                      style={{
+                        position: 'absolute',
+                        left: '1rem',
+                        bottom: '1rem',
+                        background: 'rgba(15,23,42,0.9)',
+                        borderRadius: '999px',
+                        border: `1px solid ${product.color}`,
+                        color: '#e5e7eb',
+                        padding: '0.4rem 0.9rem',
+                        fontSize: '0.8rem',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.35rem',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.45)',
+                        zIndex: 21
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product/${product.id}`);
+                      }}
+                    >
+                      View Specs <ChevronRight size={14} />
+                    </button>
+                  )}
                 </div>
 
                 {/* Card Body */}
@@ -489,48 +555,52 @@ export default function Products() {
                   </h3>
                   <p style={{ 
                     color: 'var(--muted)', 
-                    fontSize: '0.95rem', 
+                    fontSize: isMobile ? '0.9rem' : '0.95rem', 
                     lineHeight: 1.6,
-                    marginBottom: '1.5rem',
+                    marginBottom: isMobile ? '1rem' : '1.5rem',
                     flex: 1
                   }}>
-                    {product.desc}
+                    {descriptionText}
                   </p>
                   
-                  <button style={{
-                    background: 'transparent',
-                    border: `1px solid ${product.color}`,
-                    color: product.color,
-                    padding: '0.75rem',
-                    borderRadius: '8px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.5rem',
-                    transition: 'all 0.2s ease',
-                    zIndex: 20,
-                    position: 'relative'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = product.color;
-                    e.currentTarget.style.color = '#fff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = product.color;
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/product/${product.id}`);
-                  }}
-                  >
-                    View Specifications <ChevronRight size={16} />
-                  </button>
+                  {!isMobile && (
+                    <button
+                      style={{
+                        background: 'transparent',
+                        border: `1px solid ${product.color}`,
+                        color: product.color,
+                        padding: '0.75rem',
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
+                        transition: 'all 0.2s ease',
+                        zIndex: 20,
+                        position: 'relative'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = product.color;
+                        e.currentTarget.style.color = '#fff';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = product.color;
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product/${product.id}`);
+                      }}
+                    >
+                      View Specifications <ChevronRight size={16} />
+                    </button>
+                  )}
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </AnimatePresence>
         </motion.div>
 

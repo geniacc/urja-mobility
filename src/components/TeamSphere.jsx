@@ -70,13 +70,14 @@ function Card({ position, member, onSelect }) {
   );
 }
 
-function Sphere({ count = 49, radius = 10, onSelect, velocityRef, draggingRef }) {
+function Sphere({ members, radius = 10, onSelect, velocityRef, draggingRef }) {
   const group = useRef();
   
   const points = useMemo(() => {
     const p = [];
     const phi = Math.PI * (3 - Math.sqrt(5));
     
+    const count = members.length;
     for (let i = 0; i < count; i++) {
       const y = 1 - (i / (count - 1)) * 2;
       const radiusAtY = Math.sqrt(1 - y * y);
@@ -89,7 +90,7 @@ function Sphere({ count = 49, radius = 10, onSelect, velocityRef, draggingRef })
       p.push(new THREE.Vector3(x * radius, y * radius, z * radius));
     }
     return p;
-  }, [count, radius]);
+  }, [members, radius]);
 
   useFrame((state) => {
     if (group.current) {
@@ -110,7 +111,7 @@ function Sphere({ count = 49, radius = 10, onSelect, velocityRef, draggingRef })
       </mesh>
       <pointLight color="#3b82f6" intensity={2} distance={20} />
       {points.map((pos, i) => (
-        <Card key={i} position={pos} member={teamMembers[i % teamMembers.length]} onSelect={onSelect} />
+        <Card key={i} position={pos} member={members[i]} onSelect={onSelect} />
       ))}
     </group>
   );
@@ -233,12 +234,13 @@ export default function TeamSphere() {
           >
             <fog attach="fog" args={['#020617', 20, 40]} />
             <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} />
-            <Sphere
-              onSelect={(m, img) => { setSelected(m); setSelectedImg(img); }}
-              velocityRef={velocityRef}
-              draggingRef={draggingRef}
-            />
+        <pointLight position={[10, 10, 10]} intensity={1} />
+        <Sphere
+          members={teamMembers}
+          onSelect={(m, img) => { setSelected(m); setSelectedImg(img); }}
+          velocityRef={velocityRef}
+          draggingRef={draggingRef}
+        />
             <OrbitControls enableZoom={false} />
           </Canvas>
         </div>
