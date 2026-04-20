@@ -1,23 +1,94 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { categories, stats } from "../data/mockData";
+import { categories } from "../data/mockData";
 import { motion, AnimatePresence } from "framer-motion";
-import { Battery, Zap, ChevronRight, ShieldCheck, Car, Home, Sun, Plane, Zap as ZapIcon, Cpu } from "lucide-react";
-import { Canvas } from "@react-three/fiber";
-import { Environment, OrbitControls } from "@react-three/drei";
-import Product3D from "../components/Product3D";
+import { Battery, ChevronRight, Car, Home, Sun, Plane, Zap as ZapIcon, Cpu, ExternalLink } from "lucide-react";
 
 export default function Products() {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState(categories[0].id);
-  const [activeSubcategory, setActiveSubcategory] = useState(categories[0].subcategories[0]?.id);
+  const hasTechnical = (item) => Boolean(item?.details?.technical);
+  const formatValue = (value) => {
+    if (value === null || value === undefined) return "TBD";
+    if (typeof value === "string") {
+      const normalized = value.trim();
+      if (!normalized) return "TBD";
+      if (normalized.toLowerCase() === "pending") return "TBD";
+      return normalized;
+    }
+    return String(value);
+  };
+
+  // Helper to map title to specific asset filenames with URL encoding for spaces
+  // Helper to map title to specific asset filenames with URL encoding for spaces
+  // Helper to map title to specific asset filenames with URL encoding for spaces
+  const getProductImage = (title) => {
+    if (!title) return null;
+    const t = title.toLowerCase();
+
+    // 1. INVERTERS, MPPT & UPS (Checked first to prevent number overlap)
+    if (t.includes("mppt")) return "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
+
+    if (t.includes("3000va") || t.includes("3kva")) return "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("2000va") || t.includes("2kva")) return "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("1050va")) return "/assets/1050VA%20Solar%20UPS.jpeg";
+    if (t.includes("1000va") || t.includes("1kva")) return "/assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg";
+    if (t.includes("850va")) return "/assets/850VA%2012V%20Solar%20UPS.jpeg";
+    if (t.includes("300va")) return "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+
+    // 2. LFP BATTERIES (With added safety limits)
+    if (t.includes("232")) return "/assets/51.2v%20232ah.png";
+    if (t.includes("64v") && t.includes("105")) return "/assets/64v%20105ah.png";
+    if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah.png";
+    if (t.includes("100") && !t.includes("1000")) return "/assets/51.2v%20100ah.png";
+    if (t.includes("50a")) return "/assets/51.2v%2050a.png";
+    if (t.includes("25a")) return "/assets/51.2v%2025a.png";
+
+    return null;
+  };
+
+  const visibleCategories = useMemo(() => {
+    return (categories || [])
+      .map((cat) => {
+        const subcategories = (cat.subcategories || [])
+          .map((sub) => {
+            if (sub.items) {
+              const items = sub.items.filter(hasTechnical);
+              if (!items.length) return null;
+              return { ...sub, items };
+            }
+
+            if (sub.groups) {
+              const groups = sub.groups
+                .map((group) => {
+                  const items = (group.items || []).filter(hasTechnical);
+                  if (!items.length) return null;
+                  return { ...group, items };
+                })
+                .filter(Boolean);
+
+              if (!groups.length) return null;
+              return { ...sub, groups };
+            }
+
+            return null;
+          })
+          .filter(Boolean);
+
+        if (!subcategories.length) return null;
+        return { ...cat, subcategories };
+      })
+      .filter(Boolean);
+  }, []);
+
+  const [activeCategory, setActiveCategory] = useState(visibleCategories[0]?.id);
+  const [activeSubcategory, setActiveSubcategory] = useState(visibleCategories[0]?.subcategories?.[0]?.id);
   const [activeGroup, setActiveGroup] = useState(null);
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
   // Update subcategory and group when category changes
   useEffect(() => {
-    const cat = categories.find(c => c.id === activeCategory);
+    const cat = visibleCategories.find(c => c.id === activeCategory);
     if (cat && cat.subcategories.length > 0) {
       const firstSub = cat.subcategories[0];
       setActiveSubcategory(firstSub.id);
@@ -30,36 +101,36 @@ export default function Products() {
       setActiveSubcategory(null);
       setActiveGroup(null);
     }
-  }, [activeCategory]);
+  }, [activeCategory, visibleCategories]);
 
   // Update group when subcategory changes
   useEffect(() => {
-    const cat = categories.find(c => c.id === activeCategory);
+    const cat = visibleCategories.find(c => c.id === activeCategory);
     const sub = cat?.subcategories.find(s => s.id === activeSubcategory);
     if (sub && sub.groups && sub.groups.length > 0) {
       setActiveGroup(sub.groups[0].id);
     } else {
       setActiveGroup(null);
     }
-  }, [activeSubcategory, activeCategory]);
+  }, [activeSubcategory, activeCategory, visibleCategories]);
 
-  const currentCategory = categories.find(c => c.id === activeCategory);
+  const currentCategory = visibleCategories.find(c => c.id === activeCategory);
   const currentSubcategory = currentCategory?.subcategories.find(s => s.id === activeSubcategory);
   const currentGroup = currentSubcategory?.groups?.find(g => g.id === activeGroup);
 
   let productsToDisplay = [];
   if (currentSubcategory) {
     if (currentSubcategory.groups && currentGroup) {
-      productsToDisplay = currentGroup.items.map(item => ({ 
-        ...item, 
-        color: currentCategory.color, 
-        categoryName: currentGroup.title 
+      productsToDisplay = currentGroup.items.map(item => ({
+        ...item,
+        color: currentCategory.color,
+        categoryName: currentGroup.title
       }));
     } else if (currentSubcategory.items) {
-      productsToDisplay = currentSubcategory.items.map(item => ({ 
-        ...item, 
-        color: currentCategory.color, 
-        categoryName: currentCategory.title 
+      productsToDisplay = currentSubcategory.items.map(item => ({
+        ...item,
+        color: currentCategory.color,
+        categoryName: currentCategory.title
       }));
     }
   }
@@ -76,9 +147,15 @@ export default function Products() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useEffect(() => {
+    if (activeCategory) return;
+    if (!visibleCategories.length) return;
+    setActiveCategory(visibleCategories[0].id);
+  }, [activeCategory, visibleCategories]);
+
   // Icon helper
   const getCategoryIcon = (id) => {
-    switch(id) {
+    switch (id) {
       case 'automotive': return <Car size={20} />;
       case 'inverter-battery': return <Home size={20} />;
       case 'solar-app': return <Sun size={20} />;
@@ -93,15 +170,30 @@ export default function Products() {
   const heroGap = isMobile ? '2.5rem' : '4rem';
   const heroMinHeight = isMobile ? 'auto' : '80vh';
 
+  if (!visibleCategories.length) {
+    return (
+      <div className="page-container" style={{ background: "var(--bg)", minHeight: "100vh", paddingTop: "var(--nav-height, 100px)" }}>
+        <section style={{ padding: "7rem 2rem", textAlign: "center" }}>
+          <h1 style={{ color: "var(--text-primary)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800 }}>
+            Products
+          </h1>
+          <p style={{ color: "var(--muted)", marginTop: "1rem" }}>
+            New product data is coming soon.
+          </p>
+        </section>
+      </div>
+    );
+  }
+
   return (
-    <div className="page-container" style={{ background: 'var(--bg)', minHeight: '100vh', overflowX: 'hidden' }}>
-      
+    <div className="page-container" style={{ background: 'var(--bg)', minHeight: '100vh', overflowX: 'hidden', paddingTop: "var(--nav-height, 100px)" }}>
+
       {/* Hero Section */}
-      <section className="products-hero-grid" style={{ 
-        position: 'relative', 
-        padding: heroPadding, 
-        display: 'grid', 
-        gridTemplateColumns: '1fr 1fr', 
+      <section className="products-hero-grid" style={{
+        position: 'relative',
+        padding: heroPadding,
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
         gap: heroGap,
         alignItems: 'center',
         minHeight: heroMinHeight
@@ -113,7 +205,7 @@ export default function Products() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div style={{ 
+          <div style={{
             display: 'inline-block',
             position: 'relative',
             color: accentColor,
@@ -131,7 +223,7 @@ export default function Products() {
                 textShadow: `0 6px 18px ${accentColor}40`
               }}
             >
-              {currentCategory?.tagline || "Next-Gen Energy Systems"}
+              {"Technical Catalogue"}
             </motion.span>
             <motion.div
               initial={{ scaleX: 0 }}
@@ -149,15 +241,15 @@ export default function Products() {
               }}
             />
           </div>
-          <h1 style={{ 
-            fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
-            lineHeight: 1.1, 
+          <h1 style={{
+            fontSize: 'clamp(3rem, 6vw, 5.5rem)',
+            lineHeight: 1.1,
             marginBottom: '1.5rem',
             color: '#fff',
             letterSpacing: '-1px',
             textShadow: '0 20px 40px rgba(0,0,0,0.5)'
           }}>
-            {(currentCategory?.title || "Power for Every Purpose").split(" ").map((word, i) => (
+            {"Products".split(" ").map((word, i) => (
               <motion.span
                 key={i}
                 initial={{ opacity: 0, y: 50, rotate: 5 }}
@@ -169,45 +261,39 @@ export default function Products() {
               </motion.span>
             ))}
           </h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            style={{ 
-              fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', 
-              color: 'var(--text-primary)', 
-              maxWidth: '700px', 
+            style={{
+              fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
+              color: 'var(--text-primary)',
+              maxWidth: '700px',
               lineHeight: 1.8,
               marginBottom: '2.5rem',
               textShadow: '0 6px 20px rgba(0,0,0,0.35)'
             }}
           >
-            {currentCategory?.description || "Urja Mobility specializes in Battery-as-a-Service (BaaS) and Energy-as-a-Service (EaaS) models that enable customers to lease high-performance lithium-ion batteries."}
+            {"Select a category and product to view its full technical specification sheet."}
           </motion.p>
-          
-          <div style={{ display: 'flex', gap: '2rem' }}>
-            <motion.div 
-              initial={{ opacity: 0, y: 6 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.7 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <Zap color="var(--primary)" size={24} />
-              <span style={{ color: 'var(--text-secondary)' }}>High Efficiency</span>
-            </motion.div>
-            <motion.div 
-              initial={{ opacity: 0, y: 6 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.85 }}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <ShieldCheck color="var(--secondary)" size={24} />
-              <span style={{ color: 'var(--text-secondary)' }}>Long Cycle Life</span>
-            </motion.div>
+
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <span style={{ border: "1px solid var(--border)", padding: "0.5rem 0.9rem", borderRadius: "999px", color: "var(--text-secondary)", background: "rgba(255,255,255,0.03)" }}>
+              General
+            </span>
+            <span style={{ border: "1px solid var(--border)", padding: "0.5rem 0.9rem", borderRadius: "999px", color: "var(--text-secondary)", background: "rgba(255,255,255,0.03)" }}>
+              Electrical
+            </span>
+            <span style={{ border: "1px solid var(--border)", padding: "0.5rem 0.9rem", borderRadius: "999px", color: "var(--text-secondary)", background: "rgba(255,255,255,0.03)" }}>
+              Mechanical
+            </span>
+            <span style={{ border: "1px solid var(--border)", padding: "0.5rem 0.9rem", borderRadius: "999px", color: "var(--text-secondary)", background: "rgba(255,255,255,0.03)" }}>
+              Protection
+            </span>
           </div>
         </motion.div>
 
-        {/* Hero 3D Scene */}
+        {/* Hero Visual */}
         <motion.div
           className="products-hero-visual"
           initial={{ opacity: 0, scale: 0.8 }}
@@ -215,77 +301,49 @@ export default function Products() {
           transition={{ duration: 1 }}
           style={{ height: '500px', width: '100%', position: 'relative' }}
         >
-           <div style={{
-             position: 'absolute',
-             top: '50%',
-             left: '50%',
-             transform: 'translate(-50%, -50%)',
-             width: '400px',
-             height: '400px',
-             background: `radial-gradient(circle, ${accentColor}20 0%, transparent 70%)`,
-             filter: 'blur(40px)',
-             zIndex: 0
-           }} />
-           <Canvas camera={{ position: [0, 0, 6], fov: 45 }} dpr={[1, 2]}>
-             <ambientLight intensity={0.5} />
-             <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-             <pointLight position={[-10, -10, -10]} intensity={0.5} />
-             <Product3D color={accentColor} />
-             <Environment preset="city" />
-             <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
-           </Canvas>
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '400px',
+            height: '400px',
+            background: `radial-gradient(circle, ${accentColor}20 0%, transparent 70%)`,
+            filter: 'blur(40px)',
+            zIndex: 0
+          }} />
+          <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+            <div style={{ display: "grid", gap: "1rem", justifyItems: "center" }}>
+              <div style={{ width: 120, height: 120, borderRadius: 24, border: `1px solid ${accentColor}55`, background: `${accentColor}12`, display: "grid", placeItems: "center" }}>
+                {getCategoryIcon(currentCategory?.id)}
+              </div>
+              <div style={{ color: "rgba(255,255,255,0.85)", fontWeight: 700 }}>
+                {currentCategory?.title || "Category"}
+              </div>
+            </div>
+          </div>
         </motion.div>
       </section>
 
-      {/* Stats Section */}
-      <section style={{ 
-        borderTop: '1px solid var(--border)', 
-        borderBottom: '1px solid var(--border)',
-        background: 'rgba(255,255,255,0.02)'
-      }}>
-        <div 
-          className="container" 
-          style={{ 
-            padding: isMobile ? '2.5rem 1.25rem' : '3rem 2rem', 
-            display: 'grid', 
-            gridTemplateColumns: isMobile 
-              ? 'repeat(2, minmax(0, 1fr))' 
-              : 'repeat(4, 1fr)', 
-            gap: isMobile ? '1.5rem' : '2rem'
-          }}
-        >
-          {stats.map((stat, i) => (
-            <div key={i} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{stat.value}</div>
-              <div style={{ color: 'var(--muted)', textTransform: 'uppercase', fontSize: '0.875rem', letterSpacing: '1px' }}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Products Grid Section */}
-      <section 
-        className="container" 
+      <section
+        className="container"
         style={{ padding: isMobile ? "4rem 1.5rem 5rem" : "6rem 2rem" }}
       >
-        
+
         {/* Category Tabs (Main Groups) */}
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
           marginBottom: isMobile ? '1.5rem' : '2rem',
           flexWrap: 'wrap',
           gap: isMobile ? '1rem' : '1.5rem'
         }}>
-          {categories.map(cat => (
+          {visibleCategories.map(cat => (
             <button
               key={cat.id}
               onClick={() => {
-                if (cat.externalLink) {
-                  window.open(cat.externalLink, '_blank');
-                } else {
-                  setActiveCategory(cat.id);
-                }
+                setActiveCategory(cat.id);
               }}
               style={{
                 display: 'flex',
@@ -304,22 +362,20 @@ export default function Products() {
                 minWidth: isMobile ? '110px' : '120px'
               }}
             >
-              {cat.image ? (
-                <img 
-                  src={cat.image} 
-                  alt={cat.title} 
-                  style={{ 
-                    height: '50px', 
-                    width: 'auto', 
-                    objectFit: 'contain',
-                    marginBottom: '0.25rem',
-                    filter: activeCategory === cat.id ? 'none' : 'grayscale(100%) opacity(0.6)',
-                    transition: 'all 0.3s ease'
-                  }} 
-                />
-              ) : (
-                getCategoryIcon(cat.id)
-              )}
+              <span
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 14,
+                  display: "grid",
+                  placeItems: "center",
+                  border: `1px solid ${activeCategory === cat.id ? cat.color : "var(--border)"}`,
+                  background: activeCategory === cat.id ? `${cat.color}12` : "rgba(255,255,255,0.03)",
+                  color: activeCategory === cat.id ? cat.color : "var(--muted)"
+                }}
+              >
+                {getCategoryIcon(cat.id)}
+              </span>
               <span style={{ textAlign: 'center', fontSize: '0.9rem' }}>{cat.title}</span>
             </button>
           ))}
@@ -327,9 +383,9 @@ export default function Products() {
 
         {/* Subcategory Tabs (Subgroups) */}
         {currentCategory?.subcategories.length > 0 && (
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
             marginBottom: currentSubcategory?.groups?.length > 0 ? (isMobile ? '0.75rem' : '1rem') : (isMobile ? '3rem' : '4rem'),
             flexWrap: 'wrap',
             gap: '0.5rem',
@@ -337,8 +393,8 @@ export default function Products() {
             background: 'var(--bg-2)',
             borderRadius: '99px',
             width: 'fit-content',
-            margin: currentSubcategory?.groups?.length > 0 
-              ? (isMobile ? '0 auto 0.75rem auto' : '0 auto 1rem auto') 
+            margin: currentSubcategory?.groups?.length > 0
+              ? (isMobile ? '0 auto 0.75rem auto' : '0 auto 1rem auto')
               : (isMobile ? '0 auto 3rem auto' : '0 auto 4rem auto'),
             border: '1px solid var(--border)'
           }}>
@@ -365,9 +421,9 @@ export default function Products() {
 
         {/* Group Tabs (Level 3) */}
         {currentSubcategory?.groups?.length > 0 && (
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
             marginBottom: isMobile ? '2.5rem' : '4rem',
             flexWrap: 'wrap',
             gap: '0.5rem',
@@ -395,13 +451,13 @@ export default function Products() {
         )}
 
         {/* Grid */}
-        <motion.div 
-          layout 
+        <motion.div
+          layout
           className="products-grid"
-          style={{ 
+          style={{
             display: 'grid',
-            gridTemplateColumns: isMobile 
-              ? 'repeat(2, minmax(0, 1fr))' 
+            gridTemplateColumns: isMobile
+              ? 'repeat(2, minmax(0, 1fr))'
               : 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: isMobile ? '1.5rem' : '2.5rem',
             justifyContent: 'center'
@@ -409,233 +465,339 @@ export default function Products() {
         >
           <AnimatePresence mode="popLayout">
             {productsToDisplay.map(product => {
-              const descriptionText = isMobile && product.desc
-                ? (product.desc.length > 110 ? product.desc.slice(0, 110) + "..." : product.desc)
-                : product.desc;
+              const technical = product?.details?.technical || {};
+              const descriptionText = technical?.application
+                ? formatValue(technical.application)
+                : technical?.general?.application
+                  ? formatValue(technical.general.application)
+                  : "TBD";
+              const descriptionShort = isMobile
+                ? (descriptionText.length > 110 ? descriptionText.slice(0, 110) + "..." : descriptionText)
+                : descriptionText;
+
+              const voltageBadge =
+                technical?.general?.nominalVoltage ||
+                technical?.general?.systemVoltage ||
+                technical?.electrical?.nominalVoltage ||
+                technical?.electrical?.outputVoltageNominal;
+              const capacityBadge =
+                technical?.general?.nominalCapacity ||
+                technical?.general?.capacity ||
+                technical?.general?.outputCapacity ||
+                technical?.electrical?.outputCurrentNominal ||
+                technical?.electrical?.outputCurrent;
+              const powerBadge =
+                technical?.general?.nominalEnergy ||
+                technical?.electrical?.powerOutput ||
+                technical?.electrical?.peakDischargeCurrent;
+
+              const quickBadges = [voltageBadge, capacityBadge, powerBadge]
+                .filter(Boolean)
+                .slice(0, 3)
+                .map(formatValue);
+
+              const batteryImg = getProductImage(product.title);
 
               return (
-              <motion.div
-                layout
-                key={product.id}
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ 
-                  opacity: hoveredProduct && hoveredProduct !== product.id ? 0.4 : 1, 
-                  scale: hoveredProduct && hoveredProduct !== product.id ? 0.95 : 1, 
-                  y: 0,
-                  filter: hoveredProduct && hoveredProduct !== product.id ? 'blur(2px)' : 'blur(0px)'
-                }}
-                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                whileHover={{ 
-                  y: -12, 
-                  scale: 1.02,
-                  zIndex: 10,
-                  transition: { duration: 0.2 } 
-                }}
-                onHoverStart={() => setHoveredProduct(product.id)}
-                onHoverEnd={() => setHoveredProduct(null)}
-                style={{
-                  background: 'var(--bg-2)',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  border: '1px solid var(--border)',
-                  position: 'relative',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
-                {/* Card Header / Image Area */}
-                <div style={{ 
-                  height: '200px', 
-                  background: `linear-gradient(135deg, var(--bg-3) 0%, ${product.color}10 100%)`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}>
-                  {/* Abstract background shape */}
+                <motion.div
+                  layout
+                  key={product.id}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{
+                    opacity: hoveredProduct && hoveredProduct !== product.id ? 0.4 : 1,
+                    scale: hoveredProduct && hoveredProduct !== product.id ? 0.95 : 1,
+                    y: 0,
+                    filter: hoveredProduct && hoveredProduct !== product.id ? 'blur(2px)' : 'blur(0px)'
+                  }}
+                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+                  whileHover={{
+                    y: -12,
+                    scale: 1.02,
+                    zIndex: 10,
+                    transition: { duration: 0.2 }
+                  }}
+                  onHoverStart={() => setHoveredProduct(product.id)}
+                  onHoverEnd={() => setHoveredProduct(null)}
+                  style={{
+                    background: 'var(--bg-2)',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    border: '1px solid var(--border)',
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
+                  {/* Card Header / Image Area */}
                   <div style={{
-                    position: 'absolute',
-                    width: '150%',
-                    height: '150%',
-                    background: `radial-gradient(circle, ${product.color}20 0%, transparent 60%)`,
-                    top: '-50%',
-                    left: '-50%',
-                    transform: hoveredProduct === product.id ? 'translate(10%, 10%)' : 'translate(0, 0)',
-                    transition: 'transform 0.5s ease'
-                  }} />
-                  
-                  <motion.div
-                    animate={{ 
-                      scale: hoveredProduct === product.id ? 1.1 : 1,
-                      rotate: hoveredProduct === product.id ? 5 : 0
-                    }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    {product.image ? (
-                      <img 
-                        src={product.image} 
+                    height: '200px',
+                    background: `linear-gradient(135deg, var(--bg-3) 0%, ${product.color}10 100%)`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    padding: '1.5rem'
+                  }}>
+                    {/* Abstract background shape */}
+                    <div style={{
+                      position: 'absolute',
+                      width: '150%',
+                      height: '150%',
+                      background: `radial-gradient(circle, ${product.color}20 0%, transparent 60%)`,
+                      top: '-50%',
+                      left: '-50%',
+                      transform: hoveredProduct === product.id ? 'translate(10%, 10%)' : 'translate(0, 0)',
+                      transition: 'transform 0.5s ease'
+                    }} />
+
+                    {batteryImg ? (
+                      <motion.img
+                        src={batteryImg}
                         alt={product.title}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          maxHeight: '160px',
-                          objectFit: 'contain',
-                          filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))'
+                        animate={{
+                          scale: hoveredProduct === product.id ? 1.08 : 1,
+                          rotate: hoveredProduct === product.id ? 2 : 0
                         }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        style={{ width: '90%', height: '100%', objectFit: 'contain', zIndex: 1, filter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.4))' }}
                       />
                     ) : (
-                      <Battery size={80} color={product.color} strokeWidth={1} />
+                      <motion.div
+                        animate={{
+                          scale: hoveredProduct === product.id ? 1.1 : 1,
+                          rotate: hoveredProduct === product.id ? 5 : 0
+                        }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        style={{ zIndex: 1 }}
+                      >
+                        <Battery size={80} color={product.color} strokeWidth={1} />
+                      </motion.div>
                     )}
-                  </motion.div>
 
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '1rem',
-                    right: '1rem',
-                    background: 'rgba(0,0,0,0.6)',
-                    backdropFilter: 'blur(4px)',
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '99px',
-                    fontSize: '0.75rem',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.1)'
-                  }}>
-                    {product.specs}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '1rem',
+                      right: '1rem',
+                      background: 'rgba(0,0,0,0.6)',
+                      backdropFilter: 'blur(4px)',
+                      padding: '0.25rem 0.75rem',
+                      borderRadius: '99px',
+                      fontSize: '0.75rem',
+                      color: '#fff',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      zIndex: 2
+                    }}>
+                      {quickBadges[0] || "TBD"}
+                    </div>
+
+                    {isMobile && (
+                      <button
+                        style={{
+                          position: 'absolute',
+                          left: '1rem',
+                          bottom: '1rem',
+                          background: 'rgba(15,23,42,0.9)',
+                          borderRadius: '999px',
+                          border: `1px solid ${product.color}`,
+                          color: '#e5e7eb',
+                          padding: '0.4rem 0.9rem',
+                          fontSize: '0.8rem',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                          boxShadow: '0 10px 25px rgba(0,0,0,0.45)',
+                          zIndex: 21
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/product/${product.id}`);
+                        }}
+                      >
+                        View Specs <ChevronRight size={14} />
+                      </button>
+                    )}
                   </div>
 
-                  {isMobile && (
-                    <button
-                      style={{
-                        position: 'absolute',
-                        left: '1rem',
-                        bottom: '1rem',
-                        background: 'rgba(15,23,42,0.9)',
-                        borderRadius: '999px',
-                        border: `1px solid ${product.color}`,
-                        color: '#e5e7eb',
-                        padding: '0.4rem 0.9rem',
-                        fontSize: '0.8rem',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.35rem',
-                        boxShadow: '0 10px 25px rgba(0,0,0,0.45)',
-                        zIndex: 21
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/product/${product.id}`);
-                      }}
-                    >
-                      View Specs <ChevronRight size={14} />
-                    </button>
-                  )}
-                </div>
+                  {/* Card Body */}
+                  <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{
+                      fontSize: '0.75rem',
+                      fontWeight: '700',
+                      color: product.color,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      marginBottom: '0.5rem'
+                    }}>
+                      {product.categoryName}
+                    </div>
+                    <h3 style={{
+                      fontSize: '1.5rem',
+                      fontWeight: '700',
+                      marginBottom: '0.75rem',
+                      color: 'var(--text-primary)'
+                    }}>
+                      {product.title}
+                    </h3>
+                    <p style={{
+                      color: 'var(--muted)',
+                      fontSize: isMobile ? '0.9rem' : '0.95rem',
+                      lineHeight: 1.6,
+                      marginBottom: isMobile ? '1rem' : '1.5rem',
+                      flex: 1
+                    }}>
+                      {descriptionShort}
+                    </p>
 
-                {/* Card Body */}
-                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ 
-                    fontSize: '0.75rem', 
-                    fontWeight: '700', 
-                    color: product.color, 
-                    textTransform: 'uppercase', 
-                    letterSpacing: '0.5px',
-                    marginBottom: '0.5rem' 
-                  }}>
-                    {product.categoryName}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: isMobile ? "1rem" : "1.5rem" }}>
+                      {(quickBadges.length ? quickBadges : ["TBD", "TBD"]).slice(0, 2).map((badge, idx) => (
+                        <span
+                          key={`${product.id}-badge-${idx}`}
+                          style={{
+                            fontSize: "0.75rem",
+                            padding: "0.35rem 0.7rem",
+                            borderRadius: "999px",
+                            border: "1px solid var(--border)",
+                            background: "rgba(255,255,255,0.03)",
+                            color: "var(--text-secondary)"
+                          }}
+                        >
+                          {badge}
+                        </span>
+                      ))}
+                    </div>
+
+                    {!isMobile && (
+                      <button
+                        style={{
+                          background: 'transparent',
+                          border: `1px solid ${product.color}`,
+                          color: product.color,
+                          padding: '0.75rem',
+                          borderRadius: '8px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.5rem',
+                          transition: 'all 0.2s ease',
+                          zIndex: 20,
+                          position: 'relative'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = product.color;
+                          e.currentTarget.style.color = '#fff';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = product.color;
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/product/${product.id}`);
+                        }}
+                      >
+                        View Specifications <ChevronRight size={16} />
+                      </button>
+                    )}
                   </div>
-                  <h3 style={{ 
-                    fontSize: '1.5rem', 
-                    fontWeight: '700', 
-                    marginBottom: '0.75rem',
-                    color: 'var(--text-primary)'
-                  }}>
-                    {product.title}
-                  </h3>
-                  <p style={{ 
-                    color: 'var(--muted)', 
-                    fontSize: isMobile ? '0.9rem' : '0.95rem', 
-                    lineHeight: 1.6,
-                    marginBottom: isMobile ? '1rem' : '1.5rem',
-                    flex: 1
-                  }}>
-                    {descriptionText}
-                  </p>
-                  
-                  {!isMobile && (
-                    <button
-                      style={{
-                        background: 'transparent',
-                        border: `1px solid ${product.color}`,
-                        color: product.color,
-                        padding: '0.75rem',
-                        borderRadius: '8px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.5rem',
-                        transition: 'all 0.2s ease',
-                        zIndex: 20,
-                        position: 'relative'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = product.color;
-                        e.currentTarget.style.color = '#fff';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = product.color;
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/product/${product.id}`);
-                      }}
-                    >
-                      View Specifications <ChevronRight size={16} />
-                    </button>
-                  )}
-                </div>
-              </motion.div>
+                </motion.div>
               );
             })}
           </AnimatePresence>
         </motion.div>
 
-        {/* CTA Section */}
-        <div style={{ 
-          marginTop: '8rem', 
-          background: 'linear-gradient(to right, var(--bg-2), var(--bg-3))', 
-          borderRadius: '24px', 
-          padding: '4rem',
-          textAlign: 'center',
-          border: '1px solid var(--border)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Need a Custom Solution?</h2>
-            <p style={{ color: 'var(--muted)', maxWidth: '600px', margin: '0 auto 2rem' }}>
-              Our engineering team specializes in bespoke battery configurations for unique industrial and commercial applications.
-            </p>
-            <button className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }}>
-              Contact Sales Team
-            </button>
-          </div>
-          {/* Decorative background elements */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.05) 0%, transparent 50%)',
-            zIndex: 0
-          }} />
-        </div>
       </section>
+
+      {/* --- ZUICE INVERTERS DIRECT LINK SECTION --- */}
+      <section className="container" style={{ padding: isMobile ? "0 1.5rem 5rem" : "0 2rem 6rem", marginTop: "2rem" }}>
+        <motion.a
+          href="https://zuice.in/#/products"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{
+            display: "block",
+            textDecoration: "none",
+            background: "linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(20,20,20,0.9) 100%)",
+            border: "1px solid var(--border)",
+            borderColor: "rgba(34,197,94,0.3)", // Green accent for Zuice
+            borderRadius: "24px",
+            padding: isMobile ? "2rem" : "3.5rem",
+            position: "relative",
+            overflow: "hidden",
+            cursor: "pointer",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+          }}
+          whileHover={{ scale: 1.01, borderColor: "#22c55e", boxShadow: "0 15px 40px rgba(34,197,94,0.15)" }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {/* Subtle Green Glow Effect */}
+          <div style={{
+            position: "absolute",
+            top: "-50%",
+            right: "-10%",
+            width: "300px",
+            height: "300px",
+            background: "radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%)",
+            filter: "blur(40px)",
+            pointerEvents: "none"
+          }} />
+
+          <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "center", justifyContent: "space-between", gap: "2rem", zIndex: 2, position: "relative" }}>
+
+            {/* Text Content */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
+
+                {/* --- UPDATED: Replaced Cpu Icon with Zuice Logo --- */}
+                <div style={{ background: "rgba(34,197,94,0.15)", padding: "0.4rem", borderRadius: "10px", display: "grid", placeItems: "center" }}>
+                  <img
+                    src="/assets/zuice_logo.png"
+                    alt="Zuice Logo"
+                    style={{ width: "100px", height: "100px", objectFit: "contain" }}
+                  />
+                </div>
+                {/* ------------------------------------------------ */}
+
+                <span style={{ color: "#22c55e", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", fontSize: "0.85rem" }}>
+                  Partner Brand
+                </span>
+              </div>
+              <h2 style={{ fontSize: "clamp(2rem, 4vw, 2.5rem)", fontWeight: 800, color: "#fff", marginBottom: "0.5rem", lineHeight: 1.1 }}>
+                Zuice Inverters
+              </h2>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.6, maxWidth: "600px", margin: 0 }}>
+                Looking for smart home and consumer-ready solar inverters? Explore the complete Zuice inverter lineup on our dedicated partner platform.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div style={{
+              background: "#22c55e",
+              color: "#000",
+              padding: "1rem 2rem",
+              borderRadius: "14px",
+              fontWeight: 800,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+              whiteSpace: "nowrap",
+              width: isMobile ? "100%" : "auto"
+            }}>
+              Go to Zuice Catalog <ExternalLink size={18} />
+            </div>
+
+          </div>
+        </motion.a>
+      </section>
+
     </div>
   );
 }

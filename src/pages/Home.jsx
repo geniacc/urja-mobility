@@ -4,10 +4,11 @@ import ImpactStats from "../components/ImpactStats";
 import CallToAction from "../components/CallToAction";
 import PresenceMap from "../components/PresenceMap";
 import StrategicRoadmap from "../components/StrategicRoadmap";
-import BatteryIntelligence from "../components/BatteryIntelligence";
+import ZPatternFeature from "../components/ZPatternFeature";
+import VideoCard from "../components/VideoCard";
 import { categories, stats, testimonials } from "../data/mockData";
-import { motion } from "framer-motion";
-import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf, X } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,8 +22,8 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { type: "spring", stiffness: 50 }
   }
@@ -48,8 +49,8 @@ const TestimonialSlider = ({ items }) => {
         transition={{ duration: 0.3 }}
       >
         <div className="testimonial-left">
-          <motion.div 
-            className="testimonial-img-wrap" 
+          <motion.div
+            className="testimonial-img-wrap"
             whileHover={{ scale: 1.02, rotate: 0.4 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
           >
@@ -77,9 +78,12 @@ export default function Home() {
   const [footerVisible, setFooterVisible] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeWhyIndex, setActiveWhyIndex] = useState(0);
+  const [modal, setModal] = useState(null);
+  const openModal = (v) => setModal(v);
+  const closeModal = () => setModal(null);
   const partnerImages = [
-    "/assets/1.png", "/assets/2.png", "/assets/3.png", "/assets/4.png", 
-    "/assets/5.png", "/assets/6.png", "/assets/7.png", "/assets/8.png", 
+    "/assets/1.png", "/assets/2.png", "/assets/3.png", "/assets/4.png",
+    "/assets/5.png", "/assets/6.png", "/assets/7.png", "/assets/8.png",
     "/assets/9.png", "/assets/10.png", "/assets/11.png", "/assets/12.png"
   ];
   const featuredProducts = useMemo(() => {
@@ -170,113 +174,30 @@ export default function Home() {
     <>
       <Hero categories={categories} />
       <ImpactStats />
-      
-      {/* Feature Section: Moving Product Cards (desktop only) */}
-      {isDesktop && (
-      <section className="feature-marquee">
-        <div className="container">
-          <motion.div 
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="section-title">Featured Products</h2>
-            <p className="section-subtitle">A quick glance at what we build.</p>
-          </motion.div>
-        </div>
-        {/* Marquee Row */}
-        <div className="marquee" ref={marqueeRef}>
-          <div className="marquee-inner">
-            {/* Track A */}
-            <div className="marquee-track">
-              {featuredProducts.map((p, i) => (
-                <div 
-                  key={`a-${i}`} 
-                  className="product-card"
-                  onMouseMove={(e) => {
-                    const r = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - r.left;
-                    const y = e.clientY - r.top;
-                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
-                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.removeProperty('--mouse-x');
-                    e.currentTarget.style.removeProperty('--mouse-y');
-                  }}
-                >
-                  <motion.div 
-                    className="product-card-inner"
-                    whileHover={{ rotateY: 8, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 120, damping: 12 }}
-                  >
-                    <div className="product-card-top">
-                      <span className="product-badge">Product</span>
-                      <div className="product-spark" />
-                    </div>
-                    <div className="product-card-body">
-                      <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))' }} />
-                    </div>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-            {/* Track B (duplicate for seamless loop) */}
-            <div className="marquee-track">
-              {featuredProducts.map((p, i) => (
-                <div 
-                  key={`b-${i}`} 
-                  className="product-card"
-                  onMouseMove={(e) => {
-                    const r = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - r.left;
-                    const y = e.clientY - r.top;
-                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
-                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.removeProperty('--mouse-x');
-                    e.currentTarget.style.removeProperty('--mouse-y');
-                  }}
-                >
-                  <motion.div 
-                    className="product-card-inner"
-                    whileHover={{ rotateY: 8, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 120, damping: 12 }}
-                  >
-                    <div className="product-card-top">
-                      <span className="product-badge">Product</span>
-                      <div className="product-spark" />
-                    </div>
-                    <div className="product-card-body">
-                      <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.3))' }} />
-                    </div>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-          <div className="rikshaw-2d-row">
-            <div className="rikshaw-road"></div>
-            <div className="rikshaw-2d">
-              <div className="ev-trail"></div>
-              <div className="ev-trail"></div>
-              <div className="ev-trail"></div>
-              <img className="rikshaw-img" src="/assets/tuk-tuk.png" alt="tuk-tuk" />
-            </div>
-          </div>
-      </section>
-      )}
-      
+
+      <ZPatternFeature
+        title="Real-World Performance You Can Trust"
+        description="Our drivers experience less downtime and higher earnings. Hear directly from the field about how our battery swapping infrastructure keeps them moving."
+        videoSrc="/assets/driver response 1 .mp4"
+        videoTitle="Driver Response 1"
+        reverse={false}
+        onOpenModal={openModal}
+      />
+      <ZPatternFeature
+        title="Rapid On-Ground Problem Fixing"
+        description="Technology is only as good as the team behind it. Our field technicians are deployed instantly to resolve hardware issues, ensuring maximum uptime for every Urja Mobility vehicle."
+        videoSrc="/assets/problem fixing 1 .mp4"
+        videoTitle="Problem Fixing"
+        reverse={true}
+        onOpenModal={openModal}
+      />
+
 
 
       {/* Features/Why Choose Us */}
       <section className="section">
         <div className="container">
-          <motion.div 
+          <motion.div
             className="section-header"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -294,20 +215,20 @@ export default function Home() {
           >
             <div className="why-icons-row">
               {[
-                { 
-                  title: "Advanced Safety", 
-                  desc: "Multi-layer BMS protection against thermal runaway.", 
-                  icon: <ShieldCheck size={20} /> 
+                {
+                  title: "Advanced Safety",
+                  desc: "Multi-layer BMS protection against thermal runaway.",
+                  icon: <ShieldCheck size={20} />
                 },
-                { 
-                  title: "Long Lifespan", 
-                  desc: "Cells engineered for 5000+ charge cycles.", 
-                  icon: <Clock size={20} /> 
+                {
+                  title: "Long Lifespan",
+                  desc: "Cells engineered for 5000+ charge cycles.",
+                  icon: <Clock size={20} />
                 },
-                { 
-                  title: "Eco-Friendly", 
-                  desc: "95% recyclable materials and sustainable manufacturing.", 
-                  icon: <Leaf size={20} /> 
+                {
+                  title: "Eco-Friendly",
+                  desc: "95% recyclable materials and sustainable manufacturing.",
+                  icon: <Leaf size={20} />
                 }
               ].map((feature, i) => (
                 <motion.button
@@ -361,10 +282,139 @@ export default function Home() {
         </div>
       </section>
 
-      <BatteryIntelligence />
+
+
+      <section className="section">
+        <div className="container">
+          <motion.div
+            className="section-header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="section-title">Rapid Support</h2>
+            <p className="section-subtitle">Field teams resolve issues quickly to keep fleets on the move.</p>
+          </motion.div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "center" }}>
+            <div>
+              <h3 style={{ fontSize: "1.6rem", fontWeight: 800, marginBottom: "0.75rem" }}>On-the-ground Assistance</h3>
+              <p style={{ color: "var(--muted)" }}>Real technicians, real fixes. Response times and ticket resolutions are tracked and optimized.</p>
+            </div>
+            <VideoCard src={"/assets/problem fixing 1 .mp4"} title={"Problem Fixing"} onOpen={openModal} />
+          </div>
+        </div>
+      </section>
       <StrategicRoadmap />
       <PresenceMap />
+
+      <section className="section">
+        <div className="container">
+          <motion.div
+            className="section-header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="section-title">Data + Reality</h2>
+            <p className="section-subtitle">Connecting real-time metrics with real driver outcomes.</p>
+          </motion.div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "stretch" }}>
+            <div style={{ padding: "1.5rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", boxShadow: "0 10px 30px rgba(0,0,0,0.35)" }}>
+              <div style={{ fontSize: "1rem", color: "var(--muted)", marginBottom: "0.5rem", fontWeight: 700 }}>Live Grid Status</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+                <div>
+                  <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Packs online</div>
+                  <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#4ade80" }}>96%</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Charging nodes</div>
+                  <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#38bdf8" }}>84%</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Field tickets</div>
+                  <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#f97316" }}>7 open</div>
+                </div>
+              </div>
+              <div style={{ marginTop: "0.75rem", fontSize: "0.9rem", color: "var(--muted)" }}>10,000+ deployed batteries and energy nodes monitored in real time.</div>
+            </div>
+            <VideoCard src={"/assets/driver response 4 .mp4"} title={"Driver Response"} onOpen={openModal} />
+          </div>
+        </div>
+      </section>
       <CallToAction />
+      <AnimatePresence>
+        {modal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 1000,
+              background: "rgba(2,6,23,0.7)",
+              backdropFilter: "blur(4px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2rem"
+            }}
+            onClick={closeModal}
+          >
+            <motion.div
+              initial={{ y: 20, scale: 0.98, opacity: 0 }}
+              animate={{ y: 0, scale: 1, opacity: 1 }}
+              exit={{ y: 10, scale: 0.98, opacity: 0 }}
+              style={{
+                width: "min(1000px, 95vw)",
+                borderRadius: "16px",
+                overflow: "hidden",
+                background: "var(--bg-2)",
+                border: "1px solid var(--border)",
+                boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
+                position: "relative"
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={closeModal}
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  width: 40,
+                  height: 40,
+                  borderRadius: "999px",
+                  backdropFilter: "blur(8px)",
+                  background: "rgba(15,23,42,0.55)",
+                  border: "1px solid rgba(148,163,184,0.4)",
+                  color: "#fff",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.45)"
+                }}
+                aria-label="Close"
+              >
+                <X size={18} />
+              </button>
+              <div style={{ position: "relative", aspectRatio: "16 / 9", background: "#000" }}>
+                <video
+                  src={encodeURI(modal.src)}
+                  controls
+                  autoPlay
+                  playsInline
+                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                />
+              </div>
+              <div style={{ padding: "0.9rem 1rem", borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ fontWeight: 700 }}>{modal.title}</div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {isDesktop && liveVisible && !footerVisible && (
         <motion.div
           initial={{ opacity: 0, y: 18, x: -12 }}

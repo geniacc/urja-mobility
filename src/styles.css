@@ -727,7 +727,7 @@ button {
 
 /* Sections */
 .section {
-  padding: 6rem 0;
+  padding: clamp(4rem, 6vw, 6rem) 0;
   position: relative;
 }
 
@@ -742,7 +742,7 @@ button {
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 700;
   margin-bottom: 1rem;
   background: linear-gradient(to right, #fff, #94a3b8);
@@ -751,8 +751,10 @@ button {
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
   color: var(--text-muted);
+  margin: 0 auto;
+  max-width: 48rem;
 }
 
 /* Cards */

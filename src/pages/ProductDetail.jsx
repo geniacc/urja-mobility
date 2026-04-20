@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { categories } from "../data/mockData";
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from "framer-motion";
-import { Battery, Zap, Target, Thermometer, ArrowLeft, CheckCircle2, ShieldCheck, Download, FileText, Sparkles } from "lucide-react";
+import { AnimatePresence, motion, useMotionValue, useMotionTemplate } from "framer-motion";
+import {
+  Zap, Battery, CheckCircle2, ShieldCheck, Box, Cpu,
+  ShoppingCart, Star, FileText, ChevronRight, Download,
+  TrendingDown, Leaf, Activity
+} from "lucide-react";
 
-// --- Components for Advanced Animations ---
-
+// --- Utility Components ---
 const SpotlightCard = ({ children, style = {}, spotlightColor = "rgba(255,255,255,0.1)" }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -17,106 +20,106 @@ const SpotlightCard = ({ children, style = {}, spotlightColor = "rgba(255,255,25
   }
 
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      className="group"
-      style={{ 
-        ...style, 
-        position: 'relative', 
-        overflow: 'hidden' 
-      }}
-    >
+    <div onMouseMove={handleMouseMove} className="group" style={{ ...style, position: 'relative', overflow: 'hidden' }}>
       <motion.div
         style={{
-          pointerEvents: "none",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: useMotionTemplate`
-            radial-gradient(
-              600px circle at ${mouseX}px ${mouseY}px,
-              ${spotlightColor},
-              transparent 80%
-            )
-          `,
-          opacity: 0,
-          zIndex: 1
+          pointerEvents: "none", position: "absolute", inset: 0,
+          background: useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, ${spotlightColor}, transparent 80%)`,
+          opacity: 0, zIndex: 1
         }}
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+        whileHover={{ opacity: 1 }} transition={{ duration: 0.3 }}
       />
-      <div style={{ position: 'relative', zIndex: 2 }}>
-        {children}
-      </div>
+      <div style={{ position: 'relative', zIndex: 2 }}>{children}</div>
     </div>
   );
 };
 
-const FloatingParticle = ({ color, delay }) => (
-  <motion.div
-    style={{
-      position: 'absolute',
-      width: Math.random() * 200 + 50,
-      height: Math.random() * 200 + 50,
-      borderRadius: '50%',
-      background: color,
-      filter: 'blur(80px)',
-      opacity: 0.15,
-      zIndex: 0,
-      pointerEvents: 'none',
-      top: Math.random() * 100 + '%',
-      left: Math.random() * 100 + '%',
-    }}
-    animate={{
-      x: [0, Math.random() * 100 - 50, 0],
-      y: [0, Math.random() * 100 - 50, 0],
-      scale: [1, 1.2, 1],
-    }}
-    transition={{
-      duration: Math.random() * 10 + 10,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay: delay
-    }}
-  />
-);
+// --- Data Formatters ---
+const formatValue = (value) => {
+  if (value === null || value === undefined || value === "Pending" || value === "TBD" || value === "") return "-";
+  if (Array.isArray(value)) return value.length ? value.join(", ") : "-";
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
+};
 
-// --- Main Component ---
+const humanizeKey = (key) => {
+  if (!key) return "";
+  return String(key).replace(/_/g, " ").replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/\s+/g, " ").trim()
+    .replace(/^./, str => str.toUpperCase());
+};
+
+const flattenObject = (obj, prefix = "") => {
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return {};
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    const nextKey = prefix ? `${prefix}.${key}` : key;
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      Object.assign(acc, flattenObject(value, nextKey));
+      return acc;
+    }
+    acc[nextKey] = value;
+    return acc;
+  }, {});
+};
+
+// --- Animation Variants ---
+const pageVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
+};
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const [activeImage, setActiveImage] = useState(0);
+  const [activeMainTab, setActiveMainTab] = useState("features"); // 'features', 'specs', 'roi', 'downloads'
 
-  // Find product logic
+  // E-commerce State
+  const [quantity, setQuantity] = useState(1);
+
+
+  // Helper to map title to specific asset filenames with URL encoding for spaces
+  // Helper to map title to specific asset filenames with URL encoding for spaces
+  const getProductImage = (title) => {
+    if (!title) return null;
+    const t = title.toLowerCase();
+
+    // 1. INVERTERS, MPPT & UPS (Checked first to prevent number overlap)
+    if (t.includes("mppt")) return "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
+
+    if (t.includes("3000va") || t.includes("3kva")) return "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("2000va") || t.includes("2kva")) return "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("1050va")) return "/assets/1050VA%20Solar%20UPS.jpeg";
+    if (t.includes("1000va") || t.includes("1kva")) return "/assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg";
+    if (t.includes("850va")) return "/assets/850VA%2012V%20Solar%20UPS.jpeg";
+    if (t.includes("300va")) return "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+
+    // 2. LFP BATTERIES (With added safety limits)
+    if (t.includes("232")) return "/assets/51.2v%20232ah.png";
+    if (t.includes("64v") && t.includes("105")) return "/assets/64v%20105ah.png";
+    if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah.png";
+    if (t.includes("100") && !t.includes("1000")) return "/assets/51.2v%20100ah.png";
+    if (t.includes("50a")) return "/assets/51.2v%2050a.png";
+    if (t.includes("25a")) return "/assets/51.2v%2025a.png";
+
+    return null;
+  };
+  // 1. Find Product
   let product = null;
   let category = null;
-
   for (const cat of categories) {
     for (const sub of cat.subcategories) {
       if (sub.items) {
         const found = sub.items.find(i => i.id === id);
-        if (found) {
-          product = found;
-          category = cat;
-          break;
-        }
+        if (found) { product = found; category = cat; break; }
       }
       if (sub.groups) {
         for (const group of sub.groups) {
           const found = group.items.find(i => i.id === id);
-          if (found) {
-            product = found;
-            category = cat;
-            break;
-          }
+          if (found) { product = found; category = cat; break; }
         }
       }
       if (product) break;
@@ -124,730 +127,369 @@ export default function ProductDetail() {
     if (product) break;
   }
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [id]);
 
   if (!product) {
     return (
-      <div style={{ padding: "4rem", textAlign: "center", minHeight: "60vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ padding: "10rem 2rem", textAlign: "center", minHeight: "100vh", paddingTop: "var(--nav-height, 100px)" }}>
         <h2>Product not found</h2>
-        <Link to="/products" style={{ marginTop: "1rem", color: "var(--primary)" }}>Back to Products</Link>
+        <Link to="/products" style={{ color: "var(--primary)", marginTop: "1rem", display: "inline-block" }}>Back to Products</Link>
       </div>
     );
   }
 
+  const accentColor = category ? category.color : "#3b82f6";
   const details = product.details || {};
-  const accentColor = category ? category.color : "var(--primary)";
+  const batteryImg = getProductImage(product.title);
 
-  const getIcon = (iconName) => {
-    switch(iconName) {
-      case 'battery': return <Battery size={32} strokeWidth={1.5} />;
-      case 'zap': return <Zap size={32} strokeWidth={1.5} />;
-      case 'target': return <Target size={32} strokeWidth={1.5} />;
-      case 'thermometer': return <Thermometer size={32} strokeWidth={1.5} />;
-      default: return <ShieldCheck size={32} strokeWidth={1.5} />;
-    }
-  };
+  // 2. Extract Technical Data
+  const technicalSpecs = useMemo(() => {
+    const provided = details.technical || {};
+    const derived = {
+      general: provided.general || details.general,
+      electrical: provided.electrical || details.electrical || details.electricalSpecs,
+      mechanical: provided.mechanical || details.mechanical || details.mechanicalSpecs,
+      bms: provided.bms || details.bms || details.protection,
+      compliance: provided.compliance || details.compliance || details.safetyCompliance
+    };
+    return Object.values(derived).some(v => v) ? derived : null;
+  }, [details]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
+  const techSections = useMemo(() => {
+    if (!technicalSpecs) return [];
+    return [
+      { id: "general", label: "General", data: technicalSpecs.general },
+      { id: "electrical", label: "Electrical", data: technicalSpecs.electrical },
+      { id: "mechanical", label: "Mechanical", data: technicalSpecs.mechanical },
+      { id: "bms", label: "BMS / Protection", data: technicalSpecs.bms },
+      { id: "compliance", label: "Compliance", data: technicalSpecs.compliance }
+    ].filter(s => s.data && (Array.isArray(s.data) ? s.data.length > 0 : Object.keys(s.data).length > 0));
+  }, [technicalSpecs]);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: "spring", stiffness: 100, damping: 20 }
-    }
-  };
+  const [activeTechSection, setActiveTechSection] = useState(techSections[0]?.id || "general");
+
 
   return (
-    <div className="page-container" style={{ background: 'var(--bg)', minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
-      
-      {/* Scroll Progress Bar */}
-      <motion.div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '4px',
-          background: accentColor,
-          transformOrigin: '0%',
-          scaleX,
-          zIndex: 100
-        }}
-      />
-
-      {/* Hero Section */}
-      <section ref={targetRef} style={{ 
-        position: 'relative', 
-        height: '85vh', 
-        minHeight: '600px',
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        overflow: 'hidden',
-        color: '#fff'
-      }}>
-        {details.heroImage ? (
-          <motion.div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '120%', 
-            backgroundImage: `url('${details.heroImage}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'brightness(0.3)',
-            y: useTransform(scrollYProgress, [0, 1], ['0%', '30%']),
-            scale: useTransform(scrollYProgress, [0, 1], [1.1, 1])
-          }} />
-        ) : (
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: `linear-gradient(135deg, ${accentColor} 0%, #000 100%)`
-          }} />
-        )}
-        
-        {/* Animated Particles in Hero */}
-        <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-          {[...Array(5)].map((_, i) => (
-            <FloatingParticle key={i} color={accentColor} delay={i * 2} />
-          ))}
+    <motion.div
+      className="page-container"
+      initial="hidden" animate="visible" variants={pageVariants}
+      style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "6rem", paddingTop: "var(--nav-height, 100px)", overflowX: "hidden" }}
+    >
+      {/* Breadcrumbs */}
+      <motion.div variants={itemVariants} style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border)", padding: "1rem 2rem" }}>
+        <div className="container" style={{ maxWidth: "1280px", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem", color: "var(--text-muted)" }}>
+          <Link to="/" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Home</Link>
+          <ChevronRight size={14} />
+          <Link to="/products" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Products</Link>
+          <ChevronRight size={14} />
+          <span style={{ color: "var(--text-muted)" }}>{category?.title || "Category"}</span>
+          <ChevronRight size={14} />
+          <span style={{ color: accentColor, fontWeight: 600 }}>{product.title}</span>
         </div>
+      </motion.div>
 
-        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <Link to="/products" style={{ 
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '0.5rem', 
-              color: 'rgba(255,255,255,0.8)', 
-              marginBottom: '2rem',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-              background: 'rgba(255,255,255,0.1)',
-              padding: '0.5rem 1rem',
-              borderRadius: '99px',
-              backdropFilter: 'blur(4px)',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}>
-              <ArrowLeft size={16} /> Back to Products
-            </Link>
-            
-            <h1 style={{ 
-              fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
-              marginBottom: '1.5rem', 
-              fontWeight: '800', 
-              lineHeight: 1.1,
-              textShadow: '0 20px 40px rgba(0,0,0,0.5)',
-              letterSpacing: '-2px'
-            }}>
-              {product.title.split(" ").map((word, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 50, rotate: 5 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  transition={{ delay: i * 0.15, type: "spring", stiffness: 100 }}
-                  style={{ display: 'inline-block', marginRight: '0.3em' }}
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </h1>
-            
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.9 }}
-              transition={{ delay: 0.8, duration: 1 }}
-              style={{ 
-                fontSize: 'clamp(1.2rem, 2vw, 1.5rem)', 
-                maxWidth: '700px', 
-                margin: '0 auto',
-                lineHeight: 1.6,
-                fontWeight: 300
-              }}
-            >
-              {product.desc}
-            </motion.p>
+      <div className="container" style={{ maxWidth: "1280px", padding: "3rem 2rem" }}>
 
-            <motion.div 
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1, type: "spring", bounce: 0.5 }}
-              style={{ 
-                marginTop: '3rem', 
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '1rem 2.5rem', 
-                background: accentColor, 
-                borderRadius: '99px',
-                fontWeight: '700',
-                fontSize: '1.1rem',
-                boxShadow: `0 0 50px ${accentColor}80`,
-                textTransform: 'uppercase',
-                letterSpacing: '1px'
-              }}
-            >
-              <Zap size={20} fill="currentColor" />
-              {product.specs}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+        {/* Top Product Box */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))", gap: "4rem", marginBottom: "5rem" }}>
 
-      {/* Product Overview Section */}
-      {details.overview && (
-        <section style={{ padding: '6rem 2rem', background: 'var(--bg)', position: 'relative' }}>
-          <div className="container" style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', marginBottom: '1.5rem', fontWeight: '700' }}>
-                Product <span style={{ color: accentColor }}>Overview</span>
-              </h2>
-              <p style={{ 
-                fontSize: '1.2rem', 
-                lineHeight: 1.8, 
-                color: 'var(--text-primary)',
-                fontWeight: 400 
-              }}>
-                {details.overview}
-              </p>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
-      {/* Why Lithium-ion Section */}
-      {details.whyLithiumIon && (
-        <section style={{ padding: '6rem 2rem', background: 'var(--bg-2)' }}>
-          <div className="container">
-             <motion.h2 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', marginBottom: '3rem', fontWeight: '700', textAlign: 'center' }}
-             >
-               Why <span style={{ color: accentColor }}>Lithium-ion</span>
-             </motion.h2>
-             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-               {details.whyLithiumIon.map((group, idx) => (
-                 <motion.div 
-                   key={idx}
-                   initial={{ opacity: 0, y: 20 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: idx * 0.1 }}
-                   style={{ background: 'var(--bg)', padding: '2rem', borderRadius: '16px', border: '1px solid var(--border)' }}
-                 >
-                   <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: accentColor, fontWeight: '700' }}>{group.title}</h3>
-                   <ul style={{ listStyle: 'none', padding: 0 }}>
-                     {group.items.map((item, i) => (
-                       <li key={i} style={{ marginBottom: '0.75rem', display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.95rem', color: 'var(--text-primary)' }}>
-                         <span style={{ color: accentColor, marginTop: '4px' }}>•</span>
-                         {item}
-                       </li>
-                     ))}
-                   </ul>
-                 </motion.div>
-               ))}
-             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Applications Section */}
-      {details.applications && (
-        <section style={{ padding: '6rem 2rem', background: 'var(--bg)' }}>
-          <div className="container">
-             <motion.h2 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', marginBottom: '3rem', fontWeight: '700', textAlign: 'center' }}
-             >
-               Applications
-             </motion.h2>
-             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-               {details.applications.map((app, idx) => (
-                 <motion.div 
-                   key={idx}
-                   initial={{ opacity: 0, y: 20 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ delay: idx * 0.1 }}
-                   style={{ padding: '1.5rem', borderLeft: `4px solid ${accentColor}`, background: 'var(--bg-2)' }}
-                 >
-                   <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', fontWeight: '700' }}>{app.title}</h3>
-                   <p style={{ color: 'var(--muted)', lineHeight: 1.6, fontSize: '0.95rem' }}>{app.desc}</p>
-                 </motion.div>
-               ))}
-             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Versatile Product Line Section */}
-      {details.versatileLine && (
-        <section style={{ padding: '6rem 2rem', background: 'var(--bg-2)' }}>
-          <div className="container" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-             <motion.h2 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', marginBottom: '2rem', fontWeight: '700' }}
-             >
-               Versatile <span style={{ color: accentColor }}>Product Line</span>
-             </motion.h2>
-             <motion.div
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--text-primary)' }}
-             >
-               {details.versatileLine.map((line, idx) => (
-                 <p key={idx} style={{ marginBottom: '1rem' }}>{line}</p>
-               ))}
-             </motion.div>
-          </div>
-        </section>
-      )}
-
-      {/* Safety Features Section */}
-      {details.safetyFeatures && (
-        <section style={{ padding: '8rem 2rem', background: 'var(--bg)', position: 'relative' }}>
-          {/* Background Elements */}
-          <div style={{ position: 'absolute', top: '10%', right: '-10%', width: '600px', height: '600px', background: `radial-gradient(circle, ${accentColor}08 0%, transparent 70%)`, pointerEvents: 'none' }} />
-          
-          <div className="container">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              style={{ textAlign: 'center', marginBottom: '5rem' }}
-            >
-              <div style={{ display: 'inline-block', padding: '0.5rem 1rem', borderRadius: '99px', background: `${accentColor}15`, color: accentColor, fontWeight: '600', marginBottom: '1rem' }}>
-                <ShieldCheck size={16} style={{ display: 'inline', marginRight: '0.5rem' }} />
-                Maximum Protection
-              </div>
-              <h2 style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', marginBottom: '1.5rem', fontWeight: '800' }}>
-                Safety <span style={{ color: accentColor }}>First</span>
-              </h2>
-              <p style={{ color: 'var(--muted)', maxWidth: '600px', margin: '0 auto', fontSize: '1.2rem' }}>
-                Engineered with multi-layer protection systems to ensure reliability in the most demanding conditions.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-                gap: '2rem' 
-              }}
-            >
-              {details.safetyFeatures.map((feature, idx) => (
-                <motion.div key={idx} variants={itemVariants}>
-                  <SpotlightCard
-                    spotlightColor={accentColor}
-                    style={{
-                      background: 'var(--bg-2)',
-                      padding: '2.5rem',
-                      borderRadius: '24px',
-                      border: '1px solid var(--border)',
-                      textAlign: 'left',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '1.5rem',
-                      height: '100%'
-                    }}
-                  >
-                    <div style={{ 
-                      width: '60px', 
-                      height: '60px', 
-                      borderRadius: '16px', 
-                      background: `linear-gradient(135deg, ${accentColor}20, transparent)`, 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      color: accentColor,
-                      boxShadow: `0 10px 30px -10px ${accentColor}40`
-                    }}>
-                      {getIcon(feature.icon)}
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: '1.4rem', fontWeight: '700', marginBottom: '0.75rem' }}>{feature.title}</h3>
-                      <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{feature.desc}</p>
-                    </div>
-                  </SpotlightCard>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-      )}
-
-      {/* Explore Features Section */}
-      {details.exploreFeatures && (
-        <section style={{ padding: '8rem 2rem', position: 'relative' }}>
-          <div className="container">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              style={{ textAlign: 'center', marginBottom: '5rem' }}
-            >
-              <h2 style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', marginBottom: '1.5rem', fontWeight: '800' }}>
-                Explore <span style={{ color: accentColor }}>Features</span>
-              </h2>
-              <p style={{ color: 'var(--muted)', maxWidth: '600px', margin: '0 auto', fontSize: '1.2rem' }}>
-                {details.exploreFeaturesDescription || "Trontek Battery offers complete installation solutions for your specific cart"}
-              </p>
-            </motion.div>
-
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-              gap: '2.5rem' 
-            }}>
-              {details.exploreFeatures.map((feature, idx) => (
+          {/* Left: Gallery */}
+          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <SpotlightCard spotlightColor={accentColor} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", height: "500px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+              <motion.div
+                animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{ position: "absolute", width: "60%", height: "60%", background: `radial-gradient(circle, ${accentColor}40 0%, transparent 70%)`, filter: "blur(40px)" }}
+              />
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
+                  key={activeImage}
+                  initial={{ opacity: 0, scale: 0.9, x: 50 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 1.1, x: -50 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipe = Math.abs(offset.x) * velocity.x;
+                    if (swipe < -10000 || offset.x < -50) {
+                      setActiveImage((prev) => (prev + 1) % 4); // Swipe left
+                    } else if (swipe > 10000 || offset.x > 50) {
+                      setActiveImage((prev) => (prev - 1 + 4) % 4); // Swipe right
+                    }
+                  }}
+                  style={{ zIndex: 2, cursor: "grab", touchAction: "none", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}
+                  whileTap={{ cursor: "grabbing", scale: 0.95 }}
                 >
-                  <SpotlightCard
-                    spotlightColor={accentColor}
-                    style={{
-                      background: 'var(--bg-2)',
-                      padding: '0', 
-                      borderRadius: '24px',
-                      border: '1px solid var(--border)',
-                      overflow: 'hidden',
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column'
-                    }}
-                  >
-                    <div style={{ height: '220px', overflow: 'hidden', width: '100%' }}>
-                      <img 
-                        src={feature.image} 
-                        alt={feature.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                        onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
-                        onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                      />
-                    </div>
-                    <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <h3 style={{ fontSize: '1.4rem', fontWeight: '700', marginBottom: '0.5rem', textTransform: 'capitalize' }}>{feature.title}</h3>
-                      {feature.desc && <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{feature.desc}</p>}
-                    </div>
-                  </SpotlightCard>
+                  {batteryImg ? (
+                    <img
+                      src={batteryImg}
+                      alt={product.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        filter: `drop-shadow(0 30px 50px ${accentColor}40)`,
+                        pointerEvents: "none"
+                      }}
+                    />
+                  ) : (
+                    <Battery size={200} color={accentColor} strokeWidth={0.5} style={{ filter: `drop-shadow(0 30px 50px ${accentColor}50)` }} />
+                  )}
                 </motion.div>
+              </AnimatePresence>
+            </SpotlightCard>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+              {[1, 2, 3, 4].map((item, idx) => (
+                <motion.button
+                  key={idx} onClick={() => setActiveImage(idx)} whileHover={{ y: -5 }}
+                  style={{ position: "relative", height: "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden" }}
+                >
+                  {activeImage === idx && <motion.div layoutId="activeThumb" style={{ position: "absolute", inset: 0, background: `${accentColor}10` }} />}
+
+                  {idx === 0 && batteryImg ? (
+                    <img src={batteryImg} style={{ width: "70%", height: "70%", objectFit: "contain", zIndex: 2, opacity: activeImage === idx ? 1 : 0.6 }} />
+                  ) : (
+                    <Box size={28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
+                  )}
+                </motion.button>
               ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Key Features Section */}
-      <section style={{ padding: '8rem 2rem', background: 'var(--bg-2)', overflow: 'hidden', position: 'relative' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '6rem', alignItems: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', marginBottom: '3rem', fontWeight: '800' }}>
-              Key <span style={{ color: accentColor }}>Features</span>
-            </h2>
-            {details.keyFeatures ? (
-              <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '1.5rem' }}>
-                {details.keyFeatures.map((feature, idx) => (
-                  <motion.li 
-                    key={idx} 
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.05 + 0.2 }}
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '1.5rem', 
-                      fontSize: '1.15rem', 
-                      color: 'var(--text-primary)',
-                      padding: '1.25rem',
-                      background: 'var(--bg)',
-                      borderRadius: '16px',
-                      border: '1px solid var(--border)',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
-                    }}
-                  >
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ type: "spring", delay: idx * 0.05 + 0.3 }}
-                    >
-                      <CheckCircle2 size={24} color={accentColor} />
-                    </motion.div>
-                    {feature}
-                  </motion.li>
-                ))}
-              </ul>
-            ) : (
-              <div style={{ padding: '2rem', border: '1px dashed var(--border)', borderRadius: '12px', color: 'var(--muted)' }}>
-                <p>Detailed features for this product are coming soon.</p>
-              </div>
-            )}
           </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", duration: 1.2, bounce: 0.4 }}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative'
-            }}
-          >
-              {/* Decorative Animated Circles */}
-              {[1, 2, 3].map((i) => (
-                 <motion.div
-                  key={i}
-                  animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.1, 0.3] }}
-                  transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut" }}
-                  style={{
-                    position: 'absolute',
-                    width: `${100 + i * 20}%`,
-                    height: `${100 + i * 20}%`,
-                    border: `1px solid ${accentColor}`,
-                    borderRadius: '50%',
-                    zIndex: 0,
-                    opacity: 0.2
-                  }}
-                 />
-              ))}
 
-              {/* Glow behind image */}
-              <div style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                background: `radial-gradient(circle, ${accentColor}40 0%, transparent 70%)`,
-                filter: 'blur(40px)',
-                zIndex: 0
-              }} />
+          {/* Right: Modern E-Commerce Buy Box */}
+          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column" }}>
 
-              {product.image && (
-                <motion.div 
-                  whileHover={{ scale: 1.05, rotate: 2 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  style={{ 
-                    padding: '4rem', 
-                    background: 'rgba(255,255,255,0.05)', 
-                    backdropFilter: 'blur(20px)',
-                    borderRadius: '50%', 
-                    border: `1px solid ${accentColor}40`,
-                    boxShadow: `0 20px 60px ${accentColor}20`,
-                    zIndex: 1,
-                    position: 'relative'
-                  }}
-                >
-                  <img src={product.image} alt={product.title} style={{ width: '100%', maxWidth: '380px', objectFit: 'contain', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }} />
-                </motion.div>
-              )}
+            {/* Category & SKU */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+              <span style={{ color: accentColor, fontWeight: 700, textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px" }}>
+                {category?.title || "Premium Series"}
+              </span>
+              <span style={{ color: "var(--text-muted)", fontSize: "0.85rem", fontFamily: "monospace" }}>
+                SKU: URJ-{product.id || "LFP-105-X"}
+              </span>
+            </div>
+
+            {/* Title & Reviews */}
+            <h1 style={{ fontSize: "clamp(2rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1rem" }}>
+              {product.title}
+            </h1>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border)" }}>
+              <div style={{ display: "flex", color: "#f59e0b" }}>
+                {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="#f59e0b" />)}
+              </div>
+              <span style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.95rem" }}>4.8</span>
+              <span style={{ color: "var(--text-muted)", fontSize: "0.95rem", textDecoration: "underline", cursor: "pointer" }}>
+                Read 124 Reviews
+              </span>
+            </div>
+
+            {/* Pricing Section */}
+            <div style={{ marginBottom: "1.5rem" }}>
+              <div style={{ display: "flex", alignItems: "flex-end", gap: "1rem" }}>
+                <span style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>
+                  ₹{product.price || "85,999"}
+                </span>
+                <span style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--text-muted)", textDecoration: "line-through", marginBottom: "0.3rem" }}>
+                  ₹{product.msrp || "99,999"}
+                </span>
+                <span style={{ background: "#10b98115", color: "#10b981", padding: "4px 8px", borderRadius: "6px", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.4rem" }}>
+                  Save 14%
+                </span>
+              </div>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.5rem" }}>Includes GST. EMI starts at ₹4,100/mo.</p>
+            </div>
+
+            {/* Description */}
+            <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.6, marginBottom: "2rem" }}>
+              {product.desc || "Engineered to the URJA MOBILITY standard for maximum reliability. Experience seamless LFP power delivery and smart energy management for heavy storage applications."}
+            </p>
+
+            {/* Stock & Delivery (Urgency) */}
+            <div style={{ background: "var(--bg-2)", padding: "1.2rem", borderRadius: "12px", border: "1px solid var(--border)", marginBottom: "2rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
+                <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px #10b98180" }}></div>
+                <span style={{ fontWeight: 700, color: "var(--text-primary)" }}>In Stock & Ready to Ship</span>
+              </div>
+              <div style={{ color: "var(--text-muted)", fontSize: "0.9rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                <span><strong style={{ color: "var(--text-primary)" }}>Free Delivery</strong> to West Bengal via Urja Logistics.</span>
+                <span>Order within <strong style={{ color: "#f59e0b" }}>3 hrs 15 mins</strong> for dispatch today.</span>
+              </div>
+            </div>
+
+            {/* Action Controls: Quantity + Add to Cart */}
+            <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem" }}>
+              {/* Quantity Selector */}
+              <div style={{ display: "flex", alignItems: "center", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.5rem" }}>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "36px", height: "36px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseOver={(e) => e.target.style.background = "var(--bg-3)"} onMouseOut={(e) => e.target.style.background = "transparent"}>-</button>
+                <span style={{ width: "40px", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "36px", height: "36px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseOver={(e) => e.target.style.background = "var(--bg-3)"} onMouseOut={(e) => e.target.style.background = "transparent"}>+</button>
+              </div>
+
+              {/* Primary CTA */}
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: "0 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}>
+                <ShoppingCart size={22} /> Add to Cart
+              </motion.button>
+            </div>
+
+            {/* Trust Badges */}
+            <div style={{ display: "flex", justifyContent: "center", gap: "2rem", marginTop: "1rem", color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: 600 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><ShieldCheck size={18} color={accentColor} /> Secure Checkout</div>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><CheckCircle2 size={18} color={accentColor} /> 5-Year Warranty</div>
+            </div>
+
           </motion.div>
         </div>
-      </section>
 
-      {/* Technical Specifications Section */}
-      <section style={{ padding: '8rem 2rem', background: 'var(--bg)', position: 'relative' }}>
-         {/* Background Elements */}
-         <div style={{ position: 'absolute', bottom: '10%', left: '-10%', width: '800px', height: '800px', background: `radial-gradient(circle, ${accentColor}05 0%, transparent 70%)`, pointerEvents: 'none' }} />
-         
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ textAlign: 'center', marginBottom: '4rem' }}
-          >
-             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', borderRadius: '99px', background: 'var(--bg-2)', border: '1px solid var(--border)', marginBottom: '1rem', color: 'var(--muted)' }}>
-                <Sparkles size={16} color={accentColor} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>Performance Metrics</span>
-              </div>
-            <h2 style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', marginBottom: '1rem', fontWeight: '800' }}>
-              Technical <span style={{ color: accentColor }}>Specifications</span>
-            </h2>
-            <p style={{ color: 'var(--muted)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem' }}>
-              Detailed performance metrics and operating parameters.
-            </p>
-          </motion.div>
+        {/* --- DYNAMIC TABS SECTION --- */}
+        <motion.div variants={itemVariants} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", overflow: "hidden" }}>
 
-          {details.techSpecs ? (
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', 
-                gap: '1.5rem' 
-              }}
-            >
-              {Object.entries(details.techSpecs).map(([key, value], idx) => (
-                <motion.div key={idx} variants={itemVariants}>
-                  <SpotlightCard
-                    spotlightColor={accentColor}
-                    style={{
-                      background: 'var(--bg-2)',
-                      padding: '1.5rem',
-                      borderRadius: '20px',
-                      border: '1px solid var(--border)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      height: '100%',
-                      boxShadow: '0 4px 20px -10px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    <div style={{ color: 'var(--muted)', fontSize: '0.85rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
-                      {key}
-                    </div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: '700', color: 'var(--text-primary)', fontFamily: 'monospace' }}>
-                      {value}
-                    </div>
-                  </SpotlightCard>
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : details.specImage ? (
-             // Fallback to Image but stylized
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              style={{ 
-                background: 'var(--bg-2)', 
-                padding: '2.5rem', 
-                borderRadius: '32px', 
-                border: '1px solid var(--border)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '2.5rem',
-                maxWidth: '900px',
-                margin: '0 auto',
-                position: 'relative',
-                overflow: 'hidden',
-                boxShadow: '0 20px 50px -20px rgba(0,0,0,0.2)'
-              }}
-            >
-               {/* Ambient Glow */}
-               <div style={{ position: 'absolute', top: '-50%', left: '0', right: '0', height: '100%', background: `linear-gradient(to bottom, ${accentColor}10, transparent)`, pointerEvents: 'none' }} />
-
-              <div style={{ 
-                position: 'absolute', 
-                top: '1.5rem', 
-                right: '1.5rem',
-                padding: '0.5rem 1rem',
-                background: accentColor,
-                color: '#fff',
-                borderRadius: '99px',
-                fontSize: '0.8rem',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                zIndex: 2,
-                boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
-              }}>
-                <FileText size={14} /> Spec Sheet
-              </div>
-              
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                style={{ width: '100%', borderRadius: '16px', overflow: 'hidden' }}
-              >
-                <img 
-                  src={details.specImage} 
-                  alt={`${product.title} Specifications`} 
-                  style={{ 
-                    width: '100%', 
-                    height: 'auto', 
-                    borderRadius: '16px',
-                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
-                  }} 
-                />
-              </motion.div>
-              
-              <motion.a 
-                href={details.specImage} 
-                download 
-                whileHover={{ scale: 1.05, boxShadow: `0 0 20px ${accentColor}60` }}
-                whileTap={{ scale: 0.95 }}
+          <div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.02)", position: "relative" }}>
+            {[
+              { id: "features", label: "Core Value", icon: <ShieldCheck size={18} /> },
+              { id: "specs", label: "Technical Data", icon: <Cpu size={18} /> },
+              { id: "downloads", label: "Downloads", icon: <Download size={18} /> }
+            ].map(tab => (
+              <button
+                key={tab.id} onClick={() => setActiveMainTab(tab.id)}
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '1rem 2.5rem',
-                  background: accentColor,
-                  color: '#fff',
-                  borderRadius: '16px',
-                  fontWeight: '700',
-                  textDecoration: 'none',
-                  fontSize: '1.1rem',
-                  boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
-                  zIndex: 2
+                  flex: 1, minWidth: "160px", padding: "1.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem",
+                  background: "transparent", border: "none",
+                  color: activeMainTab === tab.id ? accentColor : "var(--text-muted)",
+                  fontWeight: activeMainTab === tab.id ? 800 : 600, cursor: "pointer", position: "relative", zIndex: 2
                 }}
               >
-                <Download size={20} /> Download Specifications
-              </motion.a>
-            </motion.div>
-          ) : (
-            <div style={{ textAlign: 'center', color: 'var(--muted)', padding: '4rem' }}>
-              <p>Technical specifications are currently unavailable for this product.</p>
-            </div>
-          )}
-        </div>
-      </section>
-    </div>
+                {activeMainTab === tab.id && <motion.div layoutId="activeTabBottom" style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "3px", background: accentColor, borderRadius: "3px 3px 0 0" }} />}
+                {tab.icon} {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ padding: "4rem 3rem", minHeight: "450px" }}>
+            <AnimatePresence mode="wait">
+
+              {/* TAB 1: CORE FEATURES */}
+              {activeMainTab === "features" && (
+                <motion.div key="features" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+                  {[
+                    { icon: <Activity size={32} />, title: "Smart Battery Management", desc: "Built-in algorithms protect against overcharging, short-circuiting, and temperature extremes automatically." },
+                    { icon: <Leaf size={32} />, title: "Eco-Friendly Footprint", desc: "100% recyclable components with zero toxic heavy metals. Clean energy from manufacturing to end-of-life." },
+                    { icon: <ShieldCheck size={32} />, title: "Drop-in Replacement", desc: "Designed to perfectly match standard form factors. Upgrade your legacy systems in minutes, not hours." }
+                  ].map((feat, i) => (
+                    <SpotlightCard key={i} spotlightColor={accentColor} style={{ padding: "2.5rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "20px" }}>
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        style={{ color: accentColor, marginBottom: "1.5rem", background: `${accentColor}15`, display: "inline-block", padding: "1rem", borderRadius: "16px", originX: 0 }}
+                      >
+                        {feat.icon}
+                      </motion.div>
+                      <h3 style={{ fontSize: "1.3rem", fontWeight: 800, marginBottom: "1rem", color: "var(--text-primary)" }}>{feat.title}</h3>
+                      <p style={{ color: "var(--text-muted)", lineHeight: 1.6 }}>{feat.desc}</p>
+                    </SpotlightCard>
+                  ))}
+                </motion.div>
+              )}
+
+              {/* TAB 2: TECHNICAL SPECS */}
+              {activeMainTab === "specs" && (
+                <motion.div key="specs" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+                  {techSections.length > 0 ? (
+                    <div style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "4rem" }}>
+                      {/* Side Nav */}
+                      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                        {techSections.map(section => (
+                          <button
+                            key={section.id} onClick={() => setActiveTechSection(section.id)}
+                            style={{ textAlign: "left", padding: "1rem 1.2rem", borderRadius: "12px", border: "none", cursor: "pointer", transition: "all 0.2s", background: activeTechSection === section.id ? `${accentColor}15` : "transparent", color: activeTechSection === section.id ? accentColor : "var(--text-primary)", fontWeight: activeTechSection === section.id ? 800 : 600 }}
+                          >
+                            {section.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Data Display */}
+                      <div style={{ position: "relative" }}>
+                        <AnimatePresence mode="wait">
+                          {techSections.map(section => {
+                            if (section.id !== activeTechSection) return null;
+                            const isList = Array.isArray(section.data);
+                            const entries = !isList ? Object.entries(flattenObject(section.data)) : [];
+
+                            return (
+                              <motion.div key={section.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }}>
+                                <h3 style={{ fontSize: "1.8rem", fontWeight: 800, marginBottom: "2rem", color: "var(--text-primary)" }}>{section.label} Specifications</h3>
+
+                                {isList ? (
+                                  <ul style={{ display: "grid", gap: "1rem", listStyle: "none", padding: 0 }}>
+                                    {section.data.map((item, idx) => (
+                                      <li key={idx} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", paddingBottom: "1rem", borderBottom: "1px solid var(--border)" }}>
+                                        <CheckCircle2 size={20} color={accentColor} style={{ flexShrink: 0, marginTop: "2px" }} />
+                                        <span style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>{formatValue(item)}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <div style={{ display: "grid", gap: "0", background: "var(--bg)", borderRadius: "16px", border: "1px solid var(--border)", overflow: "hidden" }}>
+                                    {entries.map(([key, value], idx) => (
+                                      <div key={key} style={{ display: "grid", gridTemplateColumns: "1fr 2fr", padding: "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
+                                        <div style={{ color: "var(--text-muted)", fontWeight: 600, display: "flex", alignItems: "center" }}>{humanizeKey(key)}</div>
+                                        <div style={{ color: "var(--text-primary)", fontWeight: 700, fontFamily: "monospace", fontSize: "1.1rem" }}>
+                                          {Array.isArray(value) ? value.join(", ") : formatValue(value)}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </motion.div>
+                            );
+                          })}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ textAlign: "center", padding: "4rem 2rem" }}>
+                      <Cpu size={48} color="var(--text-muted)" style={{ marginBottom: "1rem", opacity: 0.5 }} />
+                      <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)" }}>Full Specifications Pending</h3>
+                      <p style={{ color: "var(--text-muted)", marginTop: "0.5rem" }}>Detailed engineering data is currently being updated for this model.</p>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
+
+              {/* TAB 4: DOWNLOADS */}
+              {activeMainTab === "downloads" && (
+                <motion.div key="downloads" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "2rem" }}>
+                  {[
+                    { title: "Product Datasheet", desc: "Comprehensive technical specifications", type: "PDF", size: "2.4 MB" },
+                    { title: "Installation Manual", desc: "Wiring and mounting instructions", type: "PDF", size: "5.1 MB" },
+                    { title: "CAD Drawings", desc: "2D/3D Models for facility planning", type: "ZIP", size: "12 MB" }
+                  ].map((doc, idx) => (
+                    <motion.div whileHover={{ y: -5, borderColor: accentColor }} key={idx} style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "20px", padding: "2rem", display: "flex", gap: "1.5rem", alignItems: "center", transition: "border-color 0.2s" }}>
+                      <div style={{ background: `${accentColor}15`, padding: "1.2rem", borderRadius: "16px", color: accentColor }}>
+                        <FileText size={28} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <h4 style={{ fontWeight: 800, marginBottom: "0.35rem", fontSize: "1.1rem" }}>{doc.title}</h4>
+                        <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: "0.75rem" }}>{doc.desc}</p>
+                        <div style={{ display: "flex", gap: "0.5rem", fontSize: "0.75rem", fontWeight: 800, color: "var(--text-secondary)" }}>
+                          <span style={{ background: "var(--bg-2)", border: "1px solid var(--border)", padding: "0.3rem 0.6rem", borderRadius: "6px" }}>{doc.type}</span>
+                          <span style={{ background: "var(--bg-2)", border: "1px solid var(--border)", padding: "0.3rem 0.6rem", borderRadius: "6px" }}>{doc.size}</span>
+                        </div>
+                      </div>
+                      <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} style={{ background: "transparent", border: "none", color: accentColor, cursor: "pointer" }}><Download size={24} /></motion.button>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 }
