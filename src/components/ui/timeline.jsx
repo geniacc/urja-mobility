@@ -55,11 +55,9 @@ export const Timeline = ({ data }) => {
             fontWeight: 800,
           }}
         >
-          Changelog from our journey
-        </h2>
-        <p style={{ color: "var(--text-muted)", maxWidth: "520px" }}>
           A timeline of highlights across our recent milestones.
-        </p>
+        </h2>
+
       </div>
 
       <div

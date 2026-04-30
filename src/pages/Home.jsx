@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Hero from "../components/Hero";
 import ImpactStats from "../components/ImpactStats";
-import CallToAction from "../components/CallToAction";
 import PresenceMap from "../components/PresenceMap";
 import StrategicRoadmap from "../components/StrategicRoadmap";
 import ZPatternFeature from "../components/ZPatternFeature";
@@ -341,7 +340,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <CallToAction />
       <AnimatePresence>
         {modal && (
           <motion.div

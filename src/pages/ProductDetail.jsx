@@ -76,20 +76,15 @@ export default function ProductDetail() {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
   const [activeMainTab, setActiveMainTab] = useState("features"); // 'features', 'specs', 'roi', 'downloads'
-
-  // E-commerce State
   const [quantity, setQuantity] = useState(1);
 
-
-  // Helper to map title to specific asset filenames with URL encoding for spaces
   // Helper to map title to specific asset filenames with URL encoding for spaces
   const getProductImage = (title) => {
     if (!title) return null;
     const t = title.toLowerCase();
 
-    // 1. INVERTERS, MPPT & UPS (Checked first to prevent number overlap)
+    // 1. INVERTERS, MPPT & UPS 
     if (t.includes("mppt")) return "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
-
     if (t.includes("3000va") || t.includes("3kva")) return "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
     if (t.includes("2000va") || t.includes("2kva")) return "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
     if (t.includes("1050va")) return "/assets/1050VA%20Solar%20UPS.jpeg";
@@ -97,7 +92,7 @@ export default function ProductDetail() {
     if (t.includes("850va")) return "/assets/850VA%2012V%20Solar%20UPS.jpeg";
     if (t.includes("300va")) return "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
 
-    // 2. LFP BATTERIES (With added safety limits)
+    // 2. LFP BATTERIES 
     if (t.includes("232")) return "/assets/51.2v%20232ah.png";
     if (t.includes("64v") && t.includes("105")) return "/assets/64v%20105ah.png";
     if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah.png";
@@ -107,6 +102,7 @@ export default function ProductDetail() {
 
     return null;
   };
+
   // 1. Find Product
   let product = null;
   let category = null;
@@ -140,7 +136,11 @@ export default function ProductDetail() {
 
   const accentColor = category ? category.color : "#3b82f6";
   const details = product.details || {};
-  const batteryImg = getProductImage(product.title);
+
+  // Set up the dynamic gallery array
+  const batteryImg = product.image || getProductImage(product.title);
+  const galleryImages = details.gallery || [batteryImg, null, null, null];
+  const currentDisplayImage = galleryImages[activeImage] || batteryImg;
 
   // 2. Extract Technical Data
   const technicalSpecs = useMemo(() => {
@@ -167,7 +167,6 @@ export default function ProductDetail() {
   }, [technicalSpecs]);
 
   const [activeTechSection, setActiveTechSection] = useState(techSections[0]?.id || "general");
-
 
   return (
     <motion.div
@@ -222,9 +221,9 @@ export default function ProductDetail() {
                   style={{ zIndex: 2, cursor: "grab", touchAction: "none", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}
                   whileTap={{ cursor: "grabbing", scale: 0.95 }}
                 >
-                  {batteryImg ? (
+                  {currentDisplayImage ? (
                     <img
-                      src={batteryImg}
+                      src={currentDisplayImage}
                       alt={product.title}
                       style={{
                         width: "100%",
@@ -242,20 +241,24 @@ export default function ProductDetail() {
             </SpotlightCard>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
-              {[1, 2, 3, 4].map((item, idx) => (
-                <motion.button
-                  key={idx} onClick={() => setActiveImage(idx)} whileHover={{ y: -5 }}
-                  style={{ position: "relative", height: "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden" }}
-                >
-                  {activeImage === idx && <motion.div layoutId="activeThumb" style={{ position: "absolute", inset: 0, background: `${accentColor}10` }} />}
+              {[0, 1, 2, 3].map((idx) => {
+                const thumbImg = galleryImages[idx];
 
-                  {idx === 0 && batteryImg ? (
-                    <img src={batteryImg} style={{ width: "70%", height: "70%", objectFit: "contain", zIndex: 2, opacity: activeImage === idx ? 1 : 0.6 }} />
-                  ) : (
-                    <Box size={28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
-                  )}
-                </motion.button>
-              ))}
+                return (
+                  <motion.button
+                    key={idx} onClick={() => setActiveImage(idx)} whileHover={{ y: -5 }}
+                    style={{ position: "relative", height: "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden" }}
+                  >
+                    {activeImage === idx && <motion.div layoutId="activeThumb" style={{ position: "absolute", inset: 0, background: `${accentColor}10` }} />}
+
+                    {thumbImg ? (
+                      <img src={thumbImg} style={{ width: "70%", height: "70%", objectFit: "contain", zIndex: 2, opacity: activeImage === idx ? 1 : 0.6 }} />
+                    ) : (
+                      <Box size={28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
+                    )}
+                  </motion.button>
+                )
+              })}
             </div>
           </motion.div>
 
