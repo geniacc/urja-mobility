@@ -24,23 +24,24 @@ export const categories = [
                   chemistry: "Lithium Iron Phosphate (LiFePO₄)",
                   nominalVoltage: "51.2V (16S configuration)",
                   nominalCapacity: "105Ah",
-                  nominalEnergy: "Pending"
+                  nominalEnergy: "~5.37 kWh (5376 Wh)"
                 },
                 electrical: {
                   nominalVoltage: "51.2V (16 cells in series, 3.2V each)",
                   nominalCapacity: "105Ah ± 2%",
+                  nominalEnergy: "~5376 Wh",
                   operatingVoltageRange: "44.8V – 58.4V",
                   roundTripEfficiency: "≥ 95%",
                   internalResistance: "≤ 50 mΩ"
                 },
                 bms: {
-                  functions: [
-                    "Cell voltage monitoring & balancing",
-                    "Over-voltage / under-voltage protection",
-                    "Over-current protection (charge & discharge)",
-                    "Short-circuit protection"
-                  ],
-                  communication: ["CAN bus (ISO 11898)", "RS485 / UART"]
+                  type: "JBD, Daly, Superpower",
+                  voltageProtection: "",
+                  currentProtection: "",
+                  thermalProtection: "",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: "",
+                  communication: ["CAN bus", "RS485", "Bluetooth", "IoT"]
                 },
                 mechanical: {
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
@@ -55,7 +56,6 @@ export const categories = [
             title: "51V 232AH",
             desc: "51V Series E-Rickshaw",
             specs: "51.2V • 232AH",
-
             details: {
               technical: {
                 application: "Electric 3-Wheelers (L5 loaders/e-rickshaw), Energy storage systems",
@@ -63,17 +63,23 @@ export const categories = [
                   chemistry: "Lithium Iron Phosphate (LiFePO₄)",
                   nominalVoltage: "51.2V (16S configuration)",
                   nominalCapacity: "232Ah",
-                  nominalEnergy: "~11.8 kWh"
+                  nominalEnergy: "~11.88 kWh (11878 Wh)"
                 },
                 electrical: {
                   nominalVoltage: "51.2V",
                   nominalCapacity: "232Ah ± 2%",
+                  nominalEnergy: "~11878 Wh",
                   operatingVoltageRange: "44.8V – 58.4V",
                   peakDischargeCurrent: "300A (10 sec)"
                 },
                 bms: {
-                  functions: ["Cell voltage monitoring", "Over-voltage protection", "Over-current protection", "Short-circuit protection"],
-                  communication: ["CAN bus", "RS485"]
+                  type: "JBD, Daly, Superpower",
+                  voltageProtection: "Cell voltage monitoring, Over-voltage protection",
+                  currentProtection: "Over-current protection, Short-circuit protection",
+                  thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: "Emergency cut-off",
+                  communication: ["CAN bus", "RS485", "Bluetooth", "IoT"]
                 },
                 mechanical: {
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
@@ -94,15 +100,22 @@ export const categories = [
                 general: {
                   chemistry: "Lithium Iron Phosphate (LiFePO₄)",
                   nominalVoltage: "64V (Pending series configuration)",
-                  nominalCapacity: "105Ah"
+                  nominalCapacity: "105Ah",
+                  nominalEnergy: "~6.72 kWh (6720 Wh)"
                 },
                 electrical: {
                   nominalVoltage: "64V",
-                  nominalCapacity: "105Ah ± 2%"
+                  nominalCapacity: "105Ah ± 2%",
+                  nominalEnergy: "~6720 Wh"
                 },
                 bms: {
-                  functions: ["Cell voltage monitoring", "Over-voltage protection", "Over-current protection", "Short-circuit protection"],
-                  communication: ["CAN bus", "RS485"]
+                  type: "JBD, Daly, Superpower",
+                  voltageProtection: "",
+                  currentProtection: "",
+                  thermalProtection: "",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: "",
+                  communication: ["CAN bus", "RS485", "Bluetooth", "IoT"]
                 },
                 mechanical: {
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
@@ -147,19 +160,17 @@ export const categories = [
                   calendarLife: "≥ 7 years"
                 },
                 bms: {
-                  functions: [
-                    "Cell voltage monitoring & balancing",
-                    "Over-voltage / under-voltage protection",
-                    "Over-charge / over-discharge protection",
-                    "Over-current protection (charge & discharge)",
-                    "Short-circuit protection",
-                    "Over-temperature & under-temperature protection",
-                    "SOC & SOH calculation",
-                    "Data logging & event history"
-                  ],
+                  type: "JBD, Daly, Superpower",
+                  voltageProtection: "Cell voltage monitoring & balancing, Over-voltage / under-voltage protection",
+                  currentProtection: "Over-charge / over-discharge protection, Over-current protection (charge & discharge), Short-circuit protection",
+                  thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: "Emergency cut-off",
                   communication: [
                     "CAN bus (ISO 11898)",
                     "RS485 / UART",
+                    "Bluetooth",
+                    "IoT",
                     "Diagnostic software support"
                   ]
                 },
@@ -296,7 +307,7 @@ export const categories = [
                 general: {
                   application: "Optimized for 2-wheeler E-Vehicles using LFP, NCM, or NCA chemistry battery packs (13S to 19S).",
                   coolingSystem: "Forced Air Cooled (Internal fan turns on with increased current/temperature)",
-                  protections: "Electronic Reverse Battery, Mains High Voltage (up to 320VAC RMS), Mains Over Current (Fuse), Electronic Thermal Protection",
+                  protections: "Electronic Reverse Polarity, Mains High Voltage (up to 320VAC RMS), Mains Over Current (Fuse), Electronic Thermal Protection",
                   nominalVoltage: "Max CV: 71V",
                   outputCapacity: "Max CC: 7A",
                   nominalEnergy: "400W MAX",
@@ -334,7 +345,7 @@ export const categories = [
                 general: {
                   application: "AIS 156 II Complied charger for Light E-Vehicles. Features Pre-Charge and Soft-Start for deep discharged batteries (13S to 24S).",
                   coolingSystem: "Forced Air Cooled",
-                  protections: "Reverse Battery, Mains High Voltage, Over Current, Thermal",
+                  protections: "Reverse Polarity, Mains High Voltage, Over Current, Thermal",
                   nominalVoltage: "Max CV: 84V",
                   outputCapacity: "Max CC: 17A",
                   nominalEnergy: "1000W MAX",
@@ -374,7 +385,7 @@ export const categories = [
                 general: {
                   application: "AIS 156 II Complied high-efficiency charger for Light E-Vehicles. Compatible with 8S to 24S Lithium packs.",
                   coolingSystem: "Forced Air Cooled",
-                  protections: "Reverse Battery, Mains High Voltage, Over Current, Thermal",
+                  protections: "Reverse Polarity, Mains High Voltage, Over Current, Thermal",
                   nominalVoltage: "Max CV: 84V",
                   outputCapacity: "Max CC: 22A",
                   nominalEnergy: "1200W MAX",
@@ -413,7 +424,7 @@ export const categories = [
                 general: {
                   application: "AIS 156 II Complied heavy-duty charger for 60AH-200AH packs (13S to 24S). Features 4-stage profile and LCD Interface.",
                   coolingSystem: "Forced Air Cooled",
-                  protections: "Reverse Battery, Mains High Voltage, Over Current, Thermal",
+                  protections: "Reverse Polarity, Mains High Voltage, Over Current, Thermal",
                   nominalVoltage: "Max CV: 84V",
                   outputCapacity: "Max CC: 40A",
                   nominalEnergy: "2400W MAX",
@@ -460,7 +471,6 @@ export const categories = [
             title: "850VA 12V Solar UPS",
             desc: "850VA 12V Solar UPS",
             specs: "850VA",
-
             details: {
               technical: {
                 general: {
@@ -480,12 +490,13 @@ export const categories = [
                   solarChargingCurrent: "16A ± 1A",
                   boostChargingVoltage: "14.4V ± 0.2V"
                 },
-                protection: [
-                  "Overload (>61 Amp, 6 retries)",
-                  "Battery Low Alarm (11.3V) & Shutdown (11.0V)",
-                  "Over-temperature (104°C ± 5°C)",
-                  "PV reverse fault via terminal block"
-                ]
+                bms: {
+                  voltageProtection: "Battery Low Alarm (11.3V) & Shutdown (11.0V)",
+                  currentProtection: "Overload (>61 Amp, 6 retries), PV reverse fault via terminal block",
+                  thermalProtection: "Over-temperature (104°C ± 5°C)",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           },
@@ -499,28 +510,34 @@ export const categories = [
                 general: {
                   capacity: "300VA",
                   technology: "Digital Signal Processor (DSP) Based",
-                  systemVoltage: "Pending"
+                  systemVoltage: "12V"
                 },
                 electrical: {
                   waveform: "Pure Sine Wave",
                   inputVoltageNormal: "100Vac - 280Vac",
                   inputVoltageUPS: "170Vac - 260Vac",
                   outputVoltage: "230V ± 10V",
+                  outputVoltageNoLoad: "220V ± 7V",
+                  outputVoltageFullLoad: "195V – 220V",
                   outputFrequency: "50Hz ± 0.1Hz",
-                  loadPowerFactor: "0.8PF"
+                  loadPowerFactor: "0.8PF",
+                  transferTimeUPS: "≤ 10 ms",
+                  transferTimeNormal: "≤ 40 ms"
                 },
                 solar: {
                   chargerTopology: "PWM based smart charging",
+                  mainsChargingCurrent: "6A ± 2A",
+                  boostChargingVoltage: "14.3V ± 0.2V",
                   maxSolarCurrent: "10A",
                   maxSolarWattage: "100W"
                 },
-                protection: [
-                  "Short Circuit (> 300% Load)",
-                  "Overload (Above 105%)",
-                  "Battery Over/Low Voltage & Deep Discharge",
-                  "Over Temperature (Auto Recovery)",
-                  "PV Reverse Connection"
-                ]
+                bms: {
+                  voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  thermalProtection: "Over Temperature (Auto Recovery)",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           },
@@ -534,7 +551,7 @@ export const categories = [
                 general: {
                   capacity: "1000VA",
                   technology: "Digital Signal Processor (DSP) Based",
-                  systemVoltage: "Pending"
+                  systemVoltage: "12V"
                 },
                 electrical: {
                   waveform: "Pure Sine Wave",
@@ -546,16 +563,18 @@ export const categories = [
                 },
                 solar: {
                   chargerTopology: "PWM based smart charging",
+                  mainsChargingCurrent: "15A ± 2A",
+                  boostChargingVoltage: "14.3V ± 0.2V",
                   maxSolarCurrent: "40A",
-                  maxSolarWattage: "Pending"
+                  maxSolarWattage: "Up to 680W"
                 },
-                protection: [
-                  "Short Circuit (> 300% Load)",
-                  "Overload (Above 105%)",
-                  "Battery Over/Low Voltage & Deep Discharge",
-                  "Over Temperature (Auto Recovery)",
-                  "PV Reverse Connection"
-                ]
+                bms: {
+                  voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  thermalProtection: "Over Temperature (Auto Recovery)",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           },
@@ -583,9 +602,13 @@ export const categories = [
                   solarChargingCurrent: "Pending",
                   boostChargingVoltage: "Pending"
                 },
-                protection: [
-                  "Pending"
-                ]
+                bms: {
+                  voltageProtection: "",
+                  currentProtection: "",
+                  thermalProtection: "",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           },
@@ -606,21 +629,27 @@ export const categories = [
                   inputVoltageNormal: "100Vac - 280Vac",
                   inputVoltageUPS: "170Vac - 260Vac",
                   outputVoltage: "230V ± 10V",
+                  outputVoltageNoLoad: "220V ± 7V",
+                  outputVoltageFullLoad: "180V – 220V",
                   outputFrequency: "50Hz ± 0.1Hz",
-                  loadPowerFactor: "0.8PF"
+                  loadPowerFactor: "0.8PF",
+                  transferTimeUPS: "≤ 10 ms",
+                  transferTimeNormal: "≤ 40 ms"
                 },
                 solar: {
                   chargerTopology: "PWM based smart charging",
+                  mainsChargingCurrent: "15A ± 2A",
+                  boostChargingVoltage: "28.6V ± 0.2V",
                   maxSolarCurrent: "40A",
-                  maxSolarWattage: "Pending"
+                  maxSolarWattage: "1340W"
                 },
-                protection: [
-                  "Short Circuit (> 300% Load)",
-                  "Overload (Above 105%)",
-                  "Battery Over/Low Voltage & Deep Discharge",
-                  "Over Temperature (Auto Recovery)",
-                  "PV Reverse Connection"
-                ]
+                bms: {
+                  voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  thermalProtection: "Over Temperature (Auto Recovery)",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           },
@@ -634,7 +663,7 @@ export const categories = [
                 general: {
                   capacity: "3000VA",
                   technology: "Digital Signal Processor (DSP) Based",
-                  systemVoltage: "Pending"
+                  systemVoltage: "48V"
                 },
                 electrical: {
                   waveform: "Pure Sine Wave",
@@ -646,16 +675,18 @@ export const categories = [
                 },
                 solar: {
                   chargerTopology: "PWM based smart charging",
+                  mainsChargingCurrent: "15A ± 2A",
+                  boostChargingVoltage: "57.2V ± 0.4V",
                   maxSolarCurrent: "40A",
-                  maxSolarWattage: "Up to 2680W"
+                  maxSolarWattage: "2680W"
                 },
-                protection: [
-                  "Short Circuit (> 300% Load)",
-                  "Overload (Above 105%)",
-                  "Battery Over/Low Voltage & Deep Discharge",
-                  "Over Temperature (Auto Recovery)",
-                  "PV Reverse Connection"
-                ]
+                bms: {
+                  voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  thermalProtection: "Over Temperature (Auto Recovery)",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           },
@@ -669,7 +700,7 @@ export const categories = [
                 general: {
                   type: "24V MPPT Solar Inverter",
                   systemVoltage: "24V",
-                  application: "Pending"
+                  application: "Solar Charging / Inverter"
                 },
                 electrical: {
                   waveform: "Pending",
@@ -682,9 +713,13 @@ export const categories = [
                   maxSolarWattage: "Pending",
                   maxSolarCurrent: "Pending"
                 },
-                protection: [
-                  "Pending"
-                ]
+                bms: {
+                  voltageProtection: "",
+                  currentProtection: "",
+                  thermalProtection: "",
+                  electricalIsolation: "",
+                  redundancyAndFailSafes: ""
+                }
               }
             }
           }
@@ -693,7 +728,6 @@ export const categories = [
     ]
   }
 ];
-
 export const teamMembers = [
   { id: 1, name: "PANKAJ CHOPRA", department: "MANAGEMENT", role: "FOUNDER DIRECTOR & CEO", image: "/assets/Pankaj Sir.jpeg" },
   { id: 2, name: "BEEKEY KUMAR", department: "CREDIT", role: "DEPUTY GENERAL MANAGER - CREDIT", image: "/assets/Beekey Kumar-Deputy General Manager- Credits.jpeg" },

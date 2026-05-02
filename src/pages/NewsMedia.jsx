@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { YoutubeFilled, InstagramFilled, ReadOutlined, PlayCircleFilled, FacebookFilled, PlayCircleOutlined } from "@ant-design/icons";
 import { ExternalLink, ChevronRight, Twitter, Facebook } from "lucide-react";
@@ -625,8 +625,21 @@ function TiltImage({ src, alt }) {
 
 export default function NewsMedia() {
   const [openVideo, setOpenVideo] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const mobileGrid = isMobile ? { gridTemplateColumns: "1fr", gap: 18 } : {};
+  const mobileSection = isMobile ? { marginBottom: "48px" } : {};
+
   return (
-    <div style={styles.container}>
+    <div style={{ ...styles.container, ...(isMobile ? { padding: "76px 14px 96px" } : {}) }}>
       <motion.div
         style={{
           position: "fixed",
@@ -651,7 +664,7 @@ export default function NewsMedia() {
         animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
         transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
       />
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={styles.header}>
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ ...styles.header, ...(isMobile ? { marginBottom: "38px" } : {}) }}>
         <motion.h1
           style={styles.title}
           initial={{ opacity: 0 }}
@@ -666,10 +679,10 @@ export default function NewsMedia() {
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         />
-        <p style={styles.subtitle}>Latest updates, features, and stories from Urja Mobility.</p>
+        <p style={{ ...styles.subtitle, ...(isMobile ? { fontSize: "1rem" } : {}) }}>Latest updates, features, and stories from Urja Mobility.</p>
       </motion.div>
 
-      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={styles.section}>
+      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ ...styles.section, ...mobileSection }}>
         <div style={{ maxWidth: 900, margin: "0 auto 40px", color: "var(--text-muted)", lineHeight: 1.8, fontSize: "1rem" }}>
           <h2 style={{ ...styles.sectionTitle, marginBottom: 12 }}>About This Page</h2>
           <p>
@@ -710,7 +723,7 @@ export default function NewsMedia() {
             <PlayCircleFilled style={{ color: "#3b82f6", fontSize: 20 }} />
             <h3 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text)" }}>Trending Now</h3>
           </div>
-          <div style={styles.watchGrid}>
+          <div style={{ ...styles.watchGrid, ...mobileGrid }}>
             {articles.slice(1, 4).map((t) => (
               <motion.a
                 key={t.id}
@@ -731,11 +744,11 @@ export default function NewsMedia() {
             ))}
           </div>
         </div>
-        <div style={styles.sectionHeader}>
+        <div style={{ ...styles.sectionHeader, ...(isMobile ? { alignItems: "flex-start", marginBottom: 18 } : {}) }}>
           <ReadOutlined style={{ color: "var(--secondary)", fontSize: 24 }} />
           <h2 style={styles.sectionTitle}>Featured Stories</h2>
         </div>
-        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} style={styles.grid}>
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} style={{ ...styles.grid, ...mobileGrid }}>
           {articles.map((article) => (
             <motion.a
               key={article.id}
@@ -771,12 +784,12 @@ export default function NewsMedia() {
         </motion.div>
       </motion.section>
 
-      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={styles.section}>
+      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ ...styles.section, ...mobileSection }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
           <ReadOutlined style={{ color: "var(--secondary)", fontSize: 24 }} />
           <h2 style={styles.sectionTitle}>Gallery Highlights</h2>
         </div>
-        <div style={styles.galleryGrid}>
+        <div style={{ ...styles.galleryGrid, ...(isMobile ? { gridTemplateColumns: "1fr 1fr", gap: 12 } : {}) }}>
           {gallery.map((g, i) => (
             <motion.div
               key={i}
@@ -792,12 +805,12 @@ export default function NewsMedia() {
         </div>
       </motion.section>
 
-      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={styles.section}>
-        <div style={styles.sectionHeader}>
+      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ ...styles.section, ...mobileSection }}>
+        <div style={{ ...styles.sectionHeader, ...(isMobile ? { alignItems: "flex-start", marginBottom: 18 } : {}) }}>
           <ReadOutlined style={{ color: "var(--secondary)", fontSize: 24 }} />
           <h2 style={styles.sectionTitle}>Key Initiatives</h2>
         </div>
-        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(320px, 1fr))", gap: isMobile ? 16 : 24 }}>
           {initiatives.map((it, idx) => (
             <motion.div
               key={it.id}
@@ -865,9 +878,9 @@ export default function NewsMedia() {
         </motion.div>
       </motion.section>
 
-      <div style={{ ...styles.section, ...styles.layout }}>
-        <div style={styles.mainCol}>
-          <div style={styles.sectionHeader}>
+      <div style={{ ...styles.section, ...styles.layout, ...mobileSection, ...(isMobile ? { display: "grid", gap: 18 } : {}) }}>
+        <div style={{ ...styles.mainCol, ...(isMobile ? { minWidth: 0, flex: "1 1 100%" } : {}) }}>
+          <div style={{ ...styles.sectionHeader, ...(isMobile ? { marginBottom: 18 } : {}) }}>
             <PlayCircleFilled style={{ color: "#3b82f6", fontSize: 24 }} />
             <h2 style={styles.sectionTitle}>Watch & Listen</h2>
           </div>
@@ -887,7 +900,7 @@ export default function NewsMedia() {
             <iframe src={videos[0].embedUrl} title={videos[0].title} style={styles.iframeWide} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
           </motion.div>
         </div>
-        <div style={styles.sideCol}>
+        <div style={{ ...styles.sideCol, ...(isMobile ? { gridTemplateColumns: "1fr", gap: 16, minWidth: 0 } : {}) }}>
           {videos.slice(1).map((v) => (
             <motion.div
               key={v.id}
@@ -955,8 +968,8 @@ export default function NewsMedia() {
           ))}
         </div>
       </div>
-      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={styles.section}>
-        <div style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+      <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ ...styles.section, ...mobileSection }}>
+        <div style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: isMobile ? 18 : 24, display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "stretch" : "center", justifyContent: "space-between", gap: 16 }}>
           <div>
             <h3 style={{ margin: 0, color: "white", fontSize: "1.3rem", fontWeight: 800 }}>Stay in the loop</h3>
             <p style={{ margin: 0, color: "var(--text-muted)" }}>Get updates on features, partnerships, and programs.</p>

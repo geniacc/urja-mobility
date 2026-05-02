@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import TextReveal from "./TextReveal";
 import { ScrollRestoration, Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -16,6 +17,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <TextReveal />
       <ScrollRestoration />
     </div>
   );

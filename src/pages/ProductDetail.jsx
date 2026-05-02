@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useCart } from "../context/CartContext"; // <-- 1. IMPORTED THE CART CONTEXT
 import { categories } from "../data/mockData";
 import { AnimatePresence, motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import {
@@ -74,9 +75,11 @@ const itemVariants = {
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const { addToCart } = useCart(); // <-- 2. EXTRACTED ADD TO CART FUNCTION
   const [activeImage, setActiveImage] = useState(0);
   const [activeMainTab, setActiveMainTab] = useState("features"); // 'features', 'specs', 'roi', 'downloads'
   const [quantity, setQuantity] = useState(1);
+  const [cartNotice, setCartNotice] = useState(false);
 
   // Helper to map title to specific asset filenames with URL encoding for spaces
   const getProductImage = (title) => {
@@ -142,6 +145,13 @@ export default function ProductDetail() {
   const galleryImages = details.gallery || [batteryImg, null, null, null];
   const currentDisplayImage = galleryImages[activeImage] || batteryImg;
 
+  const handleAddToCart = () => {
+    addToCart({ ...product, image: currentDisplayImage || batteryImg }, quantity);
+    setCartNotice(true);
+    window.clearTimeout(window.__urjaCartNoticeTimer);
+    window.__urjaCartNoticeTimer = window.setTimeout(() => setCartNotice(false), 2200);
+  };
+
   // 2. Extract Technical Data
   const technicalSpecs = useMemo(() => {
     const provided = details.technical || {};
@@ -174,6 +184,37 @@ export default function ProductDetail() {
       initial="hidden" animate="visible" variants={pageVariants}
       style={{ background: "var(--bg)", minHeight: "100vh", paddingBottom: "6rem", paddingTop: "var(--nav-height, 100px)", overflowX: "hidden" }}
     >
+      <AnimatePresence>
+        {cartNotice && (
+          <motion.div
+            initial={{ opacity: 0, y: -18, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -18, scale: 0.96 }}
+            style={{
+              position: "fixed",
+              top: "96px",
+              right: "24px",
+              zIndex: 1500,
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              padding: "0.95rem 1.15rem",
+              borderRadius: "14px",
+              background: "rgba(15, 23, 42, 0.96)",
+              border: "1px solid rgba(34,197,94,0.45)",
+              color: "var(--text)",
+              boxShadow: "0 18px 40px rgba(0,0,0,0.45), 0 0 22px rgba(34,197,94,0.16)",
+              backdropFilter: "blur(14px)"
+            }}
+          >
+            <CheckCircle2 size={20} color="#22c55e" />
+            <div>
+              <div style={{ fontWeight: 800, lineHeight: 1.2 }}>Item added to cart</div>
+              <div style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>{quantity} x {product.title}</div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Breadcrumbs */}
       <motion.div variants={itemVariants} style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border)", padding: "1rem 2rem" }}>
         <div className="container" style={{ maxWidth: "1280px", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem", color: "var(--text-muted)" }}>
@@ -190,7 +231,7 @@ export default function ProductDetail() {
       <div className="container" style={{ maxWidth: "1280px", padding: "3rem 2rem" }}>
 
         {/* Top Product Box */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))", gap: "4rem", marginBottom: "5rem" }}>
+        <div className="product-detail-main-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))", gap: "4rem", marginBottom: "5rem" }}>
 
           {/* Left: Gallery */}
           <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -240,7 +281,7 @@ export default function ProductDetail() {
               </AnimatePresence>
             </SpotlightCard>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+            <div className="product-thumb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
               {[0, 1, 2, 3].map((idx) => {
                 const thumbImg = galleryImages[idx];
 
@@ -332,9 +373,15 @@ export default function ProductDetail() {
               </div>
 
               {/* Primary CTA */}
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: "0 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}>
+              <motion.button
+                onClick={handleAddToCart}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: "0 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}
+              >
                 <ShoppingCart size={22} /> Add to Cart
               </motion.button>
+
             </div>
 
             {/* Trust Badges */}
@@ -347,7 +394,7 @@ export default function ProductDetail() {
         </div>
 
         {/* --- DYNAMIC TABS SECTION --- */}
-        <motion.div variants={itemVariants} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", overflow: "hidden" }}>
+        <motion.div className="product-tabs-panel" variants={itemVariants} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", overflow: "hidden" }}>
 
           <div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.02)", position: "relative" }}>
             {[
@@ -370,7 +417,7 @@ export default function ProductDetail() {
             ))}
           </div>
 
-          <div style={{ padding: "4rem 3rem", minHeight: "450px" }}>
+          <div className="product-tab-content" style={{ padding: "4rem 3rem", minHeight: "450px" }}>
             <AnimatePresence mode="wait">
 
               {/* TAB 1: CORE FEATURES */}
@@ -400,7 +447,7 @@ export default function ProductDetail() {
               {activeMainTab === "specs" && (
                 <motion.div key="specs" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                   {techSections.length > 0 ? (
-                    <div style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "4rem" }}>
+                    <div className="product-tech-grid" style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "4rem" }}>
                       {/* Side Nav */}
                       <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                         {techSections.map(section => (
@@ -435,9 +482,9 @@ export default function ProductDetail() {
                                     ))}
                                   </ul>
                                 ) : (
-                                  <div style={{ display: "grid", gap: "0", background: "var(--bg)", borderRadius: "16px", border: "1px solid var(--border)", overflow: "hidden" }}>
+                                  <div className="tech-spec-table" style={{ display: "grid", gap: "0", background: "var(--bg)", borderRadius: "16px", border: "1px solid var(--border)", overflow: "hidden" }}>
                                     {entries.map(([key, value], idx) => (
-                                      <div key={key} style={{ display: "grid", gridTemplateColumns: "1fr 2fr", padding: "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
+                                      <div className="tech-spec-row" key={key} style={{ display: "grid", gridTemplateColumns: "1fr 2fr", padding: "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
                                         <div style={{ color: "var(--text-muted)", fontWeight: 600, display: "flex", alignItems: "center" }}>{humanizeKey(key)}</div>
                                         <div style={{ color: "var(--text-primary)", fontWeight: 700, fontFamily: "monospace", fontSize: "1.1rem" }}>
                                           {Array.isArray(value) ? value.join(", ") : formatValue(value)}
@@ -462,14 +509,31 @@ export default function ProductDetail() {
                 </motion.div>
               )}
 
-
               {/* TAB 4: DOWNLOADS */}
               {activeMainTab === "downloads" && (
-                <motion.div key="downloads" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "2rem" }}>
+                <motion.div className="downloads-grid" key="downloads" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "2rem" }}>
                   {[
-                    { title: "Product Datasheet", desc: "Comprehensive technical specifications", type: "PDF", size: "2.4 MB" },
-                    { title: "Installation Manual", desc: "Wiring and mounting instructions", type: "PDF", size: "5.1 MB" },
-                    { title: "CAD Drawings", desc: "2D/3D Models for facility planning", type: "ZIP", size: "12 MB" }
+                    {
+                      title: "Product Datasheet",
+                      desc: "Comprehensive technical specifications",
+                      type: "PDF",
+                      size: "2.4 MB",
+                      fileUrl: "/assets/MANUAL ECOSTAR 400W.pdf" // Adjust path as needed
+                    },
+                    {
+                      title: "Installation Manual",
+                      desc: "Wiring and mounting instructions",
+                      type: "PDF",
+                      size: "5.1 MB",
+                      fileUrl: "/assets/MANUAL ECOSTAR 1000W.pdf" // Adjust path as needed
+                    },
+                    {
+                      title: "Warranty Document",
+                      desc: "Terms, conditions, and coverage details",
+                      type: "PDF",
+                      size: "1.2 MB",
+                      fileUrl: "/assets/MANUAL ECOSTAR 1200W.pdf" // Adjust path as needed
+                    }
                   ].map((doc, idx) => (
                     <motion.div whileHover={{ y: -5, borderColor: accentColor }} key={idx} style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "20px", padding: "2rem", display: "flex", gap: "1.5rem", alignItems: "center", transition: "border-color 0.2s" }}>
                       <div style={{ background: `${accentColor}15`, padding: "1.2rem", borderRadius: "16px", color: accentColor }}>
@@ -483,12 +547,23 @@ export default function ProductDetail() {
                           <span style={{ background: "var(--bg-2)", border: "1px solid var(--border)", padding: "0.3rem 0.6rem", borderRadius: "6px" }}>{doc.size}</span>
                         </div>
                       </div>
-                      <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} style={{ background: "transparent", border: "none", color: accentColor, cursor: "pointer" }}><Download size={24} /></motion.button>
+
+                      <motion.a
+                        href={doc.fileUrl}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        style={{ background: "transparent", border: "none", color: accentColor, cursor: "pointer", display: "inline-flex" }}
+                      >
+                        <Download size={24} />
+                      </motion.a>
+
                     </motion.div>
                   ))}
                 </motion.div>
               )}
-
             </AnimatePresence>
           </div>
         </motion.div>

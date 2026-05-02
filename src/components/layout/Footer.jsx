@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   const socialIconVariants = {
-    hover: { 
-      y: -5, 
+    hover: {
+      y: -5,
       color: "var(--primary)",
       scale: 1.1,
       transition: { duration: 0.2 }
@@ -37,11 +37,11 @@ export default function Footer() {
               </motion.div>
             </div>
             <p className="footer-desc">
-              Leading the revolution in sustainable energy storage. 
+              Leading the revolution in sustainable energy storage.
               Creating a work environment that balances high performance with purpose, encouraging every employee to drive impact through innovation, integrity, and customer-centricity.
             </p>
           </motion.div>
-          
+
           <motion.div className="footer-col" variants={colVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <h4>Quick Links</h4>
             <ul>
@@ -57,14 +57,17 @@ export default function Footer() {
           <motion.div className="footer-col" variants={colVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <h4>Contact</h4>
             <ul>
-              <li className="footer-contact-item">
-                <MapPin size={16} /> Urja Mobility HQ, Delhi, India
+              <li className="footer-contact-item" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <MapPin size={16} style={{ flexShrink: 0, marginTop: '4px' }} />
+                <span>11th Floor, Bset Sky Tower, Netaji Subhash Palace, Pitampura, Delhi-110035</span>
               </li>
-              <li className="footer-contact-item">
-                <Phone size={16} /> +918277343434
+              <li className="footer-contact-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Phone size={16} style={{ flexShrink: 0 }} />
+                <span>+918277343434</span>
               </li>
-              <li className="footer-contact-item">
-                <Mail size={16} /> info@urjamobility.in
+              <li className="footer-contact-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Mail size={16} style={{ flexShrink: 0 }} />
+                <span>info@urjamobility.in</span>
               </li>
             </ul>
           </motion.div>
@@ -75,9 +78,9 @@ export default function Footer() {
               Subscribe to our newsletter for the latest updates on green energy.
             </p>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
+              <input
+                type="email"
+                placeholder="Enter your email"
                 style={{
                   padding: '0.8rem',
                   borderRadius: '8px',
@@ -88,7 +91,7 @@ export default function Footer() {
                   fontSize: '0.9rem'
                 }}
               />
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
@@ -104,45 +107,45 @@ export default function Footer() {
                 Go
               </motion.button>
             </div>
-            
+
             <h4 style={{ marginTop: '2rem' }}>Follow Us</h4>
             <div className="social-links">
-              <motion.a 
-                href="https://www.facebook.com/urjagloballimited" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://www.facebook.com/share/1Ba3soCdek/"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
-                whileHover="hover" 
+                whileHover="hover"
                 variants={socialIconVariants}
               >
                 <Facebook size={20} />
               </motion.a>
-              <motion.a 
-                href="https://x.com/MobilityUrja/with_replies" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://x.com/MobilityUrja/with_replies"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Twitter / X"
-                whileHover="hover" 
+                whileHover="hover"
                 variants={socialIconVariants}
               >
                 <Twitter size={20} />
               </motion.a>
-              <motion.a 
-                href="https://www.linkedin.com/company/urjamobility/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://www.linkedin.com/company/urjamobility/"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                whileHover="hover" 
+                whileHover="hover"
                 variants={socialIconVariants}
               >
                 <Linkedin size={20} />
               </motion.a>
-              <motion.a 
-                href="https://www.instagram.com/urja_mobility?igsh=MWpwd3V5M2wwb3NmMA==" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://www.instagram.com/urja_mobility?igsh=MWpwd3V5M2wwb3NmMA=="
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
-                whileHover="hover" 
+                whileHover="hover"
                 variants={socialIconVariants}
               >
                 <Instagram size={20} />
@@ -150,9 +153,9 @@ export default function Footer() {
             </div>
           </motion.div>
         </div>
-        
+
         <div className="footer-bottom">
-          &copy; {new Date().getFullYear()} Urja Energy Solutions. All rights reserved.
+          &copy; {new Date().getFullYear()} MTOW MOBILITY PRIVATE LIMITED. All rights reserved.
         </div>
       </div>
     </footer>

@@ -1,4 +1,4 @@
-import React, { useMemo, Suspense } from "react";
+import React, { useEffect, useMemo, Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { Environment, Stars, Sparkles, AdaptiveDpr, AdaptiveEvents, ScrollControls, Scroll, useScroll } from "@react-three/drei";
@@ -10,7 +10,7 @@ import { Rikshaw } from "./3d/Vehicles/Rikshaw";
 import { Bird, WindTurbine, Forest, RockField } from "./3d/Environment/CityProps";
 import { HeroEffects } from "./3d/HeroEffects"; // Based on your first screenshot showing this is in the 3d folder
 
-const Scene = () => {
+const Scene = ({ isMobile }) => {
     const scroll = useScroll();
 
     return (
@@ -37,8 +37,8 @@ const Scene = () => {
             <Environment preset="city" />
 
             <group>
-                <Stars radius={300} depth={120} count={3200} factor={3} saturation={0} fade speed={0.12} />
-                <Stars radius={120} depth={60} count={1200} factor={2} saturation={0.15} fade speed={0.07} />
+                <Stars radius={300} depth={120} count={isMobile ? 1200 : 3200} factor={3} saturation={0} fade speed={0.12} />
+                <Stars radius={120} depth={60} count={isMobile ? 450 : 1200} factor={2} saturation={0.15} fade speed={0.07} />
             </group>
 
             {/* Core Infrastructure */}
@@ -47,8 +47,8 @@ const Scene = () => {
 
             {/* Background Environment Props */}
             <group>
-                <Forest count={80} />
-                <RockField count={35} />
+                <Forest count={isMobile ? 34 : 80} />
+                <RockField count={isMobile ? 14 : 35} />
                 <WindTurbine position={[-80, 0, -150]} rotation={[0, 0.5, 0]} />
                 <WindTurbine position={[80, 0, -150]} rotation={[0, -0.5, 0]} />
                 <Bird position={[0, 25, -50]} speed={0.5} range={30} />
@@ -64,19 +64,28 @@ const Scene = () => {
 
 export default function Hero({ categories }) {
     const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(false);
 
     const palette = useMemo(() => {
         const cols = (categories || []).map(c => c.color).filter(Boolean);
         return cols.length ? cols : ['#22c55e', '#3b82f6', '#f59e0b'];
     }, [categories]);
 
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const check = () => setIsMobile(window.innerWidth <= 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
+
     return (
-        <div style={{ width: '100vw', height: '100vh', background: 'var(--bg)' }}>
+        <div className="home-hero" style={{ width: '100vw', height: '100vh', background: 'var(--bg)' }}>
             <Canvas
-                dpr={[0.8, 1.2]}
-                shadows
+                dpr={isMobile ? [0.6, 0.9] : [0.8, 1.2]}
+                shadows={!isMobile}
                 camera={{ position: [5, 5, 10], fov: 45 }}
-                gl={{ antialias: true, powerPreference: 'high-performance' }}
+                gl={{ antialias: !isMobile, powerPreference: isMobile ? 'default' : 'high-performance' }}
             >
                 <AdaptiveDpr />
                 <AdaptiveEvents />
@@ -85,13 +94,13 @@ export default function Hero({ categories }) {
                 <ScrollControls pages={5} damping={0.3}>
                     {/* Crucial Suspense Wrapper to prevent crashes while 3D models load */}
                     <Suspense fallback={null}>
-                        <Scene />
+                        <Scene isMobile={isMobile} />
                     </Suspense>
 
                     <Scroll html style={{ width: '100%', height: '100%' }}>
 
                         {/* Page 1: Hero Header */}
-                        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <div className="hero-scroll-panel hero-scroll-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             <motion.div
                                 initial={{ opacity: 0, y: 16, scale: 0.98 }}
                                 animate={{ opacity: 1, y: [0, -2, 0], scale: 1 }}
@@ -136,7 +145,7 @@ export default function Hero({ categories }) {
                         </div>
 
                         {/* Page 2: About Us */}
-                        <div style={{ height: '100vh', display: 'flex', alignItems: 'center', paddingLeft: '10vw' }}>
+                        <div className="hero-scroll-panel hero-scroll-left" style={{ height: '100vh', display: 'flex', alignItems: 'center', paddingLeft: '10vw' }}>
                             <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-about">
                                 <motion.div className="hero-title" style={{ fontSize: '3rem', fontWeight: 800, background: `linear-gradient(90deg, ${palette[0]}, ${palette[1 % palette.length]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px', textShadow: '0 18px 48px rgba(0,0,0,0.6)' }}>
                                     {"About Us".split(" ").map((w, i) => (<motion.span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>{w}</motion.span>))}
@@ -147,7 +156,7 @@ export default function Hero({ categories }) {
                         </div>
 
                         {/* Page 3: Products */}
-                        <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '10vw' }}>
+                        <div className="hero-scroll-panel hero-scroll-right" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '10vw' }}>
                             <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-products" style={{ textAlign: 'right' }}>
                                 <motion.div className="hero-title" style={{ fontSize: '3rem', fontWeight: 800, background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px', textShadow: '0 18px 48px rgba(0,0,0,0.6)' }}>
                                     {"Products".split(" ").map((w, i) => (<motion.span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>{w}</motion.span>))}
@@ -159,7 +168,7 @@ export default function Hero({ categories }) {
                         </div>
 
                         {/* Page 4: Contact */}
-                        <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div className="hero-scroll-panel hero-scroll-center" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-contact" style={{ textAlign: 'center' }}>
                                 <motion.div className="hero-title center" style={{ fontSize: '3rem', fontWeight: 800, background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px' }}>
                                     {"Say Hello".split(" ").map((w, i) => (<motion.span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>{w}</motion.span>))}
@@ -171,7 +180,7 @@ export default function Hero({ categories }) {
                         </div>
 
                         {/* Page 5: The Interactive Transition Curtain */}
-                        <div style={{
+                        <div className="hero-scroll-panel hero-scroll-center" style={{
                             height: '100vh',
                             width: '100%',
                             background: '#0f172a',

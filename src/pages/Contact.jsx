@@ -95,15 +95,15 @@ export default function Contact() {
       }} />
 
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           style={{ textAlign: 'center', marginBottom: '4rem' }}
         >
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
             gap: '0.5rem',
             padding: '0.5rem 1rem',
             background: 'rgba(59, 130, 246, 0.1)',
@@ -116,9 +116,9 @@ export default function Contact() {
           }}>
             <MessageSquare size={16} /> Contact Us
           </div>
-          <h1 style={{ 
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
-            fontWeight: '800', 
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: '800',
             marginBottom: '1.5rem',
             lineHeight: 1.1,
             background: 'linear-gradient(135deg, #fff 0%, #94a3b8 100%)',
@@ -132,20 +132,21 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <motion.div 
+        <motion.div
+          className="contact-layout-grid"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: '3rem',
             alignItems: 'start'
           }}
         >
           {/* Contact Information Column */}
           <motion.div variants={itemVariants} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div style={{ 
+            <div style={{
               background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%)',
               backdropFilter: 'blur(12px)',
               border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -156,33 +157,33 @@ export default function Contact() {
               <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 Contact Details <span style={{ height: '2px', flex: 1, background: 'linear-gradient(90deg, var(--border), transparent)' }}></span>
               </h3>
-              
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <ContactItem 
-                  icon={<Mail size={20} />} 
-                  label="Email Us" 
-                  value="info@urjamobility.in" 
+                <ContactItem
+                  icon={<Mail size={20} />}
+                  label="Email Us"
+                  value="info@urjamobility.in"
                   subValue="Support usually replies within 24h"
                   color="var(--primary)"
                 />
-                <ContactItem 
-                  icon={<Phone size={20} />} 
-                  label="Call Us" 
-                  value="+91 82773 43434" 
+                <ContactItem
+                  icon={<Phone size={20} />}
+                  label="Call Us"
+                  value="+91 82773 43434"
                   subValue="Mon-Fri from 9am to 6pm"
                   color="var(--secondary)"
                 />
-                <ContactItem 
-                  icon={<MapPin size={20} />} 
-                  label="Visit HQ" 
-                  value="Urja Mobility HQ" 
-                  subValue="Delhi, India"
+                <ContactItem
+                  icon={<MapPin size={20} />}
+                  label="Visit HQ"
+                  value="11th Floor, Bset Sky Tower"
+                  subValue="Netaji Subhash Palace, Pitampura, Delhi-110035"
                   color="#f59e0b"
                 />
               </div>
             </div>
 
-            <div style={{ 
+            <div style={{
               background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%)',
               backdropFilter: 'blur(12px)',
               border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -211,9 +212,9 @@ export default function Contact() {
               </ul>
             </div>
 
-            <div style={{ 
-              padding: '2rem', 
-              background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)', 
+            <div style={{
+              padding: '2rem',
+              background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)',
               borderRadius: '24px',
               color: 'white',
               position: 'relative',
@@ -224,16 +225,16 @@ export default function Contact() {
                 <p style={{ opacity: 0.9, fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: '1.5' }}>
                   We serve clients across India and expanding globally. Join our network of sustainable energy partners.
                 </p>
-                <button style={{ 
-                  background: 'rgba(255,255,255,0.2)', 
-                  border: '1px solid rgba(255,255,255,0.4)', 
-                  padding: '0.6rem 1.2rem', 
-                  borderRadius: '8px', 
-                  color: 'white', 
+                <button style={{
+                  background: 'rgba(255,255,255,0.2)',
+                  border: '1px solid rgba(255,255,255,0.4)',
+                  padding: '0.6rem 1.2rem',
+                  borderRadius: '8px',
+                  color: 'white',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  display: 'flex', 
-                  alignItems: 'center', 
+                  display: 'flex',
+                  alignItems: 'center',
                   gap: '0.5rem',
                   fontSize: '0.9rem',
                   transition: 'background 0.2s'
@@ -241,22 +242,22 @@ export default function Contact() {
                   View Network <Globe size={16} />
                 </button>
               </div>
-              <Globe 
-                size={180} 
-                style={{ 
-                  position: 'absolute', 
-                  bottom: -40, 
-                  right: -40, 
-                  opacity: 0.2, 
-                  transform: 'rotate(-15deg)' 
-                }} 
+              <Globe
+                size={180}
+                style={{
+                  position: 'absolute',
+                  bottom: -40,
+                  right: -40,
+                  opacity: 0.2,
+                  transform: 'rotate(-15deg)'
+                }}
               />
             </div>
           </motion.div>
 
           {/* Contact Form Column */}
           <motion.div variants={itemVariants}>
-            <div style={{
+            <div className="contact-form-card" style={{
               background: 'var(--bg-2)',
               border: '1px solid var(--border)',
               borderRadius: '32px',
@@ -316,22 +317,22 @@ export default function Contact() {
                       </div>
                     </motion.div>
                   ) : (
-                    <motion.form 
+                    <motion.form
                       key="form"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      onSubmit={handleSubmit} 
+                      onSubmit={handleSubmit}
                       style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
                     >
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                      <div className="contact-field-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                         <div>
                           <label style={labelStyle}>Full Name</label>
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             name="name"
                             value={formData.name}
-                            placeholder="John Doe" 
+                            placeholder="John Doe"
                             style={inputStyle('name')}
                             onFocus={() => setFocusedField('name')}
                             onBlur={() => setFocusedField(null)}
@@ -341,11 +342,11 @@ export default function Contact() {
                         </div>
                         <div>
                           <label style={labelStyle}>Email Address</label>
-                          <input 
-                            type="email" 
+                          <input
+                            type="email"
                             name="email"
                             value={formData.email}
-                            placeholder="john@example.com" 
+                            placeholder="john@example.com"
                             style={inputStyle('email')}
                             onFocus={() => setFocusedField('email')}
                             onBlur={() => setFocusedField(null)}
@@ -354,11 +355,11 @@ export default function Contact() {
                           />
                         </div>
                       </div>
-                      
+
                       <div>
                         <label style={labelStyle}>Subject</label>
                         <div style={{ position: 'relative' }}>
-                          <select 
+                          <select
                             name="subject"
                             value={formData.subject}
                             style={{ ...inputStyle('subject'), appearance: 'none', cursor: 'pointer' }}
@@ -371,11 +372,11 @@ export default function Contact() {
                             <option>Support & Service</option>
                             <option>Career Opportunities</option>
                           </select>
-                          <div style={{ 
-                            position: 'absolute', 
-                            right: '1rem', 
-                            top: '50%', 
-                            transform: 'translateY(-50%)', 
+                          <div style={{
+                            position: 'absolute',
+                            right: '1rem',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
                             pointerEvents: 'none',
                             color: 'var(--text-muted)'
                           }}>
@@ -383,14 +384,14 @@ export default function Contact() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div>
                         <label style={labelStyle}>Message</label>
-                        <textarea 
+                        <textarea
                           name="message"
                           value={formData.message}
-                          rows="5" 
-                          placeholder="How can we help you today?" 
+                          rows="5"
+                          placeholder="How can we help you today?"
                           style={{ ...inputStyle('message'), resize: 'vertical', minHeight: '120px' }}
                           onFocus={() => setFocusedField('message')}
                           onBlur={() => setFocusedField(null)}
@@ -398,13 +399,13 @@ export default function Contact() {
                           required
                         ></textarea>
                       </div>
-                      
-                      <motion.button 
+
+                      <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        style={{ 
+                        style={{
                           marginTop: '1rem',
-                          padding: '1rem', 
+                          padding: '1rem',
                           background: 'linear-gradient(90deg, var(--primary), var(--accent))',
                           border: 'none',
                           borderRadius: '12px',
@@ -435,7 +436,7 @@ export default function Contact() {
 
 function ContactItem({ icon, label, value, subValue, color }) {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ x: 5 }}
       style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}
     >
@@ -465,7 +466,7 @@ function ContactItem({ icon, label, value, subValue, color }) {
 // Helper for hex to rgb
 function hexToRgb(hex) {
   if (!hex) return '255, 255, 255';
-  
+
   // Handle var usage if passed directly (simple fallback)
   if (hex.startsWith('var')) {
     if (hex.includes('primary')) return '59, 130, 246'; // fallback for primary
@@ -479,7 +480,7 @@ function hexToRgb(hex) {
   const fullHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
-  return result 
+  return result
     ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`
     : '255, 255, 255';
 }

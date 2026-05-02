@@ -147,7 +147,7 @@ const ApplicationModal = ({ job, onClose }) => {
 
             <div style={{ overflowY: "auto", padding: "2rem" }}>
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+              <div className="career-modal-field-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                   <label style={{ color: "#94a3b8", fontSize: "0.875rem", fontWeight: "500" }}>First Name</label>
                   <input required type="text" placeholder="John" style={{ width: "100%", padding: "0.75rem 1rem", borderRadius: "0.5rem", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", outline: "none" }} />
@@ -188,7 +188,7 @@ const ApplicationModal = ({ job, onClose }) => {
                 <textarea rows={3} placeholder="Tell us why you're a great fit..." style={{ width: "100%", padding: "0.75rem 1rem", borderRadius: "0.5rem", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", outline: "none", resize: "none" }} />
               </div>
 
-              <div style={{ marginTop: "1rem", display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
+              <div className="career-modal-actions" style={{ marginTop: "1rem", display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
                 <button type="button" onClick={onClose} style={{ padding: "0.75rem 1.5rem", borderRadius: "0.5rem", background: "transparent", border: "1px solid rgba(255,255,255,0.1)", color: "white", cursor: "pointer" }}>Cancel</button>
                 <button type="submit" style={{ padding: "0.75rem 2rem", borderRadius: "0.5rem", background: job.theme.gradient, border: "none", color: "white", fontWeight: "600", cursor: "pointer", boxShadow: `0 4px 12px ${job.theme.shadow}` }}>Submit Application</button>
               </div>
@@ -283,6 +283,7 @@ export default function Career() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2rem", marginTop: "3rem" }}>
             {perks.map((perk, i) => (
               <motion.div
+                className="career-job-card"
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -380,7 +381,7 @@ export default function Career() {
                     </span>
                   </div>
                   <p style={{ color: "var(--muted)", marginBottom: "1rem" }}>{job.description}</p>
-                  <div style={{ display: "flex", gap: "1.5rem", fontSize: "0.9rem", color: "var(--text-secondary)" }}>
+                  <div className="career-job-meta" style={{ display: "flex", gap: "1.5rem", fontSize: "0.9rem", color: "var(--text-secondary)" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                       <MapPin size={16} /> {job.location}
                     </div>

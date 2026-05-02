@@ -7,7 +7,8 @@ import ZPatternFeature from "../components/ZPatternFeature";
 import VideoCard from "../components/VideoCard";
 import { categories, stats, testimonials } from "../data/mockData";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf, X, ZoomIn, ZoomOut } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,49 +29,6 @@ const itemVariants = {
   }
 };
 
-const TestimonialSlider = ({ items }) => {
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % items.length), 5000);
-    return () => clearInterval(id);
-  }, [items.length]);
-  const prev = () => setIndex((i) => (i - 1 + items.length) % items.length);
-  const next = () => setIndex((i) => (i + 1) % items.length);
-  const active = items[index];
-  return (
-    <div className="testimonial-wrapper">
-      <div className="testimonial-grid-bg" />
-      <motion.div
-        key={index}
-        className="testimonial-inner"
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="testimonial-left">
-          <motion.div
-            className="testimonial-img-wrap"
-            whileHover={{ scale: 1.02, rotate: 0.4 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          >
-            <img src={active.image} alt="partner" className="testimonial-img" />
-            <span className="testimonial-img-shadow" />
-          </motion.div>
-        </div>
-        <div className="testimonial-right">
-          <div className="testimonial-name">{active.name}</div>
-          <div className="testimonial-role">{active.role}</div>
-          <p className="testimonial-quote">"{active.text}"</p>
-          <div className="testimonial-nav">
-            <button className="nav-btn" onClick={prev} aria-label="Previous"><ChevronLeft size={18} /></button>
-            <button className="nav-btn" onClick={next} aria-label="Next"><ChevronRight size={18} /></button>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
 export default function Home() {
   const marqueeRef = useRef(null);
   const [liveVisible, setLiveVisible] = useState(false);
@@ -78,13 +36,18 @@ export default function Home() {
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeWhyIndex, setActiveWhyIndex] = useState(0);
   const [modal, setModal] = useState(null);
-  const openModal = (v) => setModal(v);
-  const closeModal = () => setModal(null);
-  const partnerImages = [
-    "/assets/1.png", "/assets/2.png", "/assets/3.png", "/assets/4.png",
-    "/assets/5.png", "/assets/6.png", "/assets/7.png", "/assets/8.png",
-    "/assets/9.png", "/assets/10.png", "/assets/11.png", "/assets/12.png"
-  ];
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  const openModal = (v) => {
+    setModal(v);
+    setZoomLevel(1);
+  };
+
+  const closeModal = () => {
+    setModal(null);
+    setZoomLevel(1);
+  };
+
   const featuredProducts = useMemo(() => {
     const list = [];
     categories.forEach(cat => {
@@ -132,6 +95,7 @@ export default function Home() {
       if (hideTimer) clearTimeout(hideTimer);
     };
   }, [isDesktop]);
+
   useEffect(() => {
     if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") return;
     const footer = document.querySelector("footer.footer");
@@ -147,6 +111,7 @@ export default function Home() {
     observer.observe(footer);
     return () => observer.disconnect();
   }, []);
+
   useEffect(() => {
     const el = marqueeRef.current;
     if (!el) return;
@@ -169,6 +134,7 @@ export default function Home() {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
+
   return (
     <>
       <Hero categories={categories} />
@@ -190,8 +156,6 @@ export default function Home() {
         reverse={true}
         onOpenModal={openModal}
       />
-
-
 
       {/* Features/Why Choose Us */}
       <section className="section">
@@ -259,6 +223,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TRUSTED PARTNERS SECTION */}
       <section className="section bg-muted">
         <div className="container">
           <motion.div
@@ -268,20 +233,63 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="section-title">Trusted Partners</h2>
-            <p className="section-subtitle">Driving impact together with our partners.</p>
+            <p className="section-subtitle">Real voices, real impact. Hear directly from the visionaries we work with.</p>
           </motion.div>
-          <TestimonialSlider
-            items={partnerImages.map((img, i) => ({
-              image: img,
-              text: testimonials[i % testimonials.length].text,
-              name: testimonials[i % testimonials.length].name,
-              role: testimonials[i % testimonials.length].role,
-            }))}
-          />
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "center" }}>
+            {/* Written Breakdown */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(56, 189, 248, 0.1)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: "999px", fontSize: "0.85rem", fontWeight: 700, marginBottom: "1.25rem" }}>
+                A 10/10 Partnership Rating
+              </div>
+              <h3 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "1rem", lineHeight: 1.2 }}>
+                "Unmatched discipline and operational excellence."
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "1.1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+                <strong>Pradeep Kantpal, Founder & Director of Ecostar Innovation</strong>, breaks down his three-year journey scaling alongside Urja Mobility's ecosystem.
+              </p>
+
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {[
+                  "Over 10,000 to 15,000 successful battery finances powered together.",
+                  "Flawless execution and rapid order fulfillment across pan-India operations.",
+                  "Transparent infrastructure with dedicated testing labs and instant on-ground support."
+                ].map((item, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", color: "var(--muted)" }}>
+                    <CheckCircle size={20} color="#38bdf8" style={{ flexShrink: 0, marginTop: "2px" }} />
+                    <span style={{ fontSize: "0.95rem", lineHeight: 1.5 }}>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Video Component */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <VideoCard
+                src={"/assets/trusted partner 1 .mp4"}
+                title={"Ecostar Innovation Review"}
+                poster={"/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"}
+                onOpen={() => openModal({
+                  src: "/assets/trusted partner 1 .mp4",
+                  title: "Ecostar Innovation Review",
+                  subtitle: "/assets/trusted-partner-1.vtt",
+                  poster: "/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"
+                })}
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
-
-
 
       <section className="section">
         <div className="container">
@@ -306,6 +314,7 @@ export default function Home() {
       <StrategicRoadmap />
       <PresenceMap />
 
+      {/* --- DATA + REALITY SECTION --- */}
       <section className="section">
         <div className="container">
           <motion.div
@@ -317,8 +326,11 @@ export default function Home() {
             <h2 className="section-title">Data + Reality</h2>
             <p className="section-subtitle">Connecting real-time metrics with real driver outcomes.</p>
           </motion.div>
+
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "stretch" }}>
-            <div style={{ padding: "1.5rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", boxShadow: "0 10px 30px rgba(0,0,0,0.35)" }}>
+
+            {/* 1. Live Grid Status Box */}
+            <div style={{ padding: "1.5rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", boxShadow: "0 10px 30px rgba(0,0,0,0.35)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ fontSize: "1rem", color: "var(--muted)", marginBottom: "0.5rem", fontWeight: 700 }}>Live Grid Status</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
                 <div>
@@ -336,22 +348,55 @@ export default function Home() {
               </div>
               <div style={{ marginTop: "0.75rem", fontSize: "0.9rem", color: "var(--muted)" }}>10,000+ deployed batteries and energy nodes monitored in real time.</div>
             </div>
-            <VideoCard src={"/assets/driver response 4 .mp4"} title={"Driver Response"} onOpen={openModal} />
+
+            {/* 2. Reality Document Image */}
+            <motion.div
+              whileHover={{ y: -5 }}
+              onClick={() => openModal({ src: "/assets/reality document .jpeg", title: "Reality Document" })}
+              style={{
+                borderRadius: "16px",
+                overflow: "hidden",
+                border: "1px solid var(--border)",
+                background: "var(--bg-2)",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+                cursor: "pointer",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column"
+              }}
+            >
+              <img
+                src="/assets/reality document .jpeg"
+                alt="Reality Document"
+                style={{ width: "100%", height: "100%", objectFit: "cover", minHeight: "250px", display: "block" }}
+              />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "1.5rem 1rem 1rem", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)", color: "white", fontWeight: 700, fontSize: "1.1rem" }}>
+                Reality Document
+              </div>
+            </motion.div>
+
+            {/* 3. Driver Response 5 Video */}
+            <VideoCard src={"/assets/driver response 5 .mp4"} title={"Driver Response 5"} onOpen={openModal} />
+
           </div>
         </div>
       </section>
-      <AnimatePresence>
-        {modal && (
-          <motion.div
+
+      {/* --- MODAL --- */}
+      {createPortal(
+        <AnimatePresence>
+          {modal && (
+            <motion.div
+              className="home-media-modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{
               position: "fixed",
               inset: 0,
-              zIndex: 1000,
-              background: "rgba(2,6,23,0.7)",
-              backdropFilter: "blur(4px)",
+              zIndex: 99999, // Massive Z-index to override the footer!
+              background: "rgba(2,6,23,0.85)",
+              backdropFilter: "blur(6px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -364,7 +409,7 @@ export default function Home() {
               animate={{ y: 0, scale: 1, opacity: 1 }}
               exit={{ y: 10, scale: 0.98, opacity: 0 }}
               style={{
-                width: "min(1000px, 95vw)",
+                width: "min(1200px, 95vw)", // Slightly wider for documents
                 borderRadius: "16px",
                 overflow: "hidden",
                 background: "var(--bg-2)",
@@ -385,34 +430,118 @@ export default function Home() {
                   height: 40,
                   borderRadius: "999px",
                   backdropFilter: "blur(8px)",
-                  background: "rgba(15,23,42,0.55)",
+                  background: "rgba(15,23,42,0.65)",
                   border: "1px solid rgba(148,163,184,0.4)",
                   color: "#fff",
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.45)"
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.45)",
+                  zIndex: 20
                 }}
                 aria-label="Close"
               >
                 <X size={18} />
               </button>
-              <div style={{ position: "relative", aspectRatio: "16 / 9", background: "#000" }}>
-                <video
-                  src={encodeURI(modal.src)}
-                  controls
-                  autoPlay
-                  playsInline
-                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-                />
+
+              <div style={{
+                position: "relative",
+                width: "100%",
+                // Flexible height: 75vh for images (to see more of document), 16:9 for videos
+                height: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "75vh" : "auto",
+                aspectRatio: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "auto" : "16 / 9",
+                background: "#000",
+                overflow: "hidden", // Hide native scrollbars
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}>
+                {modal.src.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
+                  <>
+                    <motion.img
+                      src={encodeURI(modal.src)}
+                      alt={modal.title}
+                      drag={zoomLevel > 1}
+                      dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }} // Generous panning bounds
+                      dragElastic={0.1}
+                      // Smoothly scales up, and snaps back to center (0,0) when zoomed out
+                      animate={zoomLevel === 1 ? { x: 0, y: 0, scale: 1 } : { scale: zoomLevel }}
+                      transition={{ type: "tween", duration: 0.2 }}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                        display: "block",
+                        cursor: zoomLevel > 1 ? "grab" : "zoom-in"
+                      }}
+                      whileDrag={{ cursor: "grabbing" }}
+                      onClick={() => { if (zoomLevel === 1) setZoomLevel(2.5); }}
+                    />
+
+                    {/* Floating Zoom Controls */}
+                    <div style={{
+                      position: "absolute",
+                      bottom: "1rem",
+                      right: "1rem",
+                      display: "flex",
+                      gap: "0.5rem",
+                      background: "rgba(15,23,42,0.8)",
+                      backdropFilter: "blur(8px)",
+                      padding: "0.5rem",
+                      borderRadius: "999px",
+                      border: "1px solid rgba(148,163,184,0.3)",
+                      zIndex: 10
+                    }}>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setZoomLevel(prev => Math.max(1, prev - 0.5)); }}
+                        style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
+                        aria-label="Zoom Out"
+                      >
+                        <ZoomOut size={20} />
+                      </button>
+                      <div style={{ width: "1px", background: "rgba(255,255,255,0.2)", margin: "0 4px" }} />
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setZoomLevel(prev => Math.min(4, prev + 0.5)); }}
+                        style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
+                        aria-label="Zoom In"
+                      >
+                        <ZoomIn size={20} />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <video
+                    src={encodeURI(modal.src)}
+                    poster={modal.poster}
+                    controls
+                    autoPlay
+                    playsInline
+                    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                  >
+                    {modal.subtitle && (
+                      <track
+                        kind="subtitles"
+                        src={encodeURI(modal.subtitle)}
+                        srcLang="en"
+                        label="English"
+                        default
+                      />
+                    )}
+                  </video>
+                )}
               </div>
+
               <div style={{ padding: "0.9rem 1rem", borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div style={{ fontWeight: 700 }}>{modal.title}</div>
               </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      {/* Live Grid Float (Desktop only) */}
       {isDesktop && liveVisible && !footerVisible && (
         <motion.div
           initial={{ opacity: 0, y: 18, x: -12 }}

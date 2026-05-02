@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 
-export default function VideoCard({ src, title, onOpen, isHero }) {
+// 1. Added 'poster' to the props
+export default function VideoCard({ src, title, onOpen, isHero, poster }) {
   const ref = useRef(null);
   const wrapRef = useRef(null);
   const [hovered, setHovered] = useState(false);
@@ -10,12 +11,14 @@ export default function VideoCard({ src, title, onOpen, isHero }) {
   const [isMobile, setIsMobile] = useState(false);
   const [visible, setVisible] = useState(false);
   const [inited, setInited] = useState(false);
+
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth < 640);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -30,25 +33,30 @@ export default function VideoCard({ src, title, onOpen, isHero }) {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
     if (hovered && visible) {
       v.muted = true;
-      v.play().catch(() => {});
+      v.play().catch(() => { });
     } else {
       v.pause();
       v.currentTime = 0;
     }
   }, [hovered, visible]);
+
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
-    if (!visible || inited) return;
+
+    // If a custom poster is provided, we don't need to generate a canvas thumbnail
+    if (!visible || inited || poster) return;
+
     const handleLoaded = () => {
       try {
         v.currentTime = 0.01;
-      } catch {}
+      } catch { }
     };
     const handleSeeked = () => {
       try {
@@ -66,7 +74,7 @@ export default function VideoCard({ src, title, onOpen, isHero }) {
         v.pause();
         v.currentTime = 0;
         setInited(true);
-      } catch {}
+      } catch { }
     };
     v.addEventListener("loadeddata", handleLoaded);
     v.addEventListener("seeked", handleSeeked);
@@ -74,8 +82,10 @@ export default function VideoCard({ src, title, onOpen, isHero }) {
       v.removeEventListener("loadeddata", handleLoaded);
       v.removeEventListener("seeked", handleSeeked);
     };
-  }, [visible, inited]);
+  }, [visible, inited, poster]);
+
   const glow = hovered ? "0 12px 30px rgba(34,197,94,0.25), 0 10px 30px rgba(0,0,0,0.35)" : "0 10px 30px rgba(0,0,0,0.35)";
+
   return (
     <motion.div
       ref={wrapRef}
@@ -110,23 +120,25 @@ export default function VideoCard({ src, title, onOpen, isHero }) {
             display: "block"
           }}
         />
-        {!hovered && thumb && (
+
+        {/* 2. Logic updated: Show the custom poster first. If no poster, show the canvas thumb */}
+        {!hovered && (poster || thumb) && (
           <img
-            src={thumb}
+            src={poster || thumb}
             alt={title}
             style={{
               position: "absolute",
               inset: 0,
               width: "100%",
               height: "100%",
-              objectFit: "contain",
+              objectFit: "contain", // Use cover if you want it to fill the black bars!
               display: "block"
             }}
           />
         )}
         <button
           type="button"
-          onClick={() => onOpen({ src, title })}
+          onClick={() => onOpen({ src, title, poster, subtitle: src.replace('.mp4', '.vtt') })} // Passes poster/subs to modal
           style={{
             position: "absolute",
             inset: "0",
