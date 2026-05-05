@@ -36,14 +36,21 @@ export const categories = [
                 },
                 bms: {
                   type: "JBD, Daly, Superpower",
-                  voltageProtection: "",
-                  currentProtection: "",
-                  thermalProtection: "",
-                  electricalIsolation: "",
-                  redundancyAndFailSafes: "",
-                  communication: ["CAN bus", "RS485", "Bluetooth", "IoT"]
+                  voltageProtection: "Cell voltage monitoring & balancing, Over-voltage / under-voltage protection",
+                  currentProtection: "Over-charge / over-discharge protection, Over-current protection (charge & discharge), Short-circuit protection",
+                  thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
+                  electricalIsolation: "-",
+                  redundancyAndFailSafes: "Emergency cut-off",
+                  communication: [
+                    "CAN bus (ISO 11898)",
+                    "RS485 / UART",
+                    "Bluetooth",
+                    "IoT",
+                    "Diagnostic software support"
+                  ]
                 },
                 mechanical: {
+                  dimensions: "56(cm) x 36.2(cm) x 26.7(cm) (Length x Width x Height)",
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
                   ipRating: "IP67 (dustproof & waterproof)",
                   connector: "SB-50/SB-75"
@@ -52,39 +59,55 @@ export const categories = [
             }
           },
           {
-            id: "51v-232",
-            title: "51V 232AH",
+            id: "51v-230",
+            title: "51V 230AH",
             desc: "51V Series E-Rickshaw",
-            specs: "51.2V • 232AH",
+            specs: "51.2V • 230AH",
             details: {
               technical: {
                 application: "Electric 3-Wheelers (L5 loaders/e-rickshaw), Energy storage systems",
                 general: {
                   chemistry: "Lithium Iron Phosphate (LiFePO₄)",
-                  nominalVoltage: "51.2V (16S configuration)",
-                  nominalCapacity: "232Ah",
-                  nominalEnergy: "~11.88 kWh (11878 Wh)"
+                  packMethod: "16S1P",
+                  nominalVoltage: "51.2V",
+                  nominalCapacity: "230Ah",
+                  nominalEnergy: "11.77 kWh"
                 },
                 electrical: {
                   nominalVoltage: "51.2V",
-                  nominalCapacity: "232Ah ± 2%",
-                  nominalEnergy: "~11878 Wh",
-                  operatingVoltageRange: "44.8V – 58.4V",
-                  peakDischargeCurrent: "300A (10 sec)"
+                  nominalCapacity: "230Ah",
+                  nominalEnergy: "11.77 kWh",
+                  operatingVoltageRange: "44.8V - 58.4V",
+                  chargingMethod: "CC/CV",
+                  standardChargeCurrent: "15A-30A",
+                  maxContinuousCharge: "100A",
+                  maxContinuousDischarge: "≤ 200A",
+                  peakDischargeCurrent: "≤ 300A (up to 10 Sec.)",
+                  cutOffDischargeVoltage: "44.8V"
+                },
+                cell: {
+                  cycleLife: "3000 cycles @ 25°C"
                 },
                 bms: {
                   type: "JBD, Daly, Superpower",
                   voltageProtection: "Cell voltage monitoring, Over-voltage protection",
-                  currentProtection: "Over-current protection, Short-circuit protection",
+                  currentProtection: "Over-current protection, Short-circuit protection (400A)",
                   thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
                   electricalIsolation: "",
                   redundancyAndFailSafes: "Emergency cut-off",
-                  communication: ["CAN bus", "RS485", "Bluetooth", "IoT"]
+                  communication: ["BLE", "RS485", "CAN"]
                 },
                 mechanical: {
+                  dimensions: "560 x 362 x 267 mm",
+                  weight: "~82 kgs",
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
-                  ipRating: "IP67 (dustproof & waterproof)",
+                  ipRating: "IP-67",
                   connector: "SB-75/SB-175"
+                },
+                environmental: {
+                  operatingTempCharge: "0°C - 55°C",
+                  operatingTempDischarge: "0°C - 55°C",
+                  storageTemperature: "0°C - 50°C"
                 }
               }
             }
@@ -110,14 +133,21 @@ export const categories = [
                 },
                 bms: {
                   type: "JBD, Daly, Superpower",
-                  voltageProtection: "",
-                  currentProtection: "",
-                  thermalProtection: "",
-                  electricalIsolation: "",
-                  redundancyAndFailSafes: "",
-                  communication: ["CAN bus", "RS485", "Bluetooth", "IoT"]
+                  voltageProtection: "Cell voltage monitoring & balancing, Over-voltage / under-voltage protection",
+                  currentProtection: "Over-charge / over-discharge protection, Over-current protection (charge & discharge), Short-circuit protection",
+                  thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
+                  electricalIsolation: "-",
+                  redundancyAndFailSafes: "Emergency cut-off",
+                  communication: [
+                    "CAN bus (ISO 11898)",
+                    "RS485 / UART",
+                    "Bluetooth",
+                    "IoT",
+                    "Diagnostic software support"
+                  ]
                 },
                 mechanical: {
+                  dimensions: "56(cm) x 36.2(cm) x 26.7(cm) (Length x Width x Height)",
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
                   ipRating: "IP67 (dustproof & waterproof)"
                 }
@@ -175,7 +205,7 @@ export const categories = [
                   ]
                 },
                 mechanical: {
-                  dimensions: "≤ 550mm x 350mm x 200mm (indicative)",
+                  dimensions: "56(cm) x 36.2(cm) x 26.7(cm) (Length x Width x Height)",
                   weight: "≤ 45–50 kg",
                   enclosureMaterial: "Powder-coated steel / Aluminum alloy",
                   ipRating: "IP67 (dustproof & waterproof)",
@@ -207,88 +237,6 @@ export const categories = [
     image: "/assets/TK3000W.png",
     subcategories: [
       {
-        id: "smart-25a",
-        title: "Smart Chargers",
-        items: [
-          {
-            id: "51v-25a-charger",
-            title: "51.2V 25A Smart SMPS Battery Charger",
-            desc: "High-Efficiency Charging Solutions for 16S LFP Battery Systems",
-            specs: "51.2V • 25A",
-            details: {
-              technical: {
-                general: {
-                  type: "SMPS-based CC-CV charger",
-                  application: "Charging 51.2V nominal (16S) LFP batteries",
-                  outputCapacity: "25A (CC mode)",
-                  cooling: "Forced air cooling with fan / natural convection",
-                  installation: "On-board or off-board depending on application"
-                },
-                electrical: {
-                  inputVoltageRange: "180 – 265VAC, 47–63 Hz",
-                  inputPowerFactor: "≥ 0.95",
-                  outputVoltageNominal: "58.4V (16S LFP full charge voltage)",
-                  outputVoltageRange: "40V – 58.4V (programmable)",
-                  outputCurrentNominal: "25A ± 2% (CC stage)",
-                  outputCurrentRange: "0 – 25A (auto-adjustable)",
-                  chargingAlgorithm: "CC-CV (Constant Current → Constant Voltage)",
-                  rippleVoltage: "≤ 1% of rated output",
-                  efficiency: "≥ 93%",
-                  powerOutput: "~1.46 kW"
-                },
-                mechanical: {
-                  connector: "SB-50/SB-75",
-                  enclosureMaterial: "Aluminum alloy / powder-coated steel",
-                  coolingMethod: "Forced air (fan) / natural convection",
-                  dimensions: "≤ 400mm x 250mm x 150mm (indicative)",
-                  weight: "≤ 2–3 kg",
-                  protectionClass: "IP54 minimum (IP65 preferred)",
-                  mounting: "Wall mount / rack mount / portable"
-                }
-              }
-            }
-          },
-          {
-            id: "51v-50a-charger",
-            title: "51.2V 50A LFP Battery Charger",
-            desc: "High-Power CC-CV Charging for 16S LFP Battery Systems",
-            specs: "51.2V • 50A",
-            details: {
-              technical: {
-                general: {
-                  type: "SMPS-based CC-CV charger",
-                  application: "Charging 51.2V nominal (16S) LFP batteries",
-                  outputCapacity: "50A (CC mode)",
-                  cooling: "Forced air cooling with fan / natural convection",
-                  installation: "On-board or off-board depending on application"
-                },
-                electrical: {
-                  inputVoltageRange: "180 – 265VAC, 47–63 Hz",
-                  inputPowerFactor: "≥ 0.95",
-                  outputVoltageNominal: "58.4V (16S LFP full charge voltage)",
-                  outputVoltageRange: "40V – 58.4V (programmable)",
-                  outputCurrentNominal: "50A ± 2% (CC stage)",
-                  outputCurrentRange: "0 – 50A (auto-adjustable)",
-                  chargingAlgorithm: "CC-CV (Constant Current → Constant Voltage)",
-                  rippleVoltage: "≤ 1% of rated output",
-                  efficiency: "≥ 93%",
-                  powerOutput: "~3 kW"
-                },
-                mechanical: {
-                  connector: "SB-75 / SBX-75",
-                  enclosureMaterial: "Aluminum alloy / powder-coated steel",
-                  coolingMethod: "Forced air (fan) / natural convection",
-                  dimensions: "≤ 400mm x 250mm x 150mm (indicative)",
-                  weight: "≤ 4–5 kg",
-                  protectionClass: "IP54 minimum (IP65 preferred)",
-                  mounting: "Wall mount / rack mount / portable"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
         id: 'lithium-ev-chargers',
         title: 'Urja Lithium Chargers',
         items: [
@@ -308,8 +256,8 @@ export const categories = [
                   application: "Optimized for 2-wheeler E-Vehicles using LFP, NCM, or NCA chemistry battery packs (13S to 19S).",
                   coolingSystem: "Forced Air Cooled (Internal fan turns on with increased current/temperature)",
                   protections: "Electronic Reverse Polarity, Mains High Voltage (up to 320VAC RMS), Mains Over Current (Fuse), Electronic Thermal Protection",
-                  nominalVoltage: "Max CV: 71V",
-                  outputCapacity: "Max CC: 7A",
+                  nominalVoltage: "Max CV: 58V",
+                  outputCapacity: "Max CC: 6A",
                   nominalEnergy: "400W MAX",
                   operatingTemperature: "0°C TO 45°C",
                   humidity: "95% RH Non-Condensing"
@@ -346,8 +294,8 @@ export const categories = [
                   application: "AIS 156 II Complied charger for Light E-Vehicles. Features Pre-Charge and Soft-Start for deep discharged batteries (13S to 24S).",
                   coolingSystem: "Forced Air Cooled",
                   protections: "Reverse Polarity, Mains High Voltage, Over Current, Thermal",
-                  nominalVoltage: "Max CV: 84V",
-                  outputCapacity: "Max CC: 17A",
+                  nominalVoltage: "Max CV: 58V",
+                  outputCapacity: "Max CC: 16A",
                   nominalEnergy: "1000W MAX",
                   chargeTermination: "CV Current < 3A for 15 Min OR CV Time Exceeds 1Hr 50Min OR Total Time Exceeds 7 Hrs",
                   preChargeSetting: "Below 75% CV: Limited to CC/4. Below 33V: Limited to 2.0A",
@@ -358,7 +306,7 @@ export const categories = [
                   maxInputCurrent: "4.5A",
                   efficiency: "91% Typical",
                   powerFactor: "Active PF correction, PF>0.98, ITHD < 5%",
-                  softStartRate: "Current Rise rate 0.9A/Sec typical (0 to 17A in 17 Seconds)"
+                  softStartRate: "Current Rise rate 1.0A/Sec typical (0 to 16A in 16 Seconds)"
                 },
                 mechanical: {
                   enclosure: "Powder coated sheet metal cabinet",
@@ -386,7 +334,7 @@ export const categories = [
                   application: "AIS 156 II Complied high-efficiency charger for Light E-Vehicles. Compatible with 8S to 24S Lithium packs.",
                   coolingSystem: "Forced Air Cooled",
                   protections: "Reverse Polarity, Mains High Voltage, Over Current, Thermal",
-                  nominalVoltage: "Max CV: 84V",
+                  nominalVoltage: "Max CV: 58V",
                   outputCapacity: "Max CC: 22A",
                   nominalEnergy: "1200W MAX",
                   chargeTermination: "CV Current < 3A for 15 Min OR CV Time Exceeds 1Hr 50Min OR Total Time Exceeds 7 Hrs",
@@ -425,8 +373,8 @@ export const categories = [
                   application: "AIS 156 II Complied heavy-duty charger for 60AH-200AH packs (13S to 24S). Features 4-stage profile and LCD Interface.",
                   coolingSystem: "Forced Air Cooled",
                   protections: "Reverse Polarity, Mains High Voltage, Over Current, Thermal",
-                  nominalVoltage: "Max CV: 84V",
-                  outputCapacity: "Max CC: 40A",
+                  nominalVoltage: "Configurable 48V to 84V",
+                  outputCapacity: "Configurable 15A to 40A",
                   nominalEnergy: "2400W MAX",
                   userInterface: "LCD Display Panel with Menu/Up/Down buttons, 2 Status LEDs",
                   canInterface: "Configurable through CAN Communication Interface"
@@ -436,7 +384,7 @@ export const categories = [
                   maxInputCurrent: "15A",
                   efficiency: "90% Typical",
                   powerFactor: "Active PF correction, PF>0.98, ITHD < 5%",
-                  softStartRate: "Current Rise rate 2.6A/Sec typical (0 to 40A in 17 Seconds)",
+                  softStartRate: "Current Rise rate 2.6A/Sec typical (0 to Maximum Set Current)",
                   preChargeSetting: "Below 40V: Limited to CC/4. Below 33V: Limited to 2.0A"
                 },
                 mechanical: {
@@ -492,7 +440,7 @@ export const categories = [
                 },
                 bms: {
                   voltageProtection: "Battery Low Alarm (11.3V) & Shutdown (11.0V)",
-                  currentProtection: "Overload (>61 Amp, 6 retries), PV reverse fault via terminal block",
+                  currentProtection: "Overload (>61 Amp, 6 retries), PV Reverse Polarity via terminal block",
                   thermalProtection: "Over-temperature (104°C ± 5°C)",
                   electricalIsolation: "",
                   redundancyAndFailSafes: ""
@@ -533,7 +481,7 @@ export const categories = [
                 },
                 bms: {
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
-                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
                   electricalIsolation: "",
                   redundancyAndFailSafes: ""
@@ -570,7 +518,7 @@ export const categories = [
                 },
                 bms: {
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
-                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
                   electricalIsolation: "",
                   redundancyAndFailSafes: ""
@@ -645,7 +593,7 @@ export const categories = [
                 },
                 bms: {
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
-                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
                   electricalIsolation: "",
                   redundancyAndFailSafes: ""
@@ -682,7 +630,7 @@ export const categories = [
                 },
                 bms: {
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
-                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Connection",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
                   electricalIsolation: "",
                   redundancyAndFailSafes: ""
@@ -728,6 +676,7 @@ export const categories = [
     ]
   }
 ];
+
 export const teamMembers = [
   { id: 1, name: "PANKAJ CHOPRA", department: "MANAGEMENT", role: "FOUNDER DIRECTOR & CEO", image: "/assets/Pankaj Sir.jpeg" },
   { id: 2, name: "BEEKEY KUMAR", department: "CREDIT", role: "DEPUTY GENERAL MANAGER - CREDIT", image: "/assets/Beekey Kumar-Deputy General Manager- Credits.jpeg" },

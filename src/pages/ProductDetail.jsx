@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useCart } from "../context/CartContext"; // <-- 1. IMPORTED THE CART CONTEXT
+import { useCart } from "../context/CartContext";
 import { categories } from "../data/mockData";
 import { AnimatePresence, motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import {
@@ -75,33 +75,50 @@ const itemVariants = {
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const { addToCart } = useCart(); // <-- 2. EXTRACTED ADD TO CART FUNCTION
+  const { addToCart } = useCart();
   const [activeImage, setActiveImage] = useState(0);
   const [activeMainTab, setActiveMainTab] = useState("features"); // 'features', 'specs', 'roi', 'downloads'
   const [quantity, setQuantity] = useState(1);
   const [cartNotice, setCartNotice] = useState(false);
 
-  // Helper to map title to specific asset filenames with URL encoding for spaces
-  const getProductImage = (title) => {
+  // UPGRADED: Now returns a full gallery array instead of a single string
+  const getProductGallery = (title) => {
     if (!title) return null;
     const t = title.toLowerCase();
 
-    // 1. INVERTERS, MPPT & UPS 
-    if (t.includes("mppt")) return "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
-    if (t.includes("3000va") || t.includes("3kva")) return "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-    if (t.includes("2000va") || t.includes("2kva")) return "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-    if (t.includes("1050va")) return "/assets/1050VA%20Solar%20UPS.jpeg";
-    if (t.includes("1000va") || t.includes("1kva")) return "/assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg";
-    if (t.includes("850va")) return "/assets/850VA%2012V%20Solar%20UPS.jpeg";
-    if (t.includes("300va")) return "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    // 1. INVERTERS, MPPT & UPS (Returns single image padded with nulls)
+    let singleImg = null;
+    if (t.includes("mppt")) singleImg = "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
+    else if (t.includes("3000va") || t.includes("3kva")) singleImg = "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    else if (t.includes("2000va") || t.includes("2kva")) singleImg = "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    else if (t.includes("1050va")) singleImg = "/assets/1050VA%20Solar%20UPS.jpeg";
+    else if (t.includes("1000va") || t.includes("1kva")) return [
+      "/assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg", null, null, null
+    ];
+    else if (t.includes("850va")) singleImg = "/assets/850VA%2012V%20Solar%20UPS.jpeg";
+    else if (t.includes("300va")) singleImg = "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
 
-    // 2. LFP BATTERIES 
-    if (t.includes("232")) return "/assets/51.2v%20232ah.png";
-    if (t.includes("64v") && t.includes("105")) return "/assets/64v%20105ah.png";
-    if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah.png";
-    if (t.includes("100") && !t.includes("1000")) return "/assets/51.2v%20100ah.png";
-    if (t.includes("50a")) return "/assets/51.2v%2050a.png";
-    if (t.includes("25a")) return "/assets/51.2v%2025a.png";
+    if (singleImg) return [singleImg, null, null, null];
+
+    // 2. LFP BATTERIES (Generates the 4 angles based on your screenshot)
+    const getAngles = (base) => [
+      `/assets/${base}%201.png`,
+      `/assets/${base}%202.png`,
+      `/assets/${base}%203.png`,
+      `/assets/${base}%204.png`
+    ];
+
+    if (t.includes("232")) return getAngles("51.2v%20232ah");
+    if (t.includes("64v") && t.includes("105")) return [
+      "/assets/64%20v%20105ah%201.png",
+      "/assets/64%20v%20105ah%202.png",
+      "/assets/64v%20105ah%203.png",
+      "/assets/64v%20105ah%204.png"
+    ];
+    if (t.includes("105") && !t.includes("1050")) return getAngles("51.2v%20105ah");
+    if (t.includes("100") && !t.includes("1000")) return getAngles("51.2v%20100ah");
+    if (t.includes("50a")) return getAngles("51.2v%2050a");
+    if (t.includes("25a")) return getAngles("51.2v%2025a");
 
     return null;
   };
@@ -141,12 +158,14 @@ export default function ProductDetail() {
   const details = product.details || {};
 
   // Set up the dynamic gallery array
-  const batteryImg = product.image || getProductImage(product.title);
-  const galleryImages = details.gallery || [batteryImg, null, null, null];
-  const currentDisplayImage = galleryImages[activeImage] || batteryImg;
+  const dynamicGallery = getProductGallery(product.title);
+
+  // Prioritize hardcoded mockData gallery -> dynamic angles -> fallback
+  const galleryImages = details.gallery || dynamicGallery || [product.image, null, null, null];
+  const currentDisplayImage = galleryImages[activeImage] || galleryImages[0] || product.image;
 
   const handleAddToCart = () => {
-    addToCart({ ...product, image: currentDisplayImage || batteryImg }, quantity);
+    addToCart({ ...product, image: currentDisplayImage || product.image }, quantity);
     setCartNotice(true);
     window.clearTimeout(window.__urjaCartNoticeTimer);
     window.__urjaCartNoticeTimer = window.setTimeout(() => setCartNotice(false), 2200);
@@ -191,19 +210,10 @@ export default function ProductDetail() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -18, scale: 0.96 }}
             style={{
-              position: "fixed",
-              top: "96px",
-              right: "24px",
-              zIndex: 1500,
-              display: "flex",
-              alignItems: "center",
-              gap: "0.75rem",
-              padding: "0.95rem 1.15rem",
-              borderRadius: "14px",
-              background: "rgba(15, 23, 42, 0.96)",
-              border: "1px solid rgba(34,197,94,0.45)",
-              color: "var(--text)",
-              boxShadow: "0 18px 40px rgba(0,0,0,0.45), 0 0 22px rgba(34,197,94,0.16)",
+              position: "fixed", top: "96px", right: "24px", zIndex: 1500,
+              display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.95rem 1.15rem",
+              borderRadius: "14px", background: "rgba(15, 23, 42, 0.96)", border: "1px solid rgba(34,197,94,0.45)",
+              color: "var(--text)", boxShadow: "0 18px 40px rgba(0,0,0,0.45), 0 0 22px rgba(34,197,94,0.16)",
               backdropFilter: "blur(14px)"
             }}
           >
@@ -267,11 +277,8 @@ export default function ProductDetail() {
                       src={currentDisplayImage}
                       alt={product.title}
                       style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                        filter: `drop-shadow(0 30px 50px ${accentColor}40)`,
-                        pointerEvents: "none"
+                        width: "100%", height: "100%", objectFit: "contain",
+                        filter: `drop-shadow(0 30px 50px ${accentColor}40)`, pointerEvents: "none"
                       }}
                     />
                   ) : (

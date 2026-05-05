@@ -148,14 +148,6 @@ export default function Home() {
         reverse={false}
         onOpenModal={openModal}
       />
-      <ZPatternFeature
-        title="Rapid On-Ground Problem Fixing"
-        description="Technology is only as good as the team behind it. Our field technicians are deployed instantly to resolve hardware issues, ensuring maximum uptime for every Urja Mobility vehicle."
-        videoSrc="/assets/problem fixing 1 .mp4"
-        videoTitle="Problem Fixing"
-        reverse={true}
-        onOpenModal={openModal}
-      />
 
       {/* Features/Why Choose Us */}
       <section className="section">
@@ -291,6 +283,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* RAPID SUPPORT SECTION (Expanded) */}
       <section className="section">
         <div className="container">
           <motion.div
@@ -302,15 +295,56 @@ export default function Home() {
             <h2 className="section-title">Rapid Support</h2>
             <p className="section-subtitle">Field teams resolve issues quickly to keep fleets on the move.</p>
           </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "center" }}>
-            <div>
-              <h3 style={{ fontSize: "1.6rem", fontWeight: 800, marginBottom: "0.75rem" }}>On-the-ground Assistance</h3>
-              <p style={{ color: "var(--muted)" }}>Real technicians, real fixes. Response times and ticket resolutions are tracked and optimized.</p>
-            </div>
-            <VideoCard src={"/assets/problem fixing 1 .mp4"} title={"Problem Fixing"} onOpen={openModal} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "center" }}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(249, 115, 22, 0.1)", color: "#f97316", border: "1px solid rgba(249, 115, 22, 0.2)", borderRadius: "999px", fontSize: "0.85rem", fontWeight: 700, marginBottom: "1.25rem" }}>
+                Maximum Uptime Guaranteed
+              </div>
+              <h3 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "1rem", lineHeight: 1.2 }}>
+                On-the-ground Assistance
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "1.1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+                Technology is only as good as the team behind it. Real technicians, real fixes. Our field team is deployed instantly to resolve hardware issues, ensuring less downtime and higher earnings for drivers.
+              </p>
+
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {[
+                  "Instant deployment of field technicians to resolve hardware and software issues.",
+                  "Transparent ticket tracking with response times aggressively optimized.",
+                  "Fully-equipped mobile units for immediate, on-site problem fixing."
+                ].map((item, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", color: "var(--muted)" }}>
+                    <CheckCircle size={20} color="#f97316" style={{ flexShrink: 0, marginTop: "2px" }} />
+                    <span style={{ fontSize: "0.95rem", lineHeight: 1.5 }}>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <VideoCard
+                src={"/assets/problem fixing 1 .mp4"}
+                title={"Problem Fixing"}
+                onOpen={() => openModal({
+                  src: "/assets/problem fixing 1 .mp4",
+                  title: "Rapid Problem Fixing"
+                })}
+              />
+            </motion.div>
           </div>
         </div>
       </section>
+
       <StrategicRoadmap />
       <PresenceMap />
 
@@ -388,153 +422,153 @@ export default function Home() {
           {modal && (
             <motion.div
               className="home-media-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 99999, // Massive Z-index to override the footer!
-              background: "rgba(2,6,23,0.85)",
-              backdropFilter: "blur(6px)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "2rem"
-            }}
-            onClick={closeModal}
-          >
-            <motion.div
-              initial={{ y: 20, scale: 0.98, opacity: 0 }}
-              animate={{ y: 0, scale: 1, opacity: 1 }}
-              exit={{ y: 10, scale: 0.98, opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               style={{
-                width: "min(1200px, 95vw)", // Slightly wider for documents
-                borderRadius: "16px",
-                overflow: "hidden",
-                background: "var(--bg-2)",
-                border: "1px solid var(--border)",
-                boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
-                position: "relative"
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={closeModal}
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  width: 40,
-                  height: 40,
-                  borderRadius: "999px",
-                  backdropFilter: "blur(8px)",
-                  background: "rgba(15,23,42,0.65)",
-                  border: "1px solid rgba(148,163,184,0.4)",
-                  color: "#fff",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.45)",
-                  zIndex: 20
-                }}
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-
-              <div style={{
-                position: "relative",
-                width: "100%",
-                // Flexible height: 75vh for images (to see more of document), 16:9 for videos
-                height: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "75vh" : "auto",
-                aspectRatio: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "auto" : "16 / 9",
-                background: "#000",
-                overflow: "hidden", // Hide native scrollbars
+                position: "fixed",
+                inset: 0,
+                zIndex: 99999, // Massive Z-index to override the footer!
+                background: "rgba(2,6,23,0.85)",
+                backdropFilter: "blur(6px)",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
-              }}>
-                {modal.src.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
-                  <>
-                    <motion.img
-                      src={encodeURI(modal.src)}
-                      alt={modal.title}
-                      drag={zoomLevel > 1}
-                      dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }} // Generous panning bounds
-                      dragElastic={0.1}
-                      // Smoothly scales up, and snaps back to center (0,0) when zoomed out
-                      animate={zoomLevel === 1 ? { x: 0, y: 0, scale: 1 } : { scale: zoomLevel }}
-                      transition={{ type: "tween", duration: 0.2 }}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                        display: "block",
-                        cursor: zoomLevel > 1 ? "grab" : "zoom-in"
-                      }}
-                      whileDrag={{ cursor: "grabbing" }}
-                      onClick={() => { if (zoomLevel === 1) setZoomLevel(2.5); }}
-                    />
+                justifyContent: "center",
+                padding: "2rem"
+              }}
+              onClick={closeModal}
+            >
+              <motion.div
+                initial={{ y: 20, scale: 0.98, opacity: 0 }}
+                animate={{ y: 0, scale: 1, opacity: 1 }}
+                exit={{ y: 10, scale: 0.98, opacity: 0 }}
+                style={{
+                  width: "min(1200px, 95vw)", // Slightly wider for documents
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  background: "var(--bg-2)",
+                  border: "1px solid var(--border)",
+                  boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
+                  position: "relative"
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    right: 10,
+                    width: 40,
+                    height: 40,
+                    borderRadius: "999px",
+                    backdropFilter: "blur(8px)",
+                    background: "rgba(15,23,42,0.65)",
+                    border: "1px solid rgba(148,163,184,0.4)",
+                    color: "#fff",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.45)",
+                    zIndex: 20
+                  }}
+                  aria-label="Close"
+                >
+                  <X size={18} />
+                </button>
 
-                    {/* Floating Zoom Controls */}
-                    <div style={{
-                      position: "absolute",
-                      bottom: "1rem",
-                      right: "1rem",
-                      display: "flex",
-                      gap: "0.5rem",
-                      background: "rgba(15,23,42,0.8)",
-                      backdropFilter: "blur(8px)",
-                      padding: "0.5rem",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(148,163,184,0.3)",
-                      zIndex: 10
-                    }}>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setZoomLevel(prev => Math.max(1, prev - 0.5)); }}
-                        style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
-                        aria-label="Zoom Out"
-                      >
-                        <ZoomOut size={20} />
-                      </button>
-                      <div style={{ width: "1px", background: "rgba(255,255,255,0.2)", margin: "0 4px" }} />
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setZoomLevel(prev => Math.min(4, prev + 0.5)); }}
-                        style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
-                        aria-label="Zoom In"
-                      >
-                        <ZoomIn size={20} />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <video
-                    src={encodeURI(modal.src)}
-                    poster={modal.poster}
-                    controls
-                    autoPlay
-                    playsInline
-                    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-                  >
-                    {modal.subtitle && (
-                      <track
-                        kind="subtitles"
-                        src={encodeURI(modal.subtitle)}
-                        srcLang="en"
-                        label="English"
-                        default
+                <div style={{
+                  position: "relative",
+                  width: "100%",
+                  // Flexible height: 75vh for images (to see more of document), 16:9 for videos
+                  height: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "75vh" : "auto",
+                  aspectRatio: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "auto" : "16 / 9",
+                  background: "#000",
+                  overflow: "hidden", // Hide native scrollbars
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}>
+                  {modal.src.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
+                    <>
+                      <motion.img
+                        src={encodeURI(modal.src)}
+                        alt={modal.title}
+                        drag={zoomLevel > 1}
+                        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }} // Generous panning bounds
+                        dragElastic={0.1}
+                        // Smoothly scales up, and snaps back to center (0,0) when zoomed out
+                        animate={zoomLevel === 1 ? { x: 0, y: 0, scale: 1 } : { scale: zoomLevel }}
+                        transition={{ type: "tween", duration: 0.2 }}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "100%",
+                          objectFit: "contain",
+                          display: "block",
+                          cursor: zoomLevel > 1 ? "grab" : "zoom-in"
+                        }}
+                        whileDrag={{ cursor: "grabbing" }}
+                        onClick={() => { if (zoomLevel === 1) setZoomLevel(2.5); }}
                       />
-                    )}
-                  </video>
-                )}
-              </div>
 
-              <div style={{ padding: "0.9rem 1rem", borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ fontWeight: 700 }}>{modal.title}</div>
-              </div>
-            </motion.div>
+                      {/* Floating Zoom Controls */}
+                      <div style={{
+                        position: "absolute",
+                        bottom: "1rem",
+                        right: "1rem",
+                        display: "flex",
+                        gap: "0.5rem",
+                        background: "rgba(15,23,42,0.8)",
+                        backdropFilter: "blur(8px)",
+                        padding: "0.5rem",
+                        borderRadius: "999px",
+                        border: "1px solid rgba(148,163,184,0.3)",
+                        zIndex: 10
+                      }}>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setZoomLevel(prev => Math.max(1, prev - 0.5)); }}
+                          style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
+                          aria-label="Zoom Out"
+                        >
+                          <ZoomOut size={20} />
+                        </button>
+                        <div style={{ width: "1px", background: "rgba(255,255,255,0.2)", margin: "0 4px" }} />
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setZoomLevel(prev => Math.min(4, prev + 0.5)); }}
+                          style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
+                          aria-label="Zoom In"
+                        >
+                          <ZoomIn size={20} />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <video
+                      src={encodeURI(modal.src)}
+                      poster={modal.poster}
+                      controls
+                      autoPlay
+                      playsInline
+                      style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                    >
+                      {modal.subtitle && (
+                        <track
+                          kind="subtitles"
+                          src={encodeURI(modal.subtitle)}
+                          srcLang="en"
+                          label="English"
+                          default
+                        />
+                      )}
+                    </video>
+                  )}
+                </div>
+
+                <div style={{ padding: "0.9rem 1rem", borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ fontWeight: 700 }}>{modal.title}</div>
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>,

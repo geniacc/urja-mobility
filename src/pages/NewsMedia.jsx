@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { YoutubeFilled, InstagramFilled, ReadOutlined, PlayCircleFilled, FacebookFilled, PlayCircleOutlined } from "@ant-design/icons";
-import { ExternalLink, ChevronRight, Twitter, Facebook } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { YoutubeFilled, InstagramFilled, ReadOutlined, PlayCircleFilled, FacebookFilled, PlayCircleOutlined, StarFilled } from "@ant-design/icons";
+import { ExternalLink, ChevronRight, Twitter, Facebook, X } from "lucide-react";
 
-const articles = [
+// 1. Separate Data Pools
+const featuredStories = [
   {
     id: 1,
     title: "Anagh Ojha: Engineering a Sustainable Future",
@@ -39,6 +40,30 @@ const articles = [
     image: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
     link: "https://www.energetica-india.net/news/urja-mobility-introduces-b2c-battery-leasing-program-for-e-rickshaw-drivers",
     description: "Urja Mobility launches B2C battery leasing across 10 cities with monthly plans, option to own in 12–24 months, AI-enabled BMS for health and safety, and service centers to ensure 26+ uptime days/month. Target: onboard 50,000 drivers and accelerate India’s clean mobility goals."
+  }
+];
+
+const trendingNews = [
+  {
+    id: "t1",
+    title: "Urja Mobility Surpasses 15,000 Active Battery Leases",
+    type: "MILESTONE",
+    image: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
+    link: "https://www.energetica-india.net/news/urja-mobility-introduces-b2c-battery-leasing-program-for-e-rickshaw-drivers"
+  },
+  {
+    id: "t2",
+    title: "New Partnership with Eastman Auto & Power",
+    type: "PARTNERSHIP",
+    image: "/assets/eastman-urja-mobility-1536x864.jpg",
+    link: "https://www.manufacturingtodayindia.com/eastman-urja-mobility-sign-mou"
+  },
+  {
+    id: "t3",
+    title: "Urja Mobility Bags ₹100 Crore in Pre-Series A Funding",
+    type: "FUNDING",
+    image: "/assets/9nsm7450x308-2.jpg",
+    link: "https://www.youtube.com/watch?v=sevkWqvT_kg"
   }
 ];
 
@@ -188,10 +213,10 @@ const initiatives = [
 ];
 
 const gallery = [
-  { src: "/assets/eastman-urja-mobility-1536x864.jpg", title: "Partnership" },
-  { src: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg", title: "B2C Leasing" },
-  { src: "/assets/9nsm7450x308-2.jpg", title: "EV Infrastructure" },
-  { src: "/assets/Anagh-Ojha.png", title: "Leadership" }
+  { src: "/assets/eastman-urja-mobility-1536x864.jpg", title: "Partnership Signing" },
+  { src: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg", title: "B2C Leasing Rollout" },
+  { src: "/assets/9nsm7450x308-2.jpg", title: "EV Infrastructure Operations" },
+  { src: "/assets/Anagh-Ojha.png", title: "Leadership Series" }
 ];
 
 const styles = {
@@ -273,13 +298,6 @@ const styles = {
     objectFit: "cover",
     transition: "transform 0.5s ease"
   },
-  shimmer: {
-    position: "absolute",
-    inset: 0,
-    background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0) 80%)",
-    mixBlendMode: "overlay",
-    pointerEvents: "none"
-  },
   content: {
     padding: "24px"
   },
@@ -324,14 +342,6 @@ const styles = {
     alignItems: "center",
     gap: "8px"
   },
-  textCard: {
-    background: "var(--bg-2)",
-    border: "1px solid var(--border)",
-    borderRadius: "var(--radius)",
-    padding: "24px",
-    color: "var(--text)",
-    lineHeight: 1.8
-  },
   layout: {
     display: "flex",
     flexWrap: "wrap",
@@ -367,22 +377,6 @@ const styles = {
     overflow: "hidden",
     boxShadow: "var(--shadow)"
   },
-  initiativeAccent: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 6,
-    backgroundImage: "linear-gradient(90deg, rgba(59,130,246,0.6), rgba(34,197,94,0.6), rgba(244,114,182,0.6))",
-    backgroundSize: "200% 100%"
-  },
-  initiativeGlow: {
-    position: "absolute",
-    inset: -2,
-    borderRadius: "var(--radius)",
-    pointerEvents: "none",
-    background: "radial-gradient(40% 40% at 20% 20%, rgba(59,130,246,0.12), transparent 60%), radial-gradient(40% 40% at 80% 20%, rgba(34,197,94,0.10), transparent 60%)"
-  },
   initiativeBadge: {
     position: "absolute",
     top: 12,
@@ -417,13 +411,6 @@ const styles = {
     aspectRatio: "16/9",
     background: "#000",
     border: "none"
-  },
-  iframeTall: {
-    width: "100%",
-    aspectRatio: "9/16",
-    background: "#000",
-    border: "none",
-    borderRadius: "var(--radius)"
   },
   socialCard: {
     borderRadius: "var(--radius)",
@@ -468,7 +455,8 @@ const styles = {
     borderRadius: "var(--radius)",
     overflow: "hidden",
     border: "1px solid var(--border)",
-    background: "var(--bg-2)"
+    background: "var(--bg-2)",
+    cursor: "pointer" // Added pointer to show interactivity
   },
   galleryThumb: {
     width: "100%",
@@ -490,53 +478,91 @@ const styles = {
   }
 };
 
-function HighlightLink({ href, label, previewSrc }) {
+function DrawnLogo({ href, label, icon, color, previewSrc }) {
   const [hovered, setHovered] = useState(false);
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      style={{
-        position: "relative",
-        display: "inline-block",
-        fontWeight: 700,
-        color: "var(--secondary)",
-        background: "var(--gradient-main)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        textDecoration: "none"
-      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      style={{
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        padding: "12px 20px",
+        background: hovered ? "var(--bg-2)" : "transparent",
+        border: `1px solid ${hovered ? color : "var(--border)"}`,
+        borderRadius: "12px",
+        textDecoration: "none",
+        transition: "all 0.3s ease",
+        boxShadow: hovered ? `0 8px 24px ${color}25` : "none",
+        transform: hovered ? "translateY(-3px)" : "none"
+      }}
     >
-      {label}
-      {hovered && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 8 }}
-          style={{
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
-            bottom: "calc(100% + 12px)",
-            width: 240,
-            borderRadius: 12,
-            overflow: "hidden",
-            border: "1px solid var(--border)",
-            boxShadow: "var(--shadow)",
-            background: "var(--bg-2)",
-            pointerEvents: "none",
-            zIndex: 10
-          }}
-        >
-          <div style={{ width: "100%", aspectRatio: "16/9", background: "#000" }}>
-            <img src={previewSrc} alt={label} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          </div>
-          <div style={{ padding: 10, fontSize: 12, color: "var(--text-muted)" }}>{href}</div>
-        </motion.div>
-      )}
+      <div style={{
+        color: color,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        filter: hovered ? `drop-shadow(0 0 8px ${color}90)` : "none",
+        transition: "all 0.3s ease",
+        opacity: hovered ? 1 : 0.8
+      }}>
+        {icon}
+      </div>
+      <span style={{
+        color: hovered ? "#fff" : "var(--text-muted)",
+        fontWeight: 800,
+        fontSize: "1.05rem",
+        letterSpacing: "0.5px",
+        transition: "color 0.3s ease"
+      }}>
+        {label}
+      </span>
+
+      <AnimatePresence>
+        {hovered && previewSrc && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: "absolute",
+              bottom: "calc(100% + 14px)",
+              left: "50%",
+              x: "-50%",
+              width: 280,
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: `1px solid ${color}60`,
+              boxShadow: `0 15px 35px rgba(0,0,0,0.6), 0 0 25px ${color}30`,
+              background: "var(--bg-2)",
+              pointerEvents: "none",
+              zIndex: 100
+            }}
+          >
+            <div style={{ width: "100%", aspectRatio: "16/9", background: "#000" }}>
+              <img src={previewSrc} alt={`${label} preview`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+            <div style={{
+              padding: "8px 12px",
+              fontSize: "0.75rem",
+              color: "var(--text-muted)",
+              background: "rgba(15,23,42,0.95)",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              fontWeight: 600
+            }}>
+              {href.replace(/^https?:\/\//, '')}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </a>
   );
 }
@@ -625,6 +651,7 @@ function TiltImage({ src, alt }) {
 
 export default function NewsMedia() {
   const [openVideo, setOpenVideo] = useState(null);
+  const [openImage, setOpenImage] = useState(null); // 2. New state for Image Lightbox
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -640,6 +667,7 @@ export default function NewsMedia() {
 
   return (
     <div style={{ ...styles.container, ...(isMobile ? { padding: "76px 14px 96px" } : {}) }}>
+      {/* Background Orbs */}
       <motion.div
         style={{
           position: "fixed",
@@ -664,6 +692,8 @@ export default function NewsMedia() {
         animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
         transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
       />
+
+      {/* Header */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ ...styles.header, ...(isMobile ? { marginBottom: "38px" } : {}) }}>
         <motion.h1
           style={styles.title}
@@ -682,49 +712,76 @@ export default function NewsMedia() {
         <p style={{ ...styles.subtitle, ...(isMobile ? { fontSize: "1rem" } : {}) }}>Latest updates, features, and stories from Urja Mobility.</p>
       </motion.div>
 
+      {/* Featured In & Trending Now */}
       <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ ...styles.section, ...mobileSection }}>
-        <div style={{ maxWidth: 900, margin: "0 auto 40px", color: "var(--text-muted)", lineHeight: 1.8, fontSize: "1rem" }}>
-          <h2 style={{ ...styles.sectionTitle, marginBottom: 12 }}>About This Page</h2>
-          <p>
-            This News & Media page curates verified features, announcements, and multimedia about Urja Mobility—covering our Battery-as-a-Service innovation, EV ecosystem partnerships, and progress in energy storage and charging infrastructure.
-          </p>
-          <p>
-            Explore in-depth articles, press coverage, podcasts and shorts, and follow social highlights for timely updates on our mission to make clean mobility accessible, reliable, and data-driven across India.
-          </p>
-          <div style={{ marginTop: 12 }}>
-            <span style={{ color: "var(--text)" }}>Featured: </span>
-            <HighlightLink
+        <div style={{ maxWidth: 1000, margin: "0 auto 40px", textAlign: "center" }}>
+
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+            <StarFilled style={{ color: "#facc15", fontSize: 20 }} />
+            <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--text)", margin: 0, letterSpacing: "1px", textTransform: "uppercase" }}>
+              Featured In
+            </h2>
+            <StarFilled style={{ color: "#facc15", fontSize: 20 }} />
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+            <DrawnLogo
               href="https://audiencereports.in/anagh-ojha-engineering-a-sustainable-future-wit/"
               label="Audience Reports"
+              color="#f59e0b"
               previewSrc="/assets/Anagh-Ojha.png"
+              icon={
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 20V10M12 20V4M6 20v-6" />
+                </svg>
+              }
             />
-            <span style={{ color: "var(--text-muted)" }}> · </span>
-            <HighlightLink
+            <DrawnLogo
               href="https://www.theindustryoutlook.com/startups/editor-choice/urja-mobility-transforming-ev-infrastructure-through-advanced-power-and-energy-storage-solutions-nwid-10628.html"
               label="The Industry Outlook"
+              color="#3b82f6"
               previewSrc="/assets/9nsm7450x308-2.jpg"
+              icon={
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+              }
             />
-            <span style={{ color: "var(--text-muted)" }}> · </span>
-            <HighlightLink
+            <DrawnLogo
               href="https://www.energetica-india.net/news/urja-mobility-introduces-b2c-battery-leasing-program-for-e-rickshaw-drivers"
               label="Energetica India"
+              color="#10b981"
               previewSrc="/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg"
+              icon={
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              }
             />
-            <span style={{ color: "var(--text-muted)" }}> · </span>
-            <HighlightLink
+            <DrawnLogo
               href="https://www.manufacturingtodayindia.com/eastman-urja-mobility-sign-mou"
-              label="Manufacturing Today India"
+              label="Manufacturing Today"
+              color="#ec4899"
               previewSrc="/assets/eastman-urja-mobility-1536x864.jpg"
+              icon={
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                </svg>
+              }
             />
           </div>
         </div>
-        <div style={{ marginTop: 20 }}>
+
+        <div style={{ marginTop: 40 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
             <PlayCircleFilled style={{ color: "#3b82f6", fontSize: 20 }} />
             <h3 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text)" }}>Trending Now</h3>
           </div>
           <div style={{ ...styles.watchGrid, ...mobileGrid }}>
-            {articles.slice(1, 4).map((t) => (
+            {/* Using the new trendingNews array here */}
+            {trendingNews.map((t) => (
               <motion.a
                 key={t.id}
                 href={t.link}
@@ -737,19 +794,23 @@ export default function NewsMedia() {
                   <img src={t.image} alt={t.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
                 <div style={{ padding: 14, display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1, color: "var(--text-muted)", border: "1px solid var(--border)", borderRadius: 9999, padding: "4px 8px" }}>ARTICLE</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1, color: "var(--text-muted)", border: "1px solid var(--border)", borderRadius: 9999, padding: "4px 8px" }}>
+                    {t.type}
+                  </span>
                   <span style={{ fontWeight: 600, color: "white" }}>{t.title}</span>
                 </div>
               </motion.a>
             ))}
           </div>
         </div>
-        <div style={{ ...styles.sectionHeader, ...(isMobile ? { alignItems: "flex-start", marginBottom: 18 } : {}) }}>
+
+        <div style={{ ...styles.sectionHeader, ...(isMobile ? { alignItems: "flex-start", marginBottom: 18 } : {}), marginTop: 60 }}>
           <ReadOutlined style={{ color: "var(--secondary)", fontSize: 24 }} />
           <h2 style={styles.sectionTitle}>Featured Stories</h2>
         </div>
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} style={{ ...styles.grid, ...mobileGrid }}>
-          {articles.map((article) => (
+          {/* Using featuredStories here */}
+          {featuredStories.map((article) => (
             <motion.a
               key={article.id}
               href={article.link}
@@ -784,6 +845,7 @@ export default function NewsMedia() {
         </motion.div>
       </motion.section>
 
+      {/* 3. Updated Gallery Section */}
       <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} style={{ ...styles.section, ...mobileSection }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
           <ReadOutlined style={{ color: "var(--secondary)", fontSize: 24 }} />
@@ -797,6 +859,7 @@ export default function NewsMedia() {
               whileHover={{ scale: 1.03 }}
               animate={{ y: [-2, 2] }}
               transition={{ duration: 4 + i * 0.3, repeat: Infinity, repeatType: "reverse" }}
+              onClick={() => setOpenImage(g)} // Triggers Lightbox Modal
             >
               <img src={g.src} alt={g.title} style={styles.galleryThumb} />
               <span style={styles.galleryCaption}>{g.title}</span>
@@ -821,14 +884,14 @@ export default function NewsMedia() {
                 background: "linear-gradient(160deg, var(--bg-2) 0%, rgba(15, 23, 42, 1) 100%)",
                 border: "1px solid rgba(255,255,255,0.05)"
               }}
-              whileHover={{ 
-                scale: 1.04, 
-                y: -8, 
+              whileHover={{
+                scale: 1.04,
+                y: -8,
                 boxShadow: "0 20px 40px -10px rgba(0,0,0,0.4), 0 0 20px rgba(59, 130, 246, 0.1)",
                 borderColor: "rgba(59, 130, 246, 0.3)"
               }}
             >
-              <motion.div 
+              <motion.div
                 style={{
                   position: "absolute",
                   top: 0,
@@ -850,26 +913,26 @@ export default function NewsMedia() {
               </span>
 
               <div style={{ marginTop: 20, marginBottom: 16 }}>
-                 <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "white", display: "inline", position: "relative", zIndex: 1 }}>
-                    {it.title}
-                    <motion.span 
-                        style={{ 
-                            position: "absolute", 
-                            bottom: 2, 
-                            left: -4, 
-                            right: -4, 
-                            height: "0.4em", 
-                            background: "rgba(59, 130, 246, 0.3)", 
-                            zIndex: -1,
-                            borderRadius: 4
-                        }}
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        transition={{ delay: 0.5 + idx * 0.1, duration: 0.8, type: "spring" }}
-                    />
-                 </h3>
+                <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "white", display: "inline", position: "relative", zIndex: 1 }}>
+                  {it.title}
+                  <motion.span
+                    style={{
+                      position: "absolute",
+                      bottom: 2,
+                      left: -4,
+                      right: -4,
+                      height: "0.4em",
+                      background: "rgba(59, 130, 246, 0.3)",
+                      zIndex: -1,
+                      borderRadius: 4
+                    }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    transition={{ delay: 0.5 + idx * 0.1, duration: 0.8, type: "spring" }}
+                  />
+                </h3>
               </div>
-              
+
               {it.lines.map((ln, i) => (
                 <p key={i} style={{ color: "var(--text-muted)", lineHeight: 1.7, fontSize: "1rem" }}>{ln}</p>
               ))}
@@ -979,40 +1042,111 @@ export default function NewsMedia() {
           </a>
         </div>
       </motion.section>
-      {openVideo && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(0,0,0,0.6)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
-          onClick={() => setOpenVideo(null)}
-        >
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {openVideo && (
           <motion.div
-            initial={{ scale: 0.95, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.95, y: 20 }}
-            style={{ width: "min(1000px, 96vw)", background: "var(--bg-2)", borderRadius: "var(--radius)", border: "1px solid var(--border)", overflow: "hidden", boxShadow: "var(--shadow)" }}
-            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+            onClick={() => setOpenVideo(null)}
           >
-            <div style={{ width: "100%", aspectRatio: "16/9", background: "#000" }}>
-              <iframe
-                src={openVideo.embedUrl}
-                title={openVideo.title}
-                style={{ width: "100%", height: "100%", border: "none" }}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-            <div style={{ padding: 16, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <h4 style={{ fontWeight: 700, color: "white", margin: 0 }}>{openVideo.title}</h4>
-              <a href={openVideo.link} target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)", display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <ExternalLink size={18} />
-                <span style={{ fontSize: 14 }}>Open</span>
-              </a>
-            </div>
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              style={{ width: "min(1000px, 96vw)", background: "var(--bg-2)", borderRadius: "var(--radius)", border: "1px solid var(--border)", overflow: "hidden", boxShadow: "var(--shadow)" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div style={{ width: "100%", aspectRatio: "16/9", background: "#000" }}>
+                <iframe
+                  src={openVideo.embedUrl}
+                  title={openVideo.title}
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div style={{ padding: 16, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <h4 style={{ fontWeight: 700, color: "white", margin: 0 }}>{openVideo.title}</h4>
+                <a href={openVideo.link} target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)", display: "inline-flex", alignItems: "center", gap: 8 }}>
+                  <ExternalLink size={18} />
+                  <span style={{ fontSize: 14 }}>Open</span>
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
+
+      {/* 4. Image Lightbox Modal */}
+      <AnimatePresence>
+        {openImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+            onClick={() => setOpenImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              style={{ position: "relative", maxWidth: "90vw", maxHeight: "90vh" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={openImage.src}
+                alt={openImage.title}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  maxHeight: "85vh",
+                  objectFit: "contain",
+                  borderRadius: "8px",
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+                }}
+              />
+              <div style={{
+                position: "absolute",
+                bottom: -40,
+                left: 0,
+                right: 0,
+                textAlign: "center",
+                color: "white",
+                fontSize: "1.1rem",
+                fontWeight: 600
+              }}>
+                {openImage.title}
+              </div>
+              <button
+                onClick={() => setOpenImage(null)}
+                style={{
+                  position: "absolute",
+                  top: -40,
+                  right: -10,
+                  background: "none",
+                  border: "none",
+                  color: "white",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: 0.8,
+                  transition: "opacity 0.2s"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = 0.8}
+              >
+                <X size={32} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -199,11 +199,11 @@ export default function Contact() {
               <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <li style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
                   <span>Monday - Friday</span>
-                  <span style={{ color: 'var(--text)', fontWeight: '500' }}>9:00 AM - 6:00 PM</span>
+                  <span style={{ color: 'var(--text)', fontWeight: '500' }}>10:00 AM - 6:30 PM</span>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
                   <span>Saturday</span>
-                  <span style={{ color: 'var(--text)', fontWeight: '500' }}>10:00 AM - 4:00 PM</span>
+                  <span style={{ color: 'var(--text)', fontWeight: '500' }}>10:00 AM - 6:30 PM</span>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
                   <span>Sunday</span>

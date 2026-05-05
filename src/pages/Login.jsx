@@ -30,7 +30,7 @@ const ParticleBackground = () => {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particles.forEach((p, i) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -148,20 +148,20 @@ export default function Login() {
   };
 
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      display: "flex", 
-      alignItems: "center", 
-      justifyContent: "center", 
-      position: "relative", 
+    <div style={{
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "relative",
       background: "#020617",
       overflow: "hidden"
     }}>
       <ParticleBackground />
-      
+
       {/* Background Gradient Orbs */}
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
@@ -177,8 +177,8 @@ export default function Login() {
           zIndex: 0
         }}
       />
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           scale: [1, 1.1, 1],
           opacity: [0.2, 0.4, 0.2],
         }}
@@ -364,7 +364,7 @@ export default function Login() {
                   letterSpacing: "0.1em"
                 }}
               >
-                Ops Monitoring
+                Iot Real-Time Monitoring
               </div>
             </div>
           </div>
@@ -583,11 +583,11 @@ export default function Login() {
               initial={{ rotate: -180, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
               transition={{ duration: 0.8, type: "spring" }}
-              style={{ 
-                width: "60px", 
-                height: "60px", 
-                background: "linear-gradient(135deg, #4ade80 0%, #3b82f6 100%)", 
-                borderRadius: "16px", 
+              style={{
+                width: "60px",
+                height: "60px",
+                background: "linear-gradient(135deg, #4ade80 0%, #3b82f6 100%)",
+                borderRadius: "16px",
                 margin: "0 auto 1.5rem",
                 display: "flex",
                 alignItems: "center",
@@ -643,8 +643,8 @@ export default function Login() {
                 ? selectedRole === "Internal"
                   ? "Sign in to manage operations and internal tools."
                   : selectedRole === "Partner"
-                  ? "Access deployments, billing, and partner insights."
-                  : "Enter your credentials to access your dashboard."
+                    ? "Access deployments, billing, and partner insights."
+                    : "Enter your credentials to access your dashboard."
                 : "Join the energy revolution today."}
             </p>
           </div>
@@ -658,31 +658,31 @@ export default function Login() {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <InputField 
-                    icon={User} 
-                    type="text" 
-                    placeholder="Full Name" 
+                  <InputField
+                    icon={User}
+                    type="text"
+                    placeholder="Full Name"
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </motion.div>
               )}
             </AnimatePresence>
-            
-            <InputField 
-              icon={Mail} 
-              type="email" 
-              placeholder="Email Address" 
+
+            <InputField
+              icon={Mail}
+              type="email"
+              placeholder="Email Address"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
-            
-            <InputField 
-              icon={Lock} 
-              type="password" 
-              placeholder="Password" 
+
+            <InputField
+              icon={Lock}
+              type="password"
+              placeholder="Password"
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
 
             {isLogin && (
@@ -719,13 +719,13 @@ export default function Login() {
 
           <div style={{ marginTop: "2rem", textAlign: "center", color: "#94a3b8" }}>
             {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button 
+            <button
               onClick={toggleMode}
-              style={{ 
-                background: "none", 
-                border: "none", 
-                color: "#4ade80", 
-                fontWeight: "600", 
+              style={{
+                background: "none",
+                border: "none",
+                color: "#4ade80",
+                fontWeight: "600",
                 cursor: "pointer",
                 textDecoration: "underline",
                 textUnderlineOffset: "4px"

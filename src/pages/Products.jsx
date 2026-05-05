@@ -18,11 +18,12 @@ export default function Products() {
     return String(value);
   };
 
-  // Helper to map title to specific asset filenames
+  // UPGRADED: Maps titles to the new "1.png" angle for the product grid thumbnail
   const getProductImage = (title) => {
     if (!title) return null;
     const t = title.toLowerCase();
 
+    // Inverters & UPS
     if (t.includes("mppt")) return "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
     if (t.includes("3000va") || t.includes("3kva")) return "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
     if (t.includes("2000va") || t.includes("2kva")) return "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
@@ -31,12 +32,13 @@ export default function Products() {
     if (t.includes("850va")) return "/assets/850VA%2012V%20Solar%20UPS.jpeg";
     if (t.includes("300va")) return "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
 
-    if (t.includes("232")) return "/assets/51.2v%20232ah.png";
-    if (t.includes("64v") && t.includes("105")) return "/assets/64v%20105ah.png";
-    if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah.png";
-    if (t.includes("100") && !t.includes("1000")) return "/assets/51.2v%20100ah.png";
-    if (t.includes("50a")) return "/assets/51.2v%2050a.png";
-    if (t.includes("25a")) return "/assets/51.2v%2025a.png";
+    // Batteries (Using the "1.png" of your new 4-angle image sets)
+    if (t.includes("232")) return "/assets/51.2v%20232ah%201.png";
+    if (t.includes("64v") && t.includes("105")) return "/assets/64%20v%20105ah%201.png";
+    if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah%201.png";
+    if (t.includes("100") && !t.includes("1000")) return "/assets/51.2v%20100ah%201.png";
+    if (t.includes("50a")) return "/assets/51.2v%2050a%201.png";
+    if (t.includes("25a")) return "/assets/51.2v%2025a%201.png";
 
     return null;
   };
@@ -277,9 +279,6 @@ export default function Products() {
 
               const quickBadges = [voltageBadge, capacityBadge, powerBadge].filter(Boolean).slice(0, 3).map(formatValue);
 
-              // -----------------------------------------------------
-              // FIX: Read `product.image` first, then fallback to helper
-              // -----------------------------------------------------
               const batteryImg = product.image || getProductImage(product.title);
 
               return (
