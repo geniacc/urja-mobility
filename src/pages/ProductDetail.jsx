@@ -77,16 +77,23 @@ export default function ProductDetail() {
   const { id } = useParams();
   const { addToCart } = useCart();
   const [activeImage, setActiveImage] = useState(0);
-  const [activeMainTab, setActiveMainTab] = useState("features"); // 'features', 'specs', 'roi', 'downloads'
+  const [activeMainTab, setActiveMainTab] = useState("features");
   const [quantity, setQuantity] = useState(1);
   const [cartNotice, setCartNotice] = useState(false);
 
-  // UPGRADED: Now returns a full gallery array instead of a single string
+  // Mobile Detect Logic
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const getProductGallery = (title) => {
     if (!title) return null;
     const t = title.toLowerCase();
 
-    // 1. INVERTERS, MPPT & UPS (Returns single image padded with nulls)
     let singleImg = null;
     if (t.includes("mppt")) singleImg = "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
     else if (t.includes("3000va") || t.includes("3kva")) singleImg = "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
@@ -100,7 +107,6 @@ export default function ProductDetail() {
 
     if (singleImg) return [singleImg, null, null, null];
 
-    // 2. LFP BATTERIES (Generates the 4 angles based on your screenshot)
     const getAngles = (base) => [
       `/assets/${base}%201.png`,
       `/assets/${base}%202.png`,
@@ -123,7 +129,6 @@ export default function ProductDetail() {
     return null;
   };
 
-  // 1. Find Product
   let product = null;
   let category = null;
   for (const cat of categories) {
@@ -156,11 +161,7 @@ export default function ProductDetail() {
 
   const accentColor = category ? category.color : "#3b82f6";
   const details = product.details || {};
-
-  // Set up the dynamic gallery array
   const dynamicGallery = getProductGallery(product.title);
-
-  // Prioritize hardcoded mockData gallery -> dynamic angles -> fallback
   const galleryImages = details.gallery || dynamicGallery || [product.image, null, null, null];
   const currentDisplayImage = galleryImages[activeImage] || galleryImages[0] || product.image;
 
@@ -171,7 +172,6 @@ export default function ProductDetail() {
     window.__urjaCartNoticeTimer = window.setTimeout(() => setCartNotice(false), 2200);
   };
 
-  // 2. Extract Technical Data
   const technicalSpecs = useMemo(() => {
     const provided = details.technical || {};
     const derived = {
@@ -225,27 +225,27 @@ export default function ProductDetail() {
           </motion.div>
         )}
       </AnimatePresence>
+
       {/* Breadcrumbs */}
-      <motion.div variants={itemVariants} style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border)", padding: "1rem 2rem" }}>
+      <motion.div variants={itemVariants} style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border)", padding: isMobile ? "0.75rem 1rem" : "1rem 2rem" }}>
         <div className="container" style={{ maxWidth: "1280px", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem", color: "var(--text-muted)" }}>
           <Link to="/" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Home</Link>
           <ChevronRight size={14} />
           <Link to="/products" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Products</Link>
           <ChevronRight size={14} />
           <span style={{ color: "var(--text-muted)" }}>{category?.title || "Category"}</span>
-          <ChevronRight size={14} />
-          <span style={{ color: accentColor, fontWeight: 600 }}>{product.title}</span>
+          {isMobile ? null : <><ChevronRight size={14} /> <span style={{ color: accentColor, fontWeight: 600 }}>{product.title}</span></>}
         </div>
       </motion.div>
 
-      <div className="container" style={{ maxWidth: "1280px", padding: "3rem 2rem" }}>
+      <div className="container" style={{ maxWidth: "1280px", padding: isMobile ? "2rem 1rem" : "3rem 2rem" }}>
 
         {/* Top Product Box */}
-        <div className="product-detail-main-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))", gap: "4rem", marginBottom: "5rem" }}>
+        <div className="product-detail-main-grid" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(450px, 1fr))", gap: isMobile ? "2.5rem" : "4rem", marginBottom: isMobile ? "3rem" : "5rem" }}>
 
           {/* Left: Gallery */}
           <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <SpotlightCard spotlightColor={accentColor} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", height: "500px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+            <SpotlightCard spotlightColor={accentColor} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", height: isMobile ? "340px" : "500px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
               <motion.div
                 animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -264,9 +264,9 @@ export default function ProductDetail() {
                   onDragEnd={(e, { offset, velocity }) => {
                     const swipe = Math.abs(offset.x) * velocity.x;
                     if (swipe < -10000 || offset.x < -50) {
-                      setActiveImage((prev) => (prev + 1) % 4); // Swipe left
+                      setActiveImage((prev) => (prev + 1) % 4);
                     } else if (swipe > 10000 || offset.x > 50) {
-                      setActiveImage((prev) => (prev - 1 + 4) % 4); // Swipe right
+                      setActiveImage((prev) => (prev - 1 + 4) % 4);
                     }
                   }}
                   style={{ zIndex: 2, cursor: "grab", touchAction: "none", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}
@@ -276,10 +276,7 @@ export default function ProductDetail() {
                     <img
                       src={currentDisplayImage}
                       alt={product.title}
-                      style={{
-                        width: "100%", height: "100%", objectFit: "contain",
-                        filter: `drop-shadow(0 30px 50px ${accentColor}40)`, pointerEvents: "none"
-                      }}
+                      style={{ width: "100%", height: "100%", objectFit: "contain", filter: `drop-shadow(0 30px 50px ${accentColor}40)`, pointerEvents: "none" }}
                     />
                   ) : (
                     <Battery size={200} color={accentColor} strokeWidth={0.5} style={{ filter: `drop-shadow(0 30px 50px ${accentColor}50)` }} />
@@ -288,21 +285,19 @@ export default function ProductDetail() {
               </AnimatePresence>
             </SpotlightCard>
 
-            <div className="product-thumb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+            <div className="product-thumb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: isMobile ? "0.5rem" : "1rem" }}>
               {[0, 1, 2, 3].map((idx) => {
                 const thumbImg = galleryImages[idx];
-
                 return (
                   <motion.button
-                    key={idx} onClick={() => setActiveImage(idx)} whileHover={{ y: -5 }}
-                    style={{ position: "relative", height: "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden" }}
+                    key={idx} onClick={() => setActiveImage(idx)} whileHover={{ y: isMobile ? 0 : -5 }}
+                    style={{ position: "relative", height: isMobile ? "70px" : "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden", padding: 0 }}
                   >
                     {activeImage === idx && <motion.div layoutId="activeThumb" style={{ position: "absolute", inset: 0, background: `${accentColor}10` }} />}
-
                     {thumbImg ? (
                       <img src={thumbImg} style={{ width: "70%", height: "70%", objectFit: "contain", zIndex: 2, opacity: activeImage === idx ? 1 : 0.6 }} />
                     ) : (
-                      <Box size={28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
+                      <Box size={isMobile ? 20 : 28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
                     )}
                   </motion.button>
                 )
@@ -313,7 +308,6 @@ export default function ProductDetail() {
           {/* Right: Modern E-Commerce Buy Box */}
           <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column" }}>
 
-            {/* Category & SKU */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
               <span style={{ color: accentColor, fontWeight: 700, textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "1px" }}>
                 {category?.title || "Premium Series"}
@@ -323,8 +317,7 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            {/* Title & Reviews */}
-            <h1 style={{ fontSize: "clamp(2rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1rem" }}>
+            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.5rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1rem" }}>
               {product.title}
             </h1>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border)" }}>
@@ -337,7 +330,6 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            {/* Pricing Section */}
             <div style={{ marginBottom: "1.5rem" }}>
               <div style={{ display: "flex", alignItems: "flex-end", gap: "1rem" }}>
                 <span style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>
@@ -353,12 +345,10 @@ export default function ProductDetail() {
               <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.5rem" }}>Includes GST. EMI starts at ₹4,100/mo.</p>
             </div>
 
-            {/* Description */}
             <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.6, marginBottom: "2rem" }}>
               {product.desc || "Engineered to the URJA MOBILITY standard for maximum reliability. Experience seamless LFP power delivery and smart energy management for heavy storage applications."}
             </p>
 
-            {/* Stock & Delivery (Urgency) */}
             <div style={{ background: "var(--bg-2)", padding: "1.2rem", borderRadius: "12px", border: "1px solid var(--border)", marginBottom: "2rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px #10b98180" }}></div>
@@ -370,29 +360,24 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Action Controls: Quantity + Add to Cart */}
-            <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem" }}>
-              {/* Quantity Selector */}
-              <div style={{ display: "flex", alignItems: "center", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.5rem" }}>
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "36px", height: "36px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseOver={(e) => e.target.style.background = "var(--bg-3)"} onMouseOut={(e) => e.target.style.background = "transparent"}>-</button>
+            <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexDirection: isMobile ? "column" : "row" }}>
+              <div style={{ display: "flex", alignItems: "center", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.5rem", justifyContent: "space-between" }}>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "40px", height: "40px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>-</button>
                 <span style={{ width: "40px", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "36px", height: "36px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }} onMouseOver={(e) => e.target.style.background = "var(--bg-3)"} onMouseOut={(e) => e.target.style.background = "transparent"}>+</button>
+                <button onClick={() => setQuantity(quantity + 1)} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "40px", height: "40px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
               </div>
 
-              {/* Primary CTA */}
               <motion.button
                 onClick={handleAddToCart}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: isMobile ? 1 : 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: "0 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}
+                style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: "1rem 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}
               >
                 <ShoppingCart size={22} /> Add to Cart
               </motion.button>
-
             </div>
 
-            {/* Trust Badges */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "2rem", marginTop: "1rem", color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: 600 }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: isMobile ? "1rem" : "2rem", marginTop: "1rem", color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: 600 }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><ShieldCheck size={18} color={accentColor} /> Secure Checkout</div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><CheckCircle2 size={18} color={accentColor} /> 5-Year Warranty</div>
             </div>
@@ -403,7 +388,7 @@ export default function ProductDetail() {
         {/* --- DYNAMIC TABS SECTION --- */}
         <motion.div className="product-tabs-panel" variants={itemVariants} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", overflow: "hidden" }}>
 
-          <div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.02)", position: "relative" }}>
+          <div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.02)", position: "relative", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
             {[
               { id: "features", label: "Core Value", icon: <ShieldCheck size={18} /> },
               { id: "specs", label: "Technical Data", icon: <Cpu size={18} /> },
@@ -412,8 +397,8 @@ export default function ProductDetail() {
               <button
                 key={tab.id} onClick={() => setActiveMainTab(tab.id)}
                 style={{
-                  flex: 1, minWidth: "160px", padding: "1.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem",
-                  background: "transparent", border: "none",
+                  flex: isMobile ? "0 0 auto" : 1, padding: isMobile ? "1.2rem" : "1.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem",
+                  background: "transparent", border: "none", whiteSpace: "nowrap",
                   color: activeMainTab === tab.id ? accentColor : "var(--text-muted)",
                   fontWeight: activeMainTab === tab.id ? 800 : 600, cursor: "pointer", position: "relative", zIndex: 2
                 }}
@@ -424,21 +409,20 @@ export default function ProductDetail() {
             ))}
           </div>
 
-          <div className="product-tab-content" style={{ padding: "4rem 3rem", minHeight: "450px" }}>
+          <div className="product-tab-content" style={{ padding: isMobile ? "2rem 1rem" : "4rem 3rem", minHeight: isMobile ? "auto" : "450px" }}>
             <AnimatePresence mode="wait">
 
               {/* TAB 1: CORE FEATURES */}
               {activeMainTab === "features" && (
-                <motion.div key="features" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+                <motion.div key="features" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(${isMobile ? '100%' : '300px'}, 1fr))`, gap: "2rem" }}>
                   {[
                     { icon: <Activity size={32} />, title: "Smart Battery Management", desc: "Built-in algorithms protect against overcharging, short-circuiting, and temperature extremes automatically." },
                     { icon: <Leaf size={32} />, title: "Eco-Friendly Footprint", desc: "100% recyclable components with zero toxic heavy metals. Clean energy from manufacturing to end-of-life." },
                     { icon: <ShieldCheck size={32} />, title: "Drop-in Replacement", desc: "Designed to perfectly match standard form factors. Upgrade your legacy systems in minutes, not hours." }
                   ].map((feat, i) => (
-                    <SpotlightCard key={i} spotlightColor={accentColor} style={{ padding: "2.5rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "20px" }}>
+                    <SpotlightCard key={i} spotlightColor={accentColor} style={{ padding: isMobile ? "2rem" : "2.5rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "20px" }}>
                       <motion.div
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
+                        whileHover={{ scale: isMobile ? 1 : 1.1, rotate: isMobile ? 0 : 5 }}
                         style={{ color: accentColor, marginBottom: "1.5rem", background: `${accentColor}15`, display: "inline-block", padding: "1rem", borderRadius: "16px", originX: 0 }}
                       >
                         {feat.icon}
@@ -454,13 +438,13 @@ export default function ProductDetail() {
               {activeMainTab === "specs" && (
                 <motion.div key="specs" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
                   {techSections.length > 0 ? (
-                    <div className="product-tech-grid" style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "4rem" }}>
-                      {/* Side Nav */}
-                      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                    <div className="product-tech-grid" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "250px 1fr", gap: isMobile ? "2rem" : "4rem" }}>
+                      {/* Side Nav (Scrollable row on Mobile) */}
+                      <div style={{ display: "flex", flexDirection: isMobile ? "row" : "column", overflowX: isMobile ? "auto" : "visible", gap: "0.5rem", paddingBottom: isMobile ? "0.5rem" : "0", WebkitOverflowScrolling: "touch" }}>
                         {techSections.map(section => (
                           <button
                             key={section.id} onClick={() => setActiveTechSection(section.id)}
-                            style={{ textAlign: "left", padding: "1rem 1.2rem", borderRadius: "12px", border: "none", cursor: "pointer", transition: "all 0.2s", background: activeTechSection === section.id ? `${accentColor}15` : "transparent", color: activeTechSection === section.id ? accentColor : "var(--text-primary)", fontWeight: activeTechSection === section.id ? 800 : 600 }}
+                            style={{ textAlign: isMobile ? "center" : "left", padding: "1rem 1.2rem", borderRadius: "12px", border: "none", cursor: "pointer", transition: "all 0.2s", background: activeTechSection === section.id ? `${accentColor}15` : "transparent", color: activeTechSection === section.id ? accentColor : "var(--text-primary)", fontWeight: activeTechSection === section.id ? 800 : 600, whiteSpace: "nowrap" }}
                           >
                             {section.label}
                           </button>
@@ -477,7 +461,7 @@ export default function ProductDetail() {
 
                             return (
                               <motion.div key={section.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }}>
-                                <h3 style={{ fontSize: "1.8rem", fontWeight: 800, marginBottom: "2rem", color: "var(--text-primary)" }}>{section.label} Specifications</h3>
+                                <h3 style={{ fontSize: isMobile ? "1.5rem" : "1.8rem", fontWeight: 800, marginBottom: "2rem", color: "var(--text-primary)" }}>{section.label} Specs</h3>
 
                                 {isList ? (
                                   <ul style={{ display: "grid", gap: "1rem", listStyle: "none", padding: 0 }}>
@@ -491,9 +475,10 @@ export default function ProductDetail() {
                                 ) : (
                                   <div className="tech-spec-table" style={{ display: "grid", gap: "0", background: "var(--bg)", borderRadius: "16px", border: "1px solid var(--border)", overflow: "hidden" }}>
                                     {entries.map(([key, value], idx) => (
-                                      <div className="tech-spec-row" key={key} style={{ display: "grid", gridTemplateColumns: "1fr 2fr", padding: "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
+                                      // Stack key and value vertically on mobile, side-by-side on desktop
+                                      <div className="tech-spec-row" key={key} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: isMobile ? "0.25rem" : "1rem", padding: "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
                                         <div style={{ color: "var(--text-muted)", fontWeight: 600, display: "flex", alignItems: "center" }}>{humanizeKey(key)}</div>
-                                        <div style={{ color: "var(--text-primary)", fontWeight: 700, fontFamily: "monospace", fontSize: "1.1rem" }}>
+                                        <div style={{ color: "var(--text-primary)", fontWeight: 700, fontFamily: "monospace", fontSize: "1.1rem", wordBreak: "break-word" }}>
                                           {Array.isArray(value) ? value.join(", ") : formatValue(value)}
                                         </div>
                                       </div>
@@ -518,33 +503,15 @@ export default function ProductDetail() {
 
               {/* TAB 4: DOWNLOADS */}
               {activeMainTab === "downloads" && (
-                <motion.div className="downloads-grid" key="downloads" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "2rem" }}>
+                <motion.div className="downloads-grid" key="downloads" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, 320px), 1fr))`, gap: isMobile ? "1rem" : "2rem" }}>
                   {[
-                    {
-                      title: "Product Datasheet",
-                      desc: "Comprehensive technical specifications",
-                      type: "PDF",
-                      size: "2.4 MB",
-                      fileUrl: "/assets/MANUAL ECOSTAR 400W.pdf" // Adjust path as needed
-                    },
-                    {
-                      title: "Installation Manual",
-                      desc: "Wiring and mounting instructions",
-                      type: "PDF",
-                      size: "5.1 MB",
-                      fileUrl: "/assets/MANUAL ECOSTAR 1000W.pdf" // Adjust path as needed
-                    },
-                    {
-                      title: "Warranty Document",
-                      desc: "Terms, conditions, and coverage details",
-                      type: "PDF",
-                      size: "1.2 MB",
-                      fileUrl: "/assets/MANUAL ECOSTAR 1200W.pdf" // Adjust path as needed
-                    }
+                    { title: "Product Datasheet", desc: "Comprehensive technical specifications", type: "PDF", size: "2.4 MB", fileUrl: "#" },
+                    { title: "Installation Manual", desc: "Wiring and mounting instructions", type: "PDF", size: "5.1 MB", fileUrl: "#" },
+                    { title: "Warranty Document", desc: "Terms, conditions, and coverage details", type: "PDF", size: "1.2 MB", fileUrl: "#" }
                   ].map((doc, idx) => (
-                    <motion.div whileHover={{ y: -5, borderColor: accentColor }} key={idx} style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "20px", padding: "2rem", display: "flex", gap: "1.5rem", alignItems: "center", transition: "border-color 0.2s" }}>
-                      <div style={{ background: `${accentColor}15`, padding: "1.2rem", borderRadius: "16px", color: accentColor }}>
-                        <FileText size={28} />
+                    <motion.div whileHover={{ y: isMobile ? 0 : -5, borderColor: accentColor }} key={idx} style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "20px", padding: isMobile ? "1.5rem" : "2rem", display: "flex", gap: "1.5rem", alignItems: "center", transition: "border-color 0.2s" }}>
+                      <div style={{ background: `${accentColor}15`, padding: "1rem", borderRadius: "16px", color: accentColor }}>
+                        <FileText size={24} />
                       </div>
                       <div style={{ flex: 1 }}>
                         <h4 style={{ fontWeight: 800, marginBottom: "0.35rem", fontSize: "1.1rem" }}>{doc.title}</h4>
@@ -554,19 +521,7 @@ export default function ProductDetail() {
                           <span style={{ background: "var(--bg-2)", border: "1px solid var(--border)", padding: "0.3rem 0.6rem", borderRadius: "6px" }}>{doc.size}</span>
                         </div>
                       </div>
-
-                      <motion.a
-                        href={doc.fileUrl}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        style={{ background: "transparent", border: "none", color: accentColor, cursor: "pointer", display: "inline-flex" }}
-                      >
-                        <Download size={24} />
-                      </motion.a>
-
+                      <motion.a href={doc.fileUrl} download style={{ color: accentColor, padding: "0.5rem" }}><Download size={24} /></motion.a>
                     </motion.div>
                   ))}
                 </motion.div>

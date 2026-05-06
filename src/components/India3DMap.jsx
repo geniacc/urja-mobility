@@ -1,18 +1,19 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Map, { Marker, Popup, NavigationControl } from 'react-map-gl/maplibre';
 import maplibregl from 'maplibre-gl';
-import { Card, Typography, Button, Badge, Input, ConfigProvider, Segmented } from 'antd';
-import { 
-  EnvironmentFilled, 
-  SearchOutlined, 
-  CloseCircleOutlined, 
+import { Card, Typography, Button, Badge, Input, ConfigProvider, Segmented, Drawer, Divider } from 'antd';
+import {
+  EnvironmentFilled,
+  SearchOutlined,
+  CloseCircleOutlined,
   FilterFilled,
-  ThunderboltFilled 
+  MenuOutlined
 } from '@ant-design/icons';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 const { Text, Title } = Typography;
 
+// --- KEEP YOUR EXISTING DATA AND HELPER FUNCTIONS EXACTLY AS THEY ARE ---
 const CITY_COORDS = {
   "Agra": { lat: 27.1767, lng: 78.0081, state: "Uttar Pradesh" },
   "Araria": { lat: 26.1300, lng: 87.4700, state: "Bihar" },
@@ -153,19 +154,16 @@ const BRAND_ORANGE = '#ff7a45';
 const MAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 const VOYAGER_STYLE = "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json";
 const POSITRON_STYLE = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
-const STREETS_STYLE = "https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL"; // Example, sticking to free carto for now to avoid keys
-// Using Carto's Dark Matter, Voyager (Colorful), and Positron (Light)
-// Let's add a custom colorful one if possible, or just refine colors.
-// Actually, let's just make the markers pop more.
 
 const STATE_COLORS = {
-  'West Bengal': '#10b981', // Emerald Green
-  'Uttar Pradesh': '#3b82f6', // Bright Blue
-  'Bihar': '#ef4444', // Red
-  'Madhya Pradesh': '#d946ef', // Fuchsia
+  'West Bengal': '#10b981',
+  'Uttar Pradesh': '#3b82f6',
+  'Bihar': '#ef4444',
+  'Madhya Pradesh': '#d946ef',
   'Assam': '#22c55e',
   'Telangana': '#f59e0b'
 };
+
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -177,20 +175,21 @@ const India3DMap = () => {
   const mapRef = useRef(null);
   const [selected, setSelected] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false); // Mobile specific state
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobile, setIsMobile] = useState(false);
-  const [showList, setShowList] = useState(false);
   const [mapStyleUrl, setMapStyleUrl] = useState(MAP_STYLE);
   const [showLabels, setShowLabels] = useState(false);
+
+  // Filters Logic
+  const [filters, setFilters] = useState({ active: true, inactive: true });
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
-  
-  // Filters Logic
-  const [filters, setFilters] = useState({ active: true, inactive: true });
 
   // Filter Data
   const filteredMarkers = useMemo(() => {
@@ -198,18 +197,20 @@ const India3DMap = () => {
     return PARTNER_DATA.filter(m => {
       const matchesType = m.type === 'partner';
       const matchesStatus = filters[m.status];
-      const matchesSearch = !q || 
-        m.name.toLowerCase().includes(q) || 
+      const matchesSearch = !q ||
+        m.name.toLowerCase().includes(q) ||
         m.city.toLowerCase().includes(q) ||
         m.state.toLowerCase().includes(q);
       return matchesType && matchesStatus && matchesSearch;
     });
   }, [filters, searchQuery]);
+
   const statusCounts = useMemo(() => {
     const acc = { active: 0, inactive: 0 };
     for (const m of PARTNER_DATA) acc[m.status] = (acc[m.status] || 0) + 1;
     return acc;
   }, []);
+
   const stateStats = useMemo(() => {
     const acc = {};
     for (const m of filteredMarkers) {
@@ -223,7 +224,7 @@ const India3DMap = () => {
     if (mapRef.current) {
       mapRef.current.flyTo({
         center: [lng, lat],
-        zoom: 12, // Zoom in closer for street addresses
+        zoom: 12,
         pitch: 50,
         duration: 2000
       });
@@ -242,6 +243,84 @@ const India3DMap = () => {
     }
   };
 
+  // Reusable Content for Filters & Stats (Used in Desktop Sidebar AND Mobile Drawer)
+  const FilterAndStatsContent = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Search and Status Filters */}
+      <div>
+        <Text strong style={{ color: '#fff', display: 'block', marginBottom: 8 }}>Search & Filters</Text>
+        <Input
+          placeholder="Search City or State..."
+          prefix={<SearchOutlined style={{ color: '#aaa' }} />}
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          style={{ marginBottom: 12, borderRadius: 8, background: '#111827', border: '1px solid #374151', color: '#fff' }}
+        />
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Button
+            type={filters.active ? 'primary' : 'default'}
+            onClick={() => setFilters(f => ({ ...f, active: !f.active }))}
+            style={{ borderRadius: 999, background: filters.active ? BRAND_GREEN : 'transparent', borderColor: filters.active ? BRAND_GREEN : '#374151', color: '#fff' }}
+            size="small"
+          >
+            Active ({statusCounts.active})
+          </Button>
+          <Button
+            type={filters.inactive ? 'primary' : 'default'}
+            onClick={() => setFilters(f => ({ ...f, inactive: !f.inactive }))}
+            style={{ borderRadius: 999, background: filters.inactive ? '#64748b' : 'transparent', borderColor: filters.inactive ? '#64748b' : '#374151', color: '#fff' }}
+            size="small"
+          >
+            Inactive ({statusCounts.inactive})
+          </Button>
+        </div>
+      </div>
+
+      <Divider style={{ borderColor: '#374151', margin: '4px 0' }} />
+
+      {/* Map Styles */}
+      <div>
+        <Text strong style={{ color: '#fff', display: 'block', marginBottom: 8 }}>Map Style</Text>
+        <Segmented
+          options={[
+            { label: 'Dark', value: MAP_STYLE },
+            { label: 'Voyager', value: VOYAGER_STYLE },
+            { label: 'Light', value: POSITRON_STYLE }
+          ]}
+          value={mapStyleUrl}
+          onChange={v => setMapStyleUrl(v)}
+          block
+          style={{ background: '#111827', color: '#fff' }}
+        />
+        <Button onClick={() => setShowLabels(v => !v)} type="dashed" size="small" style={{ marginTop: 12, width: '100%', borderColor: '#374151', color: '#ccc' }}>
+          {showLabels ? 'Hide Map Labels' : 'Show Map Labels'}
+        </Button>
+      </div>
+
+      <Divider style={{ borderColor: '#374151', margin: '4px 0' }} />
+
+      {/* State Statistics */}
+      <div>
+        <Text strong style={{ color: '#fff', display: 'block', marginBottom: 8 }}>Partner Distribution</Text>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8, maxHeight: isMobile ? '200px' : 'none', overflowY: 'auto', paddingRight: 4 }}>
+          {Object.entries(stateStats).map(([state, count]) => (
+            <div key={state} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(255,255,255,0.05)', borderRadius: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ width: 10, height: 10, borderRadius: '50%', background: STATE_COLORS[state] || BRAND_ORANGE }} />
+                <Text style={{ color: '#e6f0ff', fontSize: 13 }}>{state}</Text>
+              </div>
+              <Badge count={count} style={{ backgroundColor: STATE_COLORS[state] || BRAND_ORANGE, boxShadow: 'none' }} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Button type="primary" danger onClick={resetView} style={{ marginTop: 8, borderRadius: 8 }}>
+        Reset Map View
+      </Button>
+    </div>
+  );
+
   // Markers Rendering
   const markers = useMemo(() => filteredMarkers.map((dealer) => (
     <Marker
@@ -253,28 +332,29 @@ const India3DMap = () => {
         e.originalEvent.stopPropagation();
         setSelected(dealer);
         flyToLocation(dealer.lat, dealer.lng);
+        if (isMobile) setMobileDrawerOpen(false); // Close drawer if open so they can see the pin
       }}
     >
       <div className="marker-pin">
-        <EnvironmentFilled 
-           style={{ 
-             fontSize: isMobile ? '32px' : '28px', 
-             color: dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE), 
-             filter: 'drop-shadow(0px 5px 5px rgba(0,0,0,0.5))' 
-           }} 
+        <EnvironmentFilled
+          style={{
+            fontSize: isMobile ? '32px' : '28px',
+            color: dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE),
+            filter: 'drop-shadow(0px 5px 5px rgba(0,0,0,0.5))'
+          }}
         />
-        <div 
-          className="pulse-ring" 
-          style={{ 
+        <div
+          className="pulse-ring"
+          style={{
             background: hexToRgba((dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE)), 0.4),
             ['--pulse-color-strong']: hexToRgba((dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE)), 0.7),
             ['--pulse-color-transparent']: hexToRgba((dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE)), 0)
-          }} 
+          }}
         />
         {showLabels && (
-          <div 
-            className="marker-label" 
-            style={{ 
+          <div
+            className="marker-label"
+            style={{
               borderColor: (dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE)),
               background: hexToRgba((dealer.status === 'inactive' ? '#64748b' : (STATE_COLORS[dealer.state] || BRAND_ORANGE)), 0.15)
             }}
@@ -284,93 +364,181 @@ const India3DMap = () => {
         )}
       </div>
     </Marker>
-  )), [filteredMarkers, isMobile]);
+  )), [filteredMarkers, isMobile, showLabels]);
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: BRAND_GREEN, colorBgContainer: '#1f1f1f', colorText: '#fff' } }}>
       <div style={{ position: 'relative', width: '100vw', height: '100vh', background: 'linear-gradient(180deg, #0b1220 0%, #0a1120 60%, #091120 100%)', overflow: 'hidden' }}>
-        
-        {/* Top Center Heading */}
-        <div style={{ position: 'absolute', top: 18, left: '50%', transform: 'translateX(-50%)', zIndex: 12, textAlign: 'center' }}>
-          <div style={{ padding: '8px 16px', borderRadius: 999, background: 'rgba(15, 23, 42, 0.65)', border: '1px solid #1f2a44', backdropFilter: 'blur(6px)' }}>
-            <Text style={{ fontWeight: 600, letterSpacing: 0.6, color: '#c9d7ff' }}>India Presence</Text>
-            <div style={{ fontSize: 12, color: '#9fb3ff' }}>Urja Mobility Partner Network</div>
+
+        {/* Top Center Heading (Adaptive Size) */}
+        <div style={{ position: 'absolute', top: isMobile ? 12 : 18, left: '50%', transform: 'translateX(-50%)', zIndex: 12, textAlign: 'center', width: 'max-content' }}>
+          <div style={{ padding: isMobile ? '6px 12px' : '8px 16px', borderRadius: 999, background: 'rgba(15, 23, 42, 0.75)', border: '1px solid #1f2a44', backdropFilter: 'blur(8px)' }}>
+            <Text style={{ fontWeight: 600, letterSpacing: 0.6, color: '#c9d7ff', fontSize: isMobile ? 13 : 14 }}>India Presence</Text>
+            {!isMobile && <div style={{ fontSize: 12, color: '#9fb3ff' }}>Urja Mobility Partner Network</div>}
           </div>
         </div>
-        
-        {/* --- LEFT SIDEBAR / OVERLAY --- */}
-        <div style={{ 
-            position: 'absolute', top: 20, left: 20, zIndex: 10, 
-            display: 'flex', flexDirection: 'column', gap: 10, maxWidth: '320px' 
-        }}>
-          {/* Title Card */}
-          <Card bordered={false} size="small" style={{ background: 'linear-gradient(135deg, rgba(27, 38, 59, 0.9) 0%, rgba(17, 24, 39, 0.95) 100%)', backdropFilter: 'blur(8px)', border: '1px solid #203049' }}>
-            <Title level={4} style={{ margin: 0, color: '#e6f0ff', letterSpacing: 0.5 }}>Urja Mobility</Title>
-            <Text style={{ color: '#9fb3ff' }}>Nationwide Partner Network</Text>
-          </Card>
 
-          {/* Toggle Filter Panel */}
-          <Button 
-            icon={<FilterFilled />} 
-            onClick={() => setFiltersOpen(!filtersOpen)}
-            type={filtersOpen ? 'primary' : 'default'}
-            style={{ background: filtersOpen ? BRAND_GREEN : 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', borderRadius: 999 }}
-          >
-            {filtersOpen ? 'Hide Filters' : 'Show Filters'}
-          </Button>
-          <Segmented 
-            options={[
-              { label: 'Dark', value: MAP_STYLE },
-              { label: 'Voyager', value: VOYAGER_STYLE },
-              { label: 'Light', value: POSITRON_STYLE }
-            ]}
-            value={mapStyleUrl}
-            onChange={v => setMapStyleUrl(v)}
-            size="small"
-          />
-          {isMobile && (
-            <Button onClick={() => setShowList(v => !v)} type={showList ? 'primary' : 'default'} style={{ borderRadius: 999 }}>
-              {showList ? 'Hide List' : 'Show List'}
+        {/* =========================================
+            DESKTOP ONLY PANELS (Untouched)
+            ========================================= */}
+        {!isMobile && (
+          <>
+            {/* Desktop Left Sidebar */}
+            <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10, display: 'flex', flexDirection: 'column', gap: 10, maxWidth: '320px' }}>
+              <Card bordered={false} size="small" style={{ background: 'linear-gradient(135deg, rgba(27, 38, 59, 0.9) 0%, rgba(17, 24, 39, 0.95) 100%)', backdropFilter: 'blur(8px)', border: '1px solid #203049' }}>
+                <Title level={4} style={{ margin: 0, color: '#e6f0ff', letterSpacing: 0.5 }}>Urja Mobility</Title>
+                <Text style={{ color: '#9fb3ff' }}>Nationwide Partner Network</Text>
+              </Card>
+
+              <Button
+                icon={<FilterFilled />}
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                type={filtersOpen ? 'primary' : 'default'}
+                style={{ background: filtersOpen ? BRAND_GREEN : 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', borderRadius: 999 }}
+              >
+                {filtersOpen ? 'Hide Filters' : 'Show Filters'}
+              </Button>
+              <Segmented
+                options={[
+                  { label: 'Dark', value: MAP_STYLE },
+                  { label: 'Voyager', value: VOYAGER_STYLE },
+                  { label: 'Light', value: POSITRON_STYLE }
+                ]}
+                value={mapStyleUrl}
+                onChange={v => setMapStyleUrl(v)}
+                size="small"
+              />
+              <Button onClick={() => setShowLabels(v => !v)} type={showLabels ? 'primary' : 'default'} style={{ borderRadius: 999 }}>
+                {showLabels ? 'Hide Labels' : 'Show Labels'}
+              </Button>
+
+              {filtersOpen && (
+                <Card bordered={false} size="small" style={{ background: 'rgba(23, 32, 50, 0.95)', border: '1px solid #223556', backdropFilter: 'blur(10px)', borderRadius: 12 }}>
+                  <Input
+                    placeholder="Search City or State..."
+                    prefix={<SearchOutlined />}
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    style={{ marginBottom: 12, borderRadius: 999 }}
+                  />
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <Button
+                      type={filters.active ? 'primary' : 'default'}
+                      onClick={() => setFilters(f => ({ ...f, active: !f.active }))}
+                      style={{ borderRadius: 999 }}
+                    >
+                      Active ({statusCounts.active})
+                    </Button>
+                    <Button
+                      type={filters.inactive ? 'primary' : 'default'}
+                      onClick={() => setFilters(f => ({ ...f, inactive: !f.inactive }))}
+                      style={{ borderRadius: 999 }}
+                    >
+                      Inactive ({statusCounts.inactive})
+                    </Button>
+                  </div>
+                  <Button type="link" size="small" onClick={resetView} style={{ paddingLeft: 0, marginTop: 10 }}>
+                    Reset Map View
+                  </Button>
+                </Card>
+              )}
+            </div>
+
+            {/* Desktop Right Stats Panel */}
+            <div style={{ position: 'absolute', right: 20, top: 20, zIndex: 10, maxWidth: 280 }}>
+              <Card bordered={false} size="small" style={{ background: 'rgba(23,32,50,0.9)', border: '1px solid #223556', backdropFilter: 'blur(8px)' }}>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: 2, background: '#22c55e' }} />
+                    <Text style={{ color: '#e6f0ff' }}>Active</Text>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: 2, background: '#64748b' }} />
+                    <Text style={{ color: '#e6f0ff' }}>Inactive</Text>
+                  </div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8 }}>
+                  {Object.entries(stateStats).map(([state, count]) => (
+                    <div key={state} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ width: 10, height: 10, borderRadius: 2, background: STATE_COLORS[state] || BRAND_ORANGE }} />
+                        <Text style={{ color: '#e6f0ff', fontWeight: 500 }}>{state}</Text>
+                      </div>
+                      <Badge count={count} style={{ backgroundColor: STATE_COLORS[state] || BRAND_ORANGE }} />
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          </>
+        )}
+
+
+        {/* =========================================
+            MOBILE ONLY UI CONTROLS
+            ========================================= */}
+        {isMobile && (
+          <>
+            {/* Mobile Menu Button - Top Left */}
+            <Button
+              type="primary"
+              icon={<MenuOutlined />}
+              onClick={() => setMobileDrawerOpen(true)}
+              style={{ position: 'absolute', top: 12, left: 12, zIndex: 10, borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.4)', background: 'rgba(15, 23, 42, 0.85)', border: '1px solid #374151' }}
+            >
+              Menu & Filters
             </Button>
-          )}
-          <Button onClick={() => setShowLabels(v => !v)} type={showLabels ? 'primary' : 'default'} style={{ borderRadius: 999 }}>
-            {showLabels ? 'Hide Labels' : 'Show Labels'}
-          </Button>
 
-          {/* Filter & Search Panel */}
-          {filtersOpen && (
-             <Card bordered={false} size="small" style={{ background: 'rgba(23, 32, 50, 0.95)', border: '1px solid #223556', backdropFilter: 'blur(10px)', borderRadius: 12 }}>
-               <Input 
-                  placeholder="Search City or State..." 
-                  prefix={<SearchOutlined />} 
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  style={{ marginBottom: 12, borderRadius: 999 }}
-               />
-               
-               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                 <Button 
-                  type={filters.active ? 'primary' : 'default'} 
-                  onClick={() => setFilters(f => ({ ...f, active: !f.active }))}
-                   style={{ borderRadius: 999 }}
-                 >
-                   Active ({statusCounts.active})
-                 </Button>
-                 <Button 
-                  type={filters.inactive ? 'primary' : 'default'} 
-                  onClick={() => setFilters(f => ({ ...f, inactive: !f.inactive }))}
-                   style={{ borderRadius: 999 }}
-                 >
-                   Inactive ({statusCounts.inactive})
-                 </Button>
-               </div>
-               
-               <Button type="link" size="small" onClick={resetView} style={{ paddingLeft: 0, marginTop: 10 }}>
-                 Reset Map View
-               </Button>
-             </Card>
-          )}
-        </div>
+            {/* Mobile Bottom Drawer for Controls */}
+            <Drawer
+              title={<span style={{ color: '#fff' }}>Urja Partner Network</span>}
+              placement="bottom"
+              height="80vh" // Takes up 80% of screen height when opened
+              onClose={() => setMobileDrawerOpen(false)}
+              open={mobileDrawerOpen}
+              style={{ background: '#0f172a', borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+              headerStyle={{ background: '#1e293b', borderBottom: '1px solid #374151' }}
+              closeIcon={<CloseCircleOutlined style={{ color: '#fff', fontSize: 18 }} />}
+            >
+              <FilterAndStatsContent />
+            </Drawer>
+
+            {/* Mobile Fixed Bottom Card for Selected Marker (Replaces Popup) */}
+            {selected && (
+              <div style={{
+                position: 'absolute', bottom: 30, left: '5%', right: '5%', zIndex: 20,
+                background: 'rgba(23, 32, 50, 0.95)', backdropFilter: 'blur(10px)',
+                borderRadius: 16, border: '1px solid #374151', boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                padding: 16, animation: 'slideUp 0.3s ease-out'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                  <div>
+                    <Text style={{ color: STATE_COLORS[selected.state] || BRAND_ORANGE, fontSize: 12, fontWeight: 600, textTransform: 'uppercase' }}>
+                      {selected.city}
+                    </Text>
+                    <Title level={5} style={{ margin: 0, color: '#fff' }}>{selected.company}</Title>
+                  </div>
+                  <Button type="text" icon={<CloseCircleOutlined style={{ color: '#aaa', fontSize: 20 }} />} onClick={() => setSelected(null)} style={{ padding: 0 }} />
+                </div>
+
+                <Badge status={selected.status === 'active' ? 'success' : 'default'} text={<span style={{ color: '#ccc' }}>Status: {selected.statusLabel}</span>} style={{ marginBottom: 12, display: 'block' }} />
+
+                <div style={{ padding: 10, background: '#111827', borderRadius: 8, fontSize: 13, color: '#aaa', marginBottom: 12 }}>
+                  {selected.address}
+                </div>
+
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <Button type="primary" style={{ flex: 1, borderRadius: 8, background: BRAND_GREEN, borderColor: BRAND_GREEN }} onClick={() => window.open(`https://www.google.com/maps?q=${selected.lat},${selected.lng}`, '_blank')}>
+                    Directions
+                  </Button>
+                  <Button style={{ flex: 1, borderRadius: 8, background: '#1e293b', color: '#fff', borderColor: '#374151' }} onClick={() => navigator.clipboard && navigator.clipboard.writeText(selected.address)}>
+                    Copy Details
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
 
         {/* --- MAP COMPONENT --- */}
         <Map
@@ -384,21 +552,24 @@ const India3DMap = () => {
             bearing: 0,
           }}
           maxBounds={[
-            [65.0, 6.0],  // SW Limit
-            [98.0, 38.0]  // NE Limit
+            [65.0, 6.0],
+            [98.0, 38.0]
           ]}
           style={{ width: '100%', height: '100%' }}
           mapStyle={mapStyleUrl}
           dragRotate={!isMobile}
           cooperativeGestures={true}
+          // Offset center slightly up on mobile so markers aren't hidden by bottom sheet if active
+          padding={isMobile && selected ? { bottom: 200 } : {}}
         >
-          <NavigationControl position="bottom-right" visualizePitch={true} />
+          {/* Navigation controls moved up on mobile so they don't hide behind the detail card */}
+          <NavigationControl position={isMobile ? "top-right" : "bottom-right"} visualizePitch={true} />
 
           {/* Render Markers */}
           {markers}
 
-          {/* Popup Card */}
-          {selected && (
+          {/* Desktop Popup (Disabled on Mobile) */}
+          {!isMobile && selected && (
             <Popup
               anchor="top"
               longitude={selected.lng}
@@ -409,9 +580,9 @@ const India3DMap = () => {
               className="custom-popup"
               maxWidth="300px"
             >
-              <Card 
-                size="small" 
-                bordered={false} 
+              <Card
+                size="small"
+                bordered={false}
                 style={{ borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}
                 extra={<CloseCircleOutlined onClick={() => setSelected(null)} />}
                 title={<span style={{ color: STATE_COLORS[selected.state] || BRAND_ORANGE }}>{selected.city}</span>}
@@ -419,76 +590,25 @@ const India3DMap = () => {
                 <Badge status="processing" color={BRAND_GREEN} text={<Text strong>{selected.name}</Text>} />
                 <div style={{ marginTop: 8, padding: 8, background: '#333', borderRadius: 4 }}>
                   <Text type="secondary" style={{ fontSize: '12px' }}>
-                    {selected.address}<br/>
+                    {selected.address}<br />
                     {selected.state}
                   </Text>
                 </div>
-               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                 <a href={`https://www.google.com/maps?q=${selected.lat},${selected.lng}`} target="_blank" rel="noreferrer" style={{ color: BRAND_GREEN, fontSize: '12px' }}>
-                   Directions →
-                 </a>
-                 <Button type="link" size="small" onClick={() => navigator.clipboard && navigator.clipboard.writeText(selected.address)} style={{ color: '#fff' }}>
-                   Copy Address
-                 </Button>
-                 <a href={selected.website} target="_blank" rel="noreferrer" style={{ color: '#fff', fontSize: '12px' }}>
-                   Website
-                 </a>
-                </div>
-                <div style={{ marginTop: 6, display: 'flex', gap: 8 }}>
-                  <Button size="small" onClick={() => navigator.clipboard && navigator.clipboard.writeText(`${selected.lat}, ${selected.lng}`)}>
-                    Copy Coords
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
+                  <a href={`https://www.google.com/maps?q=${selected.lat},${selected.lng}`} target="_blank" rel="noreferrer" style={{ color: BRAND_GREEN, fontSize: '12px' }}>
+                    Directions →
+                  </a>
+                  <Button type="link" size="small" onClick={() => navigator.clipboard && navigator.clipboard.writeText(selected.address)} style={{ color: '#fff' }}>
+                    Copy Address
                   </Button>
+                  <a href={selected.website} target="_blank" rel="noreferrer" style={{ color: '#fff', fontSize: '12px' }}>
+                    Website
+                  </a>
                 </div>
               </Card>
             </Popup>
           )}
         </Map>
-        <div style={{ position: 'absolute', right: 20, top: 20, zIndex: 10, maxWidth: 280 }}>
-          <Card bordered={false} size="small" style={{ background: 'rgba(23,32,50,0.9)', border: '1px solid #223556', backdropFilter: 'blur(8px)' }}>
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10, flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: '#22c55e' }} />
-                <Text style={{ color: '#e6f0ff' }}>Active</Text>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: '#64748b' }} />
-                <Text style={{ color: '#e6f0ff' }}>Inactive</Text>
-              </div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8 }}>
-              {Object.entries(stateStats).map(([state, count]) => (
-                <div key={state} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span 
-                      style={{ 
-                        width: 10, height: 10, borderRadius: 2, 
-                        background: STATE_COLORS[state] || BRAND_ORANGE 
-                      }} 
-                    />
-                    <Text style={{ color: '#e6f0ff', fontWeight: 500 }}>{state}</Text>
-                  </div>
-                  <Badge count={count} style={{ backgroundColor: STATE_COLORS[state] || BRAND_ORANGE }} />
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
-        {isMobile && showList && (
-          <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20, zIndex: 10 }}>
-            <Card bordered={false} size="small" style={{ background: 'rgba(31,31,31,0.9)', backdropFilter: 'blur(8px)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                {filteredMarkers.slice(0, 8).map(item => (
-                  <Button key={item.id} onClick={() => { setSelected(item); mapRef.current && mapRef.current.flyTo({ center: [item.lng, item.lat], zoom: 12, pitch: 50, duration: 2000 }); }} style={{ textAlign: 'left' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <Text strong style={{ color: '#fff' }}>{item.city}</Text>
-                      <Text style={{ color: '#aaa', fontSize: 12 }}>{item.state}</Text>
-                    </div>
-                  </Button>
-                ))}
-              </div>
-            </Card>
-          </div>
-        )}
 
         {/* --- CSS STYLES --- */}
         <style>{`
@@ -515,6 +635,10 @@ const India3DMap = () => {
             70% { box-shadow: 0 0 0 15px var(--pulse-color-transparent, rgba(255, 122, 69, 0)); }
             100% { box-shadow: 0 0 0 0 var(--pulse-color-transparent, rgba(255, 122, 69, 0)); }
           }
+          @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+          }
           /* Custom Popup Overrides */
           .maplibregl-popup-content {
             background: transparent !important;
@@ -538,6 +662,11 @@ const India3DMap = () => {
             white-space: nowrap;
             backdrop-filter: blur(4px);
             transition: opacity 0.2s ease, transform 0.2s ease;
+          }
+          
+          /* Custom AntD Drawer styling for dark mode compatibility */
+          .ant-drawer-content-wrapper {
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5) !important;
           }
         `}</style>
       </div>

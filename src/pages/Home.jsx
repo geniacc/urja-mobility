@@ -137,284 +137,414 @@ export default function Home() {
 
   return (
     <>
-      <Hero categories={categories} />
-      <ImpactStats />
+      {/* 
+        CSS injected for:
+        1. STRICT overflow protection to stop things "getting out of the page"
+        2. Mobile swipe carousel
+        3. Global element size shrinking on mobile
+        4. Professional compression of the Strategic Roadmap
+      */}
+      <style>{`
+        /* 1. Global Overflow & Box Sizing Reset */
+        html, body {
+          max-width: 100vw !important;
+          overflow-x: hidden !important;
+        }
+        
+        *, *::before, *::after {
+          box-sizing: border-box !important;
+        }
 
-      <ZPatternFeature
-        title="Real-World Performance You Can Trust"
-        description="Our drivers experience less downtime and higher earnings. Hear directly from the field about how our battery swapping infrastructure keeps them moving."
-        videoSrc="/assets/driver response 1 .mp4"
-        videoTitle="Driver Response 1"
-        reverse={false}
-        onOpenModal={openModal}
-      />
+        .page-wrapper {
+          width: 100%;
+          max-width: 100vw;
+          overflow-x: hidden;
+        }
+        
+        .swipe-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          align-items: stretch;
+        }
 
-      {/* Features/Why Choose Us */}
-      <section className="section">
-        <div className="container">
-          <motion.div
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="section-title">Why Choose Urja?</h2>
-            <p className="section-subtitle">We don't just build batteries; we engineer reliability.</p>
-          </motion.div>
+        .swipe-item {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+        }
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <div className="why-icons-row">
-              {[
-                {
-                  title: "Advanced Safety",
-                  desc: "Multi-layer BMS protection against thermal runaway.",
-                  icon: <ShieldCheck size={20} />
-                },
-                {
-                  title: "Long Lifespan",
-                  desc: "Cells engineered for 5000+ charge cycles.",
-                  icon: <Clock size={20} />
-                },
-                {
-                  title: "Eco-Friendly",
-                  desc: "95% recyclable materials and sustainable manufacturing.",
-                  icon: <Leaf size={20} />
-                }
-              ].map((feature, i) => (
-                <motion.button
-                  key={feature.title}
-                  type="button"
-                  className={`why-icon ${activeWhyIndex === i ? "active" : ""}`}
-                  variants={itemVariants}
-                  whileHover={{ y: -4, scale: 1.03 }}
-                  onMouseEnter={() => setActiveWhyIndex(i)}
-                  onClick={() => setActiveWhyIndex(i)}
+        /* 2. Mobile Specific Overrides & Shrinking */
+        @media (max-width: 768px) {
+          /* Shrink all standard text globally by ~10-15% on mobile */
+          .page-wrapper {
+            font-size: 90%;
+          }
+          
+          h1, h2, h3 {
+            font-size: 85% !important;
+            line-height: 1.2 !important;
+          }
+
+          /* Compress section padding to save vertical space */
+          .section {
+            padding: 2.5rem 1rem !important;
+          }
+
+          .swipe-container {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            margin-left: -1rem;
+            margin-right: -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-bottom: 1.5rem;
+            gap: 1rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          
+          .swipe-container::-webkit-scrollbar {
+            display: none;
+          }
+
+          .swipe-item {
+            flex: 0 0 88vw; /* Cards take up slightly less width to show the next card peeking */
+            scroll-snap-align: center;
+          }
+
+          /* 3. Strategic Vision Compression 
+             Forces the Roadmap component to become highly dense on mobile */
+          .compressed-roadmap-mobile {
+            transform-origin: top center;
+            /* Optionally use 'zoom: 0.85' if supported, but styling children is safer */
+          }
+          .compressed-roadmap-mobile h2, 
+          .compressed-roadmap-mobile h3 {
+            margin-bottom: 0.5rem !important;
+          }
+          .compressed-roadmap-mobile p {
+            margin-bottom: 0.5rem !important;
+            font-size: 0.85rem !important;
+          }
+          .compressed-roadmap-mobile img,
+          .compressed-roadmap-mobile svg {
+            max-width: 100% !important;
+            height: auto !important;
+          }
+          /* Compress any grids/flexboxes inside the roadmap */
+          .compressed-roadmap-mobile > div,
+          .compressed-roadmap-mobile section {
+            gap: 0.75rem !important;
+            padding: 0.5rem !important;
+          }
+        }
+      `}</style>
+
+      {/* Global wrapper to prevent ANY horizontal scrolling/overflowing */}
+      <div className="page-wrapper">
+        <Hero categories={categories} />
+        <ImpactStats />
+
+        <div style={{ padding: "0 1rem", width: "100%" }}>
+          <ZPatternFeature
+            title="Real-World Performance You Can Trust"
+            description="Our drivers experience less downtime and higher earnings. Hear directly from the field about how our battery swapping infrastructure keeps them moving."
+            videoSrc="/assets/driver response 1 .mp4"
+            videoTitle="Driver Response 1"
+            reverse={false}
+            onOpenModal={openModal}
+          />
+        </div>
+
+        {/* Features/Why Choose Us */}
+        <section className="section">
+          <div className="container" style={{ width: "100%", maxWidth: "100%" }}>
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="section-title">Why Choose Urja?</h2>
+              <p className="section-subtitle">We don't just build batteries; we engineer reliability.</p>
+            </motion.div>
+
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <div className="why-icons-row" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem" }}>
+                {[
+                  {
+                    title: "Advanced Safety",
+                    desc: "Multi-layer BMS protection against thermal runaway.",
+                    icon: <ShieldCheck size={20} />
+                  },
+                  {
+                    title: "Long Lifespan",
+                    desc: "Cells engineered for 5000+ charge cycles.",
+                    icon: <Clock size={20} />
+                  },
+                  {
+                    title: "Eco-Friendly",
+                    desc: "95% recyclable materials and sustainable manufacturing.",
+                    icon: <Leaf size={20} />
+                  }
+                ].map((feature, i) => (
+                  <motion.button
+                    key={feature.title}
+                    type="button"
+                    className={`why-icon ${activeWhyIndex === i ? "active" : ""}`}
+                    variants={itemVariants}
+                    whileHover={{ y: -4, scale: 1.03 }}
+                    onMouseEnter={() => setActiveWhyIndex(i)}
+                    onClick={() => setActiveWhyIndex(i)}
+                    style={{ flex: "1 1 auto", minWidth: "120px", maxWidth: "250px", padding: "0.5rem" }}
+                  >
+                    <span className="why-icon-circle">
+                      {feature.icon}
+                    </span>
+                    <span className="why-icon-label" style={{ fontSize: "0.9rem" }}>
+                      {feature.title}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+              <div className="why-detail" style={{ textAlign: "center", marginTop: "1.5rem", fontSize: "0.95rem" }}>
+                {[
+                  "Multi-layer BMS protection against thermal runaway.",
+                  "Cells engineered for 5000+ charge cycles.",
+                  "95% recyclable materials and sustainable manufacturing."
+                ][activeWhyIndex]}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* TRUSTED PARTNERS SECTION */}
+        <section className="section bg-muted">
+          <div className="container" style={{ width: "100%", maxWidth: "100%" }}>
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="section-title">Trusted Partners</h2>
+              <p className="section-subtitle">Real voices, real impact. Hear directly from the visionaries we work with.</p>
+            </motion.div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(1rem, 4vw, 3rem)", alignItems: "center" }}>
+              {/* Written Breakdown */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                style={{ width: "100%" }}
+              >
+                <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(56, 189, 248, 0.1)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: "999px", fontSize: "0.8rem", fontWeight: 700, marginBottom: "1rem" }}>
+                  A 10/10 Partnership Rating
+                </div>
+                <h3 style={{ fontSize: "clamp(1.3rem, 4vw, 2rem)", fontWeight: 800, marginBottom: "0.75rem", lineHeight: 1.2 }}>
+                  "Unmatched discipline and operational excellence."
+                </h3>
+                <p style={{ color: "var(--muted)", fontSize: "clamp(0.85rem, 3vw, 1.1rem)", marginBottom: "1.25rem", lineHeight: 1.5 }}>
+                  <strong>Pradeep Kantpal, Founder & Director of Ecostar Innovation</strong>, breaks down his three-year journey scaling alongside Urja Mobility's ecosystem.
+                </p>
+
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {[
+                    "Over 10,000 to 15,000 successful battery finances powered together.",
+                    "Flawless execution and rapid order fulfillment across pan-India operations.",
+                    "Transparent infrastructure with dedicated testing labs and instant on-ground support."
+                  ].map((item, i) => (
+                    <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", color: "var(--muted)" }}>
+                      <CheckCircle size={18} color="#38bdf8" style={{ flexShrink: 0, marginTop: "2px" }} />
+                      <span style={{ fontSize: "0.85rem", lineHeight: 1.4 }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              {/* Video Component */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                style={{ width: "100%", overflow: "hidden" }}
+              >
+                <VideoCard
+                  src={"/assets/trusted partner 1 .mp4"}
+                  title={"Ecostar Innovation Review"}
+                  poster={"/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"}
+                  onOpen={() => openModal({
+                    src: "/assets/trusted partner 1 .mp4",
+                    title: "Ecostar Innovation Review",
+                    subtitle: "/assets/trusted-partner-1.vtt",
+                    poster: "/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"
+                  })}
+                />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* RAPID SUPPORT SECTION */}
+        <section className="section">
+          <div className="container" style={{ width: "100%", maxWidth: "100%" }}>
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="section-title">Rapid Support</h2>
+              <p className="section-subtitle">Field teams resolve issues quickly to keep fleets on the move.</p>
+            </motion.div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(1rem, 4vw, 3rem)", alignItems: "center" }}>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                style={{ width: "100%" }}
+              >
+                <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(249, 115, 22, 0.1)", color: "#f97316", border: "1px solid rgba(249, 115, 22, 0.2)", borderRadius: "999px", fontSize: "0.8rem", fontWeight: 700, marginBottom: "1rem" }}>
+                  Maximum Uptime Guaranteed
+                </div>
+                <h3 style={{ fontSize: "clamp(1.3rem, 4vw, 2rem)", fontWeight: 800, marginBottom: "0.75rem", lineHeight: 1.2 }}>
+                  On-the-ground Assistance
+                </h3>
+                <p style={{ color: "var(--muted)", fontSize: "clamp(0.85rem, 3vw, 1.1rem)", marginBottom: "1.25rem", lineHeight: 1.5 }}>
+                  Technology is only as good as the team behind it. Real technicians, real fixes. Our field team is deployed instantly to resolve hardware issues, ensuring less downtime and higher earnings for drivers.
+                </p>
+
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {[
+                    "Instant deployment of field technicians to resolve hardware and software issues.",
+                    "Transparent ticket tracking with response times aggressively optimized.",
+                    "Fully-equipped mobile units for immediate, on-site problem fixing."
+                  ].map((item, i) => (
+                    <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", color: "var(--muted)" }}>
+                      <CheckCircle size={18} color="#f97316" style={{ flexShrink: 0, marginTop: "2px" }} />
+                      <span style={{ fontSize: "0.85rem", lineHeight: 1.4 }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                style={{ width: "100%", overflow: "hidden" }}
+              >
+                <VideoCard
+                  src={"/assets/problem fixing 1 .mp4"}
+                  title={"Problem Fixing"}
+                  onOpen={() => openModal({
+                    src: "/assets/problem fixing 1 .mp4",
+                    title: "Rapid Problem Fixing"
+                  })}
+                />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* STRATEGIC VISION COMPRESSION WRAPPER */}
+        <div className="compressed-roadmap-mobile" style={{ width: "100%", maxWidth: "100vw", overflowX: "hidden" }}>
+          <StrategicRoadmap />
+        </div>
+
+        <PresenceMap />
+
+        {/* --- DATA + REALITY SECTION --- */}
+        <section className="section">
+          <div className="container" style={{ width: "100%", maxWidth: "100%" }}>
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="section-title">Data + Reality</h2>
+              <p className="section-subtitle">Connecting real-time metrics with real driver outcomes.</p>
+            </motion.div>
+
+            <div className="swipe-container">
+              {/* 1. Live Grid Status Box */}
+              <div className="swipe-item">
+                <div style={{ padding: "1.25rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", boxShadow: "0 10px 30px rgba(0,0,0,0.35)", display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+                  <div style={{ fontSize: "0.95rem", color: "var(--muted)", marginBottom: "0.75rem", fontWeight: 700 }}>Live Grid Status</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(70px, 1fr))", gap: "0.75rem" }}>
+                    <div>
+                      <div style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Packs online</div>
+                      <div style={{ fontSize: "clamp(1rem, 3vw, 1.3rem)", fontWeight: 800, color: "#4ade80" }}>96%</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Charging nodes</div>
+                      <div style={{ fontSize: "clamp(1rem, 3vw, 1.3rem)", fontWeight: 800, color: "#38bdf8" }}>84%</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Field tickets</div>
+                      <div style={{ fontSize: "clamp(1rem, 3vw, 1.3rem)", fontWeight: 800, color: "#f97316" }}>7 open</div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "0.75rem", fontSize: "0.8rem", color: "var(--muted)" }}>10,000+ deployed batteries and energy nodes monitored in real time.</div>
+                </div>
+              </div>
+
+              {/* 2. Reality Document Image */}
+              <div className="swipe-item">
+                <motion.div
+                  whileHover={{ y: -5 }}
+                  onClick={() => openModal({ src: "/assets/reality document .jpeg", title: "Reality Document" })}
+                  style={{
+                    borderRadius: "16px",
+                    overflow: "hidden",
+                    border: "1px solid var(--border)",
+                    background: "var(--bg-2)",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+                    cursor: "pointer",
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%"
+                  }}
                 >
-                  <span className="why-icon-circle">
-                    {feature.icon}
-                  </span>
-                  <span className="why-icon-label">
-                    {feature.title}
-                  </span>
-                </motion.button>
-              ))}
-            </div>
-            <div className="why-detail">
-              {[
-                "Multi-layer BMS protection against thermal runaway.",
-                "Cells engineered for 5000+ charge cycles.",
-                "95% recyclable materials and sustainable manufacturing."
-              ][activeWhyIndex]}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* TRUSTED PARTNERS SECTION */}
-      <section className="section bg-muted">
-        <div className="container">
-          <motion.div
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="section-title">Trusted Partners</h2>
-            <p className="section-subtitle">Real voices, real impact. Hear directly from the visionaries we work with.</p>
-          </motion.div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "center" }}>
-            {/* Written Breakdown */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(56, 189, 248, 0.1)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.2)", borderRadius: "999px", fontSize: "0.85rem", fontWeight: 700, marginBottom: "1.25rem" }}>
-                A 10/10 Partnership Rating
+                  <img
+                    src="/assets/reality document .jpeg"
+                    alt="Reality Document"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", minHeight: "200px", display: "block" }}
+                  />
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "1rem 1rem 0.75rem", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)", color: "white", fontWeight: 700, fontSize: "1rem" }}>
+                    Reality Document
+                  </div>
+                </motion.div>
               </div>
-              <h3 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "1rem", lineHeight: 1.2 }}>
-                "Unmatched discipline and operational excellence."
-              </h3>
-              <p style={{ color: "var(--muted)", fontSize: "1.1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
-                <strong>Pradeep Kantpal, Founder & Director of Ecostar Innovation</strong>, breaks down his three-year journey scaling alongside Urja Mobility's ecosystem.
-              </p>
 
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {[
-                  "Over 10,000 to 15,000 successful battery finances powered together.",
-                  "Flawless execution and rapid order fulfillment across pan-India operations.",
-                  "Transparent infrastructure with dedicated testing labs and instant on-ground support."
-                ].map((item, i) => (
-                  <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", color: "var(--muted)" }}>
-                    <CheckCircle size={20} color="#38bdf8" style={{ flexShrink: 0, marginTop: "2px" }} />
-                    <span style={{ fontSize: "0.95rem", lineHeight: 1.5 }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Video Component */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <VideoCard
-                src={"/assets/trusted partner 1 .mp4"}
-                title={"Ecostar Innovation Review"}
-                poster={"/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"}
-                onOpen={() => openModal({
-                  src: "/assets/trusted partner 1 .mp4",
-                  title: "Ecostar Innovation Review",
-                  subtitle: "/assets/trusted-partner-1.vtt",
-                  poster: "/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"
-                })}
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* RAPID SUPPORT SECTION (Expanded) */}
-      <section className="section">
-        <div className="container">
-          <motion.div
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="section-title">Rapid Support</h2>
-            <p className="section-subtitle">Field teams resolve issues quickly to keep fleets on the move.</p>
-          </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "3rem", alignItems: "center" }}>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(249, 115, 22, 0.1)", color: "#f97316", border: "1px solid rgba(249, 115, 22, 0.2)", borderRadius: "999px", fontSize: "0.85rem", fontWeight: 700, marginBottom: "1.25rem" }}>
-                Maximum Uptime Guaranteed
-              </div>
-              <h3 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "1rem", lineHeight: 1.2 }}>
-                On-the-ground Assistance
-              </h3>
-              <p style={{ color: "var(--muted)", fontSize: "1.1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
-                Technology is only as good as the team behind it. Real technicians, real fixes. Our field team is deployed instantly to resolve hardware issues, ensuring less downtime and higher earnings for drivers.
-              </p>
-
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {[
-                  "Instant deployment of field technicians to resolve hardware and software issues.",
-                  "Transparent ticket tracking with response times aggressively optimized.",
-                  "Fully-equipped mobile units for immediate, on-site problem fixing."
-                ].map((item, i) => (
-                  <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", color: "var(--muted)" }}>
-                    <CheckCircle size={20} color="#f97316" style={{ flexShrink: 0, marginTop: "2px" }} />
-                    <span style={{ fontSize: "0.95rem", lineHeight: 1.5 }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <VideoCard
-                src={"/assets/problem fixing 1 .mp4"}
-                title={"Problem Fixing"}
-                onOpen={() => openModal({
-                  src: "/assets/problem fixing 1 .mp4",
-                  title: "Rapid Problem Fixing"
-                })}
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      <StrategicRoadmap />
-      <PresenceMap />
-
-      {/* --- DATA + REALITY SECTION --- */}
-      <section className="section">
-        <div className="container">
-          <motion.div
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="section-title">Data + Reality</h2>
-            <p className="section-subtitle">Connecting real-time metrics with real driver outcomes.</p>
-          </motion.div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", alignItems: "stretch" }}>
-
-            {/* 1. Live Grid Status Box */}
-            <div style={{ padding: "1.5rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", boxShadow: "0 10px 30px rgba(0,0,0,0.35)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <div style={{ fontSize: "1rem", color: "var(--muted)", marginBottom: "0.5rem", fontWeight: 700 }}>Live Grid Status</div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
-                <div>
-                  <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Packs online</div>
-                  <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#4ade80" }}>96%</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Charging nodes</div>
-                  <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#38bdf8" }}>84%</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Field tickets</div>
-                  <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#f97316" }}>7 open</div>
+              {/* 3. Driver Response 5 Video */}
+              <div className="swipe-item">
+                <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
+                  <VideoCard src={"/assets/driver response 5 .mp4"} title={"Driver Response 5"} onOpen={openModal} />
                 </div>
               </div>
-              <div style={{ marginTop: "0.75rem", fontSize: "0.9rem", color: "var(--muted)" }}>10,000+ deployed batteries and energy nodes monitored in real time.</div>
+
             </div>
-
-            {/* 2. Reality Document Image */}
-            <motion.div
-              whileHover={{ y: -5 }}
-              onClick={() => openModal({ src: "/assets/reality document .jpeg", title: "Reality Document" })}
-              style={{
-                borderRadius: "16px",
-                overflow: "hidden",
-                border: "1px solid var(--border)",
-                background: "var(--bg-2)",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
-                cursor: "pointer",
-                position: "relative",
-                display: "flex",
-                flexDirection: "column"
-              }}
-            >
-              <img
-                src="/assets/reality document .jpeg"
-                alt="Reality Document"
-                style={{ width: "100%", height: "100%", objectFit: "cover", minHeight: "250px", display: "block" }}
-              />
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "1.5rem 1rem 1rem", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)", color: "white", fontWeight: 700, fontSize: "1.1rem" }}>
-                Reality Document
-              </div>
-            </motion.div>
-
-            {/* 3. Driver Response 5 Video */}
-            <VideoCard src={"/assets/driver response 5 .mp4"} title={"Driver Response 5"} onOpen={openModal} />
-
           </div>
-        </div>
-      </section>
+        </section>
+
+      </div> {/* End of page-wrapper */}
 
       {/* --- MODAL --- */}
       {createPortal(
@@ -428,13 +558,13 @@ export default function Home() {
               style={{
                 position: "fixed",
                 inset: 0,
-                zIndex: 99999, // Massive Z-index to override the footer!
+                zIndex: 99999,
                 background: "rgba(2,6,23,0.85)",
                 backdropFilter: "blur(6px)",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                padding: "2rem"
+                justify: "center",
+                padding: "clamp(0.5rem, 2vw, 2rem)"
               }}
               onClick={closeModal}
             >
@@ -443,7 +573,7 @@ export default function Home() {
                 animate={{ y: 0, scale: 1, opacity: 1 }}
                 exit={{ y: 10, scale: 0.98, opacity: 0 }}
                 style={{
-                  width: "min(1200px, 95vw)", // Slightly wider for documents
+                  width: "min(1200px, 100%)",
                   borderRadius: "16px",
                   overflow: "hidden",
                   background: "var(--bg-2)",
@@ -460,8 +590,8 @@ export default function Home() {
                     position: "absolute",
                     top: 10,
                     right: 10,
-                    width: 40,
-                    height: 40,
+                    width: 36,
+                    height: 36,
                     borderRadius: "999px",
                     backdropFilter: "blur(8px)",
                     background: "rgba(15,23,42,0.65)",
@@ -469,26 +599,25 @@ export default function Home() {
                     color: "#fff",
                     display: "inline-flex",
                     alignItems: "center",
-                    justifyContent: "center",
+                    justify: "center",
                     boxShadow: "0 10px 25px rgba(0,0,0,0.45)",
                     zIndex: 20
                   }}
                   aria-label="Close"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
 
                 <div style={{
                   position: "relative",
                   width: "100%",
-                  // Flexible height: 75vh for images (to see more of document), 16:9 for videos
-                  height: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "75vh" : "auto",
+                  height: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "clamp(50vh, 75vh, 800px)" : "auto",
                   aspectRatio: modal.src.match(/\.(jpeg|jpg|gif|png)$/) ? "auto" : "16 / 9",
                   background: "#000",
-                  overflow: "hidden", // Hide native scrollbars
+                  overflow: "hidden",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center"
+                  justify: "center"
                 }}>
                   {modal.src.match(/\.(jpeg|jpg|gif|png)$/) != null ? (
                     <>
@@ -496,9 +625,8 @@ export default function Home() {
                         src={encodeURI(modal.src)}
                         alt={modal.title}
                         drag={zoomLevel > 1}
-                        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }} // Generous panning bounds
+                        dragConstraints={{ left: -1000, right: 1000, top: -1000, bottom: 1000 }}
                         dragElastic={0.1}
-                        // Smoothly scales up, and snaps back to center (0,0) when zoomed out
                         animate={zoomLevel === 1 ? { x: 0, y: 0, scale: 1 } : { scale: zoomLevel }}
                         transition={{ type: "tween", duration: 0.2 }}
                         style={{
@@ -521,7 +649,7 @@ export default function Home() {
                         gap: "0.5rem",
                         background: "rgba(15,23,42,0.8)",
                         backdropFilter: "blur(8px)",
-                        padding: "0.5rem",
+                        padding: "0.4rem",
                         borderRadius: "999px",
                         border: "1px solid rgba(148,163,184,0.3)",
                         zIndex: 10
@@ -531,7 +659,7 @@ export default function Home() {
                           style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
                           aria-label="Zoom Out"
                         >
-                          <ZoomOut size={20} />
+                          <ZoomOut size={18} />
                         </button>
                         <div style={{ width: "1px", background: "rgba(255,255,255,0.2)", margin: "0 4px" }} />
                         <button
@@ -539,7 +667,7 @@ export default function Home() {
                           style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", display: "flex", padding: "0.25rem" }}
                           aria-label="Zoom In"
                         >
-                          <ZoomIn size={20} />
+                          <ZoomIn size={18} />
                         </button>
                       </div>
                     </>
@@ -565,8 +693,8 @@ export default function Home() {
                   )}
                 </div>
 
-                <div style={{ padding: "0.9rem 1rem", borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ fontWeight: 700 }}>{modal.title}</div>
+                <div style={{ padding: "0.75rem 1rem", borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ fontWeight: 700, fontSize: "clamp(0.85rem, 3vw, 1rem)" }}>{modal.title}</div>
                 </div>
               </motion.div>
             </motion.div>
@@ -612,7 +740,7 @@ export default function Home() {
                   "radial-gradient(circle at 30% 30%, #4ade80, #16a34a)",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justify: "center",
                 boxShadow: "0 0 18px rgba(34,197,94,0.7)",
                 flexShrink: 0
               }}
