@@ -10,7 +10,7 @@ const featuredStories = [
     title: "Anagh Ojha: Engineering a Sustainable Future",
     publication: "Audience Reports",
     date: "Featured Article",
-    image: "/assets/Anagh-Ojha.png",
+    image: import.meta.env.BASE_URL + "assets/Anagh-Ojha.png",
     link: "https://audiencereports.in/anagh-ojha-engineering-a-sustainable-future-wit/",
     description: "Profile of Urja Mobility’s Co-founder and CTO, spotlighting purpose-led leadership and the Battery-as-a-Service model enabling accessible EV adoption through battery swapping. A story of resilience and impact, focused on democratizing clean mobility across India."
   },
@@ -19,7 +19,7 @@ const featuredStories = [
     title: "Transforming EV Infrastructure",
     publication: "The Industry Outlook",
     date: "Editor's Choice",
-    image: "/assets/9nsm7450x308-2.jpg",
+    image: import.meta.env.BASE_URL + "assets/9nsm7450x308-2.jpg",
     link: "https://www.theindustryoutlook.com/startups/editor-choice/urja-mobility-transforming-ev-infrastructure-through-advanced-power-and-energy-storage-solutions-nwid-10628.html",
     description: "Deep dive into Urja Mobility’s battery leasing across B2B/B2C, lifecycle approach from design to deployment, and performance enhancements for electric three-wheelers and ESS—expanding across North/East India and major cities like Bengaluru, Hyderabad, and Pune."
   },
@@ -28,7 +28,7 @@ const featuredStories = [
     title: "Eastman and Urja Mobility sign MoU",
     publication: "Manufacturing Today India",
     date: "Partnership",
-    image: "/assets/eastman-urja-mobility-1536x864.jpg",
+    image: import.meta.env.BASE_URL + "assets/eastman-urja-mobility-1536x864.jpg",
     link: "https://www.manufacturingtodayindia.com/eastman-urja-mobility-sign-mou",
     description: "Strategic partnership to accelerate EV adoption: supply of 20,000+ lithium-ion batteries for electric three-wheelers and integration of Urja Mobility’s IoT/software for remote monitoring and analytics—advancing accessible, reliable, and sustainable electric mobility nationwide."
   },
@@ -37,7 +37,7 @@ const featuredStories = [
     title: "B2C Battery Leasing for E‑Rickshaw Drivers",
     publication: "Energetica India",
     date: "Program Update",
-    image: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
+    image: import.meta.env.BASE_URL + "assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
     link: "https://www.energetica-india.net/news/urja-mobility-introduces-b2c-battery-leasing-program-for-e-rickshaw-drivers",
     description: "Urja Mobility launches B2C battery leasing across 10 cities with monthly plans, option to own in 12–24 months, AI-enabled BMS for health and safety, and service centers to ensure 26+ uptime days/month. Target: onboard 50,000 drivers and accelerate India’s clean mobility goals."
   }
@@ -48,21 +48,21 @@ const trendingNews = [
     id: "t1",
     title: "Urja Mobility Surpasses 15,000 Active Battery Leases",
     type: "MILESTONE",
-    image: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
+    image: import.meta.env.BASE_URL + "assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
     link: "https://www.energetica-india.net/news/urja-mobility-introduces-b2c-battery-leasing-program-for-e-rickshaw-drivers"
   },
   {
     id: "t2",
     title: "New Partnership with Eastman Auto & Power",
     type: "PARTNERSHIP",
-    image: "/assets/eastman-urja-mobility-1536x864.jpg",
+    image: import.meta.env.BASE_URL + "assets/eastman-urja-mobility-1536x864.jpg",
     link: "https://www.manufacturingtodayindia.com/eastman-urja-mobility-sign-mou"
   },
   {
     id: "t3",
     title: "Urja Mobility Bags ₹100 Crore in Pre-Series A Funding",
     type: "FUNDING",
-    image: "/assets/9nsm7450x308-2.jpg",
+    image: import.meta.env.BASE_URL + "assets/9nsm7450x308-2.jpg",
     link: "https://www.youtube.com/watch?v=sevkWqvT_kg"
   }
 ];
@@ -213,10 +213,10 @@ const initiatives = [
 ];
 
 const gallery = [
-  { src: "/assets/eastman-urja-mobility-1536x864.jpg", title: "Partnership Signing" },
-  { src: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg", title: "B2C Leasing Rollout" },
-  { src: "/assets/9nsm7450x308-2.jpg", title: "EV Infrastructure Operations" },
-  { src: "/assets/Anagh-Ojha.png", title: "Leadership Series" }
+  { src: import.meta.env.BASE_URL + "assets/eastman-urja-mobility-1536x864.jpg", title: "Partnership Signing" },
+  { src: import.meta.env.BASE_URL + "assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg", title: "B2C Leasing Rollout" },
+  { src: import.meta.env.BASE_URL + "assets/9nsm7450x308-2.jpg", title: "EV Infrastructure Operations" },
+  { src: import.meta.env.BASE_URL + "assets/Anagh-Ojha.png", title: "Leadership Series" }
 ];
 
 const logosData = [
@@ -224,7 +224,7 @@ const logosData = [
     href: "https://audiencereports.in/anagh-ojha-engineering-a-sustainable-future-wit/",
     label: "Audience Reports",
     color: "#f59e0b",
-    previewSrc: "/assets/Anagh-Ojha.png",
+    previewSrc: import.meta.env.BASE_URL + "assets/Anagh-Ojha.png",
     icon: (
       <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path d="M18 20V10M12 20V4M6 20v-6" />
@@ -235,7 +235,7 @@ const logosData = [
     href: "https://www.theindustryoutlook.com/startups/editor-choice/urja-mobility-transforming-ev-infrastructure-through-advanced-power-and-energy-storage-solutions-nwid-10628.html",
     label: "The Industry Outlook",
     color: "#3b82f6",
-    previewSrc: "/assets/9nsm7450x308-2.jpg",
+    previewSrc: import.meta.env.BASE_URL + "assets/9nsm7450x308-2.jpg",
     icon: (
       <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="3" />
@@ -247,7 +247,7 @@ const logosData = [
     href: "https://www.energetica-india.net/news/urja-mobility-introduces-b2c-battery-leasing-program-for-e-rickshaw-drivers",
     label: "Energetica India",
     color: "#10b981",
-    previewSrc: "/assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
+    previewSrc: import.meta.env.BASE_URL + "assets/OrYifTRjraMAnvfrqoa8ONFzyitu779nUfInwrUM5Vzo2gUe8QdLej.jpg",
     icon: (
       <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -258,7 +258,7 @@ const logosData = [
     href: "https://www.manufacturingtodayindia.com/eastman-urja-mobility-sign-mou",
     label: "Manufacturing Today",
     color: "#ec4899",
-    previewSrc: "/assets/eastman-urja-mobility-1536x864.jpg",
+    previewSrc: import.meta.env.BASE_URL + "assets/eastman-urja-mobility-1536x864.jpg",
     icon: (
       <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
@@ -878,7 +878,7 @@ export default function NewsMedia() {
               transition={{ type: "spring", stiffness: 220, damping: 20 }}
             >
               <div style={styles.imageWrapper}>
-                <TiltImage src={article.image || "/assets/logo.png"} alt={article.title} />
+                <TiltImage src={article.image || import.meta.env.BASE_URL + "assets/logo.png"} alt={article.title} />
               </div>
               <div style={styles.content}>
                 <div style={styles.meta}>

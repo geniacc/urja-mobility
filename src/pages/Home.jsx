@@ -215,7 +215,7 @@ export default function Home() {
           <ZPatternFeature
             title="Real-World Performance You Can Trust"
             description="Our drivers experience less downtime and higher earnings. Hear directly from the field about how our battery swapping infrastructure keeps them moving."
-            videoSrc="/assets/driver response 1 .mp4"
+            videoSrc={import.meta.env.BASE_URL + "assets/driver response 1 .mp4"}
             videoTitle="Driver Response 1"
             reverse={false}
             onOpenModal={openModal}
@@ -347,14 +347,14 @@ export default function Home() {
                 style={{ overflow: "hidden" }}
               >
                 <VideoCard
-                  src={"/assets/trusted partner 1 .mp4"}
+                  src={import.meta.env.BASE_URL + "assets/trusted partner 1 .mp4"}
                   title={"Ecostar Innovation Review"}
-                  poster={"/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"}
+                  poster={import.meta.env.BASE_URL + "assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"}
                   onOpen={() => openModal({
-                    src: "/assets/trusted partner 1 .mp4",
+                    src: import.meta.env.BASE_URL + "assets/trusted partner 1 .mp4",
                     title: "Ecostar Innovation Review",
-                    subtitle: "/assets/trusted-partner-1.vtt",
-                    poster: "/assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"
+                    subtitle: import.meta.env.BASE_URL + "assets/trusted-partner-1.vtt",
+                    poster: import.meta.env.BASE_URL + "assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"
                   })}
                 />
               </motion.div>
@@ -417,10 +417,10 @@ export default function Home() {
                   style={{ overflow: "hidden" }}
                 >
                   <VideoCard
-                    src={"/assets/problem fixing 1 .mp4"}
+                    src={import.meta.env.BASE_URL + "assets/problem fixing 1 .mp4"}
                     title={"Problem Fixing"}
                     onOpen={() => openModal({
-                      src: "/assets/problem fixing 1 .mp4",
+                      src: import.meta.env.BASE_URL + "assets/problem fixing 1 .mp4",
                       title: "Rapid Problem Fixing"
                     })}
                   />
@@ -508,7 +508,7 @@ export default function Home() {
               <div className="swipe-item">
                 <motion.div
                   whileHover={isDesktop ? { y: -5 } : {}}
-                  onClick={() => openModal({ src: "/assets/reality document .jpeg", title: "Reality Document" })}
+                  onClick={() => openModal({ src: import.meta.env.BASE_URL + "assets/reality document .jpeg", title: "Reality Document" })}
                   style={{
                     borderRadius: "16px",
                     overflow: "hidden",
@@ -523,7 +523,7 @@ export default function Home() {
                   }}
                 >
                   <img
-                    src="/assets/reality document .jpeg"
+                    src={import.meta.env.BASE_URL + "assets/reality document .jpeg"}
                     alt="Reality Document"
                     style={{ width: "100%", height: "100%", objectFit: "cover", minHeight: "200px", display: "block" }}
                   />
@@ -536,7 +536,7 @@ export default function Home() {
               {/* 3. Driver Response 5 Video */}
               <div className="swipe-item">
                 <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
-                  <VideoCard src={"/assets/driver response 5 .mp4"} title={"Driver Response 5"} onOpen={openModal} />
+                  <VideoCard src={import.meta.env.BASE_URL + "assets/driver response 5 .mp4"} title={"Driver Response 5"} onOpen={openModal} />
                 </div>
               </div>
 

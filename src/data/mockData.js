@@ -6,7 +6,7 @@ export const categories = [
     externalLink: "https://zuice.in/",
     description: "High-performance Li-Ion batteries for the future of transportation.",
     color: "#ef4444", // Red
-    image: "/assets/tuk-tuk.png",
+    image: import.meta.env.BASE_URL + "assets/tuk-tuk.png",
     subcategories: [
       {
         id: "3-wheeler",
@@ -230,7 +230,7 @@ export const categories = [
     externalLink: "https://zuice.in/",
     description: "Cutting-edge charging solutions for the electric future.",
     color: "#10b981", // Emerald
-    image: "/assets/TK3000W.png",
+    image: import.meta.env.BASE_URL + "assets/TK3000W.png",
     subcategories: [
       {
         id: 'lithium-ev-chargers',
@@ -239,13 +239,13 @@ export const categories = [
           {
             id: 'urja-charger-400w',
             title: 'Urja Mobility 400W Lithium Battery Charger',
-            image: "/assets/urja-400w-1.jpg.jpeg",
+            image: import.meta.env.BASE_URL + "assets/urja-400w-1.jpg.jpeg",
             details: {
               gallery: [
-                "/assets/urja-400w-1.jpg.jpeg",
-                "/assets/urja-400w-2.jpg.jpeg",
-                "/assets/urja-400w-3.jpg.jpeg",
-                "/assets/urja-400w-4.jpg.jpeg"
+                import.meta.env.BASE_URL + "assets/urja-400w-1.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-400w-2.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-400w-3.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-400w-4.jpg.jpeg"
               ],
               technical: {
                 general: {
@@ -277,13 +277,13 @@ export const categories = [
           {
             id: 'urja-charger-1000w',
             title: 'Urja Mobility 1000W Lithium Battery Charger',
-            image: "/assets/urja-1000w-1.jpg.jpeg",
+            image: import.meta.env.BASE_URL + "assets/urja-1000w-1.jpg.jpeg",
             details: {
               gallery: [
-                "/assets/urja-1000w-1.jpg.jpeg",
-                "/assets/urja-1000w-2.jpg.jpeg",
-                "/assets/urja-1000w-3.jpg.jpeg",
-                "/assets/urja-1000w-4.jpg.jpeg"
+                import.meta.env.BASE_URL + "assets/urja-1000w-1.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-1000w-2.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-1000w-3.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-1000w-4.jpg.jpeg"
               ],
               technical: {
                 general: {
@@ -317,13 +317,13 @@ export const categories = [
           {
             id: 'urja-charger-1200w',
             title: 'Urja Mobility 1200W Lithium Battery Charger',
-            image: "/assets/urja-1200w-1.jpg.jpeg",
+            image: import.meta.env.BASE_URL + "assets/urja-1200w-1.jpg.jpeg",
             details: {
               gallery: [
-                "/assets/urja-1200w-1.jpg.jpeg",
-                "/assets/urja-1200w-2.jpg.jpeg",
-                "/assets/urja-1200w-3.jpg.jpeg",
-                "/assets/urja-1200w-4.jpg.jpeg"
+                import.meta.env.BASE_URL + "assets/urja-1200w-1.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-1200w-2.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-1200w-3.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-1200w-4.jpg.jpeg"
               ],
               technical: {
                 general: {
@@ -356,13 +356,13 @@ export const categories = [
           {
             id: 'urja-charger-2400w',
             title: 'Urja Mobility 2400W Lithium Battery Charger',
-            image: "/assets/urja-2400w-1.jpg.jpeg",
+            image: import.meta.env.BASE_URL + "assets/urja-2400w-1.jpg.jpeg",
             details: {
               gallery: [
-                "/assets/urja-2400w-1.jpg.jpeg",
-                "/assets/urja-2400w-2.jpg.jpeg",
-                "/assets/urja-2400w-3.jpg.jpeg",
-                "/assets/urja-2400w-4.jpg.jpeg"
+                import.meta.env.BASE_URL + "assets/urja-2400w-1.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-2400w-2.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-2400w-3.jpg.jpeg",
+                import.meta.env.BASE_URL + "assets/urja-2400w-4.jpg.jpeg"
               ],
               technical: {
                 general: {
@@ -404,7 +404,7 @@ export const categories = [
     externalLink: "https://zuice.in/",
     description: "High-efficiency inverters for seamless solar and grid integration.",
     color: "#f97316", // Orange
-    image: "/assets/Single Phase Solar GTI.png",
+    image: import.meta.env.BASE_URL + "assets/Single Phase Solar GTI.png",
     subcategories: [
       {
         id: "solar-ups",
@@ -674,44 +674,44 @@ export const categories = [
 ];
 
 export const teamMembers = [
-  { id: 1, name: "PANKAJ CHOPRA", department: "MANAGEMENT", role: "FOUNDER DIRECTOR & CEO", image: "/assets/Pankaj Sir.jpeg" },
-  { id: 2, name: "BEEKEY KUMAR", department: "CREDIT", role: "DEPUTY GENERAL MANAGER - CREDIT", image: "/assets/Beekey Kumar-Deputy General Manager- Credits.jpeg" },
-  { id: 3, name: "ROHIT KUMAR", department: "SALES & SERVICE", role: "AFTER SALES SERVICE MANAGER(BIHAR &JKD)", image: "/assets/Rohit Kumar-After Sales Service Manager.jpeg" },
-  { id: 4, name: "ANAGH OJHA", department: "MANAGEMENT", role: "CO-FOUNDER-DIRECTOR & CTO", image: "/assets/Anagh sir.jpeg" },
-  { id: 5, name: "SURAJ SHARMA", department: "COLLECTION", role: "ASSISTANT MANAGER- FIELD & COLLECTION OPERATIONS", image: "/assets/Suraj Sharma- ASSISTANT MANAGER- FIELD & COLLECTION OPERATIONS.jpeg" },
-  { id: 6, name: "PUSHPESH KUMAR SHARMA", department: "TECHNICAL", role: "HEAD - R&D, SERVICE AND NEW PRODUCT DEVELOPMENT", image: "/assets/PUSHPESH KUMAR SHARMA-HEAD - R&D, SERVICE AND NEW PRODUCT DEVELOPMENT.jpeg" },
-  { id: 7, name: "ASHUTOSH KUMAR", department: "SUPPLY CHAIN", role: "SUPPLY CHAIN ENGINEER", image: "/assets/Ashutosh Kumar (Supply Chain Engineer).jpeg" },
-  { id: 8, name: "VICKY", department: "ADMIN", role: "LAB ASSOCIATE", image: "/assets/Vicky Paswan- Lab Associate.jpeg" },
-  { id: 9, name: "RITU", department: "CUSTOMER SUPPORT", role: "EXECUTIVE- OPERATIONS & SUPPORT", image: "/assets/Ritu-Executive-Operations & Support.jpeg" },
-  { id: 10, name: "PAPAI ROY", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: "/assets/Papai Roy (Sales & Collection Executive).jpeg" },
-  { id: 11, name: "SUMIT KUMAR", department: "ACCOUNTS", role: "SR ACCOUNTS EXECUTIVE", image: "/assets/Sumit- Sr. Accounts Excutive.jpeg" },
-  { id: 12, name: "ANURAG SHARMA", department: "OPERATIONS", role: "ASST MANAGER OPERATIONS", image: "/assets/Anurag Sharma-Assistant Manager Operations.jpg" },
-  { id: 13, name: "ABHISHEK PRASAD", department: "COLLECTION", role: "COLLECTION EXECUTIVE", image: "/assets/Abhishek Prasad (Collection Executive).jpeg" },
-  { id: 14, name: "ANKIT SINGH", department: "SALES & COLLECTION", role: "DRIVER ON-BOARDING & COLLECTION EXECUTIVE", image: "/assets/Ankit Singh.jpeg" },
-  { id: 15, name: "ANJALI", department: "ACCOUNTS", role: "ACCOUNTS EXECUTIVE", image: "/assets/Anjali - Accounts Executive.jpeg" },
+  { id: 1, name: "PANKAJ CHOPRA", department: "MANAGEMENT", role: "FOUNDER DIRECTOR & CEO", image: import.meta.env.BASE_URL + "assets/Pankaj Sir.jpeg" },
+  { id: 2, name: "BEEKEY KUMAR", department: "CREDIT", role: "DEPUTY GENERAL MANAGER - CREDIT", image: import.meta.env.BASE_URL + "assets/Beekey Kumar-Deputy General Manager- Credits.jpeg" },
+  { id: 3, name: "ROHIT KUMAR", department: "SALES & SERVICE", role: "AFTER SALES SERVICE MANAGER(BIHAR &JKD)", image: import.meta.env.BASE_URL + "assets/Rohit Kumar-After Sales Service Manager.jpeg" },
+  { id: 4, name: "ANAGH OJHA", department: "MANAGEMENT", role: "CO-FOUNDER-DIRECTOR & CTO", image: import.meta.env.BASE_URL + "assets/Anagh sir.jpeg" },
+  { id: 5, name: "SURAJ SHARMA", department: "COLLECTION", role: "ASSISTANT MANAGER- FIELD & COLLECTION OPERATIONS", image: import.meta.env.BASE_URL + "assets/Suraj Sharma- ASSISTANT MANAGER- FIELD & COLLECTION OPERATIONS.jpeg" },
+  { id: 6, name: "PUSHPESH KUMAR SHARMA", department: "TECHNICAL", role: "HEAD - R&D, SERVICE AND NEW PRODUCT DEVELOPMENT", image: import.meta.env.BASE_URL + "assets/PUSHPESH KUMAR SHARMA-HEAD - R&D, SERVICE AND NEW PRODUCT DEVELOPMENT.jpeg" },
+  { id: 7, name: "ASHUTOSH KUMAR", department: "SUPPLY CHAIN", role: "SUPPLY CHAIN ENGINEER", image: import.meta.env.BASE_URL + "assets/Ashutosh Kumar (Supply Chain Engineer).jpeg" },
+  { id: 8, name: "VICKY", department: "ADMIN", role: "LAB ASSOCIATE", image: import.meta.env.BASE_URL + "assets/Vicky Paswan- Lab Associate.jpeg" },
+  { id: 9, name: "RITU", department: "CUSTOMER SUPPORT", role: "EXECUTIVE- OPERATIONS & SUPPORT", image: import.meta.env.BASE_URL + "assets/Ritu-Executive-Operations & Support.jpeg" },
+  { id: 10, name: "PAPAI ROY", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Papai Roy (Sales & Collection Executive).jpeg" },
+  { id: 11, name: "SUMIT KUMAR", department: "ACCOUNTS", role: "SR ACCOUNTS EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sumit- Sr. Accounts Excutive.jpeg" },
+  { id: 12, name: "ANURAG SHARMA", department: "OPERATIONS", role: "ASST MANAGER OPERATIONS", image: import.meta.env.BASE_URL + "assets/Anurag Sharma-Assistant Manager Operations.jpg" },
+  { id: 13, name: "ABHISHEK PRASAD", department: "COLLECTION", role: "COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Abhishek Prasad (Collection Executive).jpeg" },
+  { id: 14, name: "ANKIT SINGH", department: "SALES & COLLECTION", role: "DRIVER ON-BOARDING & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Ankit Singh.jpeg" },
+  { id: 15, name: "ANJALI", department: "ACCOUNTS", role: "ACCOUNTS EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Anjali - Accounts Executive.jpeg" },
   { id: 16, name: "TAPAS BARMAN", department: "SALES & MARKETING", role: "SALES & MARKETING EXECUTIVE", image: "" },
-  { id: 17, name: "BHARTI KUMARI", department: "CUSTOMER SUPPORT", role: "CUSTOMER SUPPORT EXECUTIVE", image: "/assets/Bharti Mishra- Customer Support Executive.jpeg" },
-  { id: 18, name: "SOURAV DEY", department: "SALES & MARKETING", role: "SALES AND MARKETING EXECUTIVE", image: "/assets/Sourav Dey- Sales & Marketing Executive.jpg" },
-  { id: 19, name: "SUJAL RATHORE", department: "HUMAN RESOURCE", role: "JUNIOR HR EXECUTIVE", image: "/assets/Sujal-Junior HR Executive.jpeg" },
-  { id: 20, name: "AMIT BHADOURIYA", department: "COLLECTION", role: "COLLECTION EXECUTIVE", image: "/assets/Amit Bhadouriya - collection Executive.png" },
-  { id: 21, name: "SHIVAM SINGH", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: "/assets/Shivam Singh.jpeg" },
-  { id: 22, name: "DIPAM KAR", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: "/assets/Dipam Kar (Sales & Collection Executive).jpeg" },
-  { id: 23, name: "RAHUL SINGH", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: "/assets/Rahul Singh- Sales & Collection Executive.jpeg" },
-  { id: 24, name: "RAUSHAN KUMAR", department: "SUPPLY CHAIN", role: "DGM-SCM", image: "/assets/RAUSHAN KUMAR (DGM-SCM).jpeg" },
-  { id: 25, name: "MAHESH RAMDAS KADABA", department: "MANAGEMENT", role: "CHIEF STRATEGY OFFICER", image: "/assets/Mahesh Ramdas Kadaba (Chief Strategy Officer).jpeg" },
-  { id: 26, name: "SUBHASH CHAND", department: "TECHNICAL", role: "SERVICE TECHNICIAN", image: "/assets/Subhash Chand- Service Technician.jpeg" },
+  { id: 17, name: "BHARTI KUMARI", department: "CUSTOMER SUPPORT", role: "CUSTOMER SUPPORT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Bharti Mishra- Customer Support Executive.jpeg" },
+  { id: 18, name: "SOURAV DEY", department: "SALES & MARKETING", role: "SALES AND MARKETING EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sourav Dey- Sales & Marketing Executive.jpg" },
+  { id: 19, name: "SUJAL RATHORE", department: "HUMAN RESOURCE", role: "JUNIOR HR EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sujal-Junior HR Executive.jpeg" },
+  { id: 20, name: "AMIT BHADOURIYA", department: "COLLECTION", role: "COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Amit Bhadouriya - collection Executive.png" },
+  { id: 21, name: "SHIVAM SINGH", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Shivam Singh.jpeg" },
+  { id: 22, name: "DIPAM KAR", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Dipam Kar (Sales & Collection Executive).jpeg" },
+  { id: 23, name: "RAHUL SINGH", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Rahul Singh- Sales & Collection Executive.jpeg" },
+  { id: 24, name: "RAUSHAN KUMAR", department: "SUPPLY CHAIN", role: "DGM-SCM", image: import.meta.env.BASE_URL + "assets/RAUSHAN KUMAR (DGM-SCM).jpeg" },
+  { id: 25, name: "MAHESH RAMDAS KADABA", department: "MANAGEMENT", role: "CHIEF STRATEGY OFFICER", image: import.meta.env.BASE_URL + "assets/Mahesh Ramdas Kadaba (Chief Strategy Officer).jpeg" },
+  { id: 26, name: "SUBHASH CHAND", department: "TECHNICAL", role: "SERVICE TECHNICIAN", image: import.meta.env.BASE_URL + "assets/Subhash Chand- Service Technician.jpeg" },
   { id: 27, name: "SANJIT DEY", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: "" },
   { id: 28, name: "ROSHNI KUMARI", department: "DATA", role: "DATA ANALYST", image: "" },
   { id: 29, name: "PRAVINDRA KUMAR", department: "COLLECTION", role: "DEALER FI & COLLECTION SUPERVISOR", image: "" },
   { id: 30, name: "ANTUL RAKESH", department: "SUPPLY CHAIN", role: "VICE PRESIDENT- SUPPLY CHAIN MANAGEMENT", image: "" },
   { id: 31, name: "YAJUR CHOPRA", department: "FINANCE", role: "INVESTMENT ASSOCIATE", image: "" },
   { id: 32, name: "BANDANA KUMARI", department: "MANAGEMENT", role: "EXECUTIVE ASSISTANT TO CTO", image: "" },
-  { id: 33, name: "PRAGYA", department: "HUMAN RESOURCE", role: "HR MANAGER", image: "/assets/Pragya (HR Manager).jpeg" },
-  { id: 34, name: "SUSHMITA KUMARI", department: "CREDIT", role: "CREDIT EXECUTIVE", image: "/assets/Sushmita Kumari- Credit Executive.jpeg" },
-  { id: 35, name: "ASHISH KUMAR", department: "CREDIT", role: "CREDIT EXECUTIVE", image: "/assets/Ashish- Credit Executive.jpeg" },
-  { id: 36, name: "PINKI", department: "CREDIT", role: "CREDIT EXECUTIVE", image: "/assets/Pinki- Credit Executive.jpeg" },
-  { id: 37, name: "BHAWANA", department: "OPERATIONS", role: "OPERATION EXECUTIVE", image: "/assets/Bhawana - operations Executive.jpeg" },
-  { id: 38, name: "SNEHA KHANDELWAL", department: "CREDIT", role: "CREDIT EXECUTIVE", image: "/assets/Sneha Khandelwal- Credit Executive.jpeg" },
+  { id: 33, name: "PRAGYA", department: "HUMAN RESOURCE", role: "HR MANAGER", image: import.meta.env.BASE_URL + "assets/Pragya (HR Manager).jpeg" },
+  { id: 34, name: "SUSHMITA KUMARI", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sushmita Kumari- Credit Executive.jpeg" },
+  { id: 35, name: "ASHISH KUMAR", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Ashish- Credit Executive.jpeg" },
+  { id: 36, name: "PINKI", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Pinki- Credit Executive.jpeg" },
+  { id: 37, name: "BHAWANA", department: "OPERATIONS", role: "OPERATION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Bhawana - operations Executive.jpeg" },
+  { id: 38, name: "SNEHA KHANDELWAL", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sneha Khandelwal- Credit Executive.jpeg" },
   { id: 39, name: "JATIN SADANA", department: "CREDIT", role: "CREDIT MANAGER", image: "" }
 ];
 
@@ -790,7 +790,7 @@ export const newsItems = [
     title: "Anagh Ojha: Engineering a Sustainable Future with Urja Mobility",
     source: "Audience Reports",
     date: "2024-??-??",
-    image: "/assets/urja-article-thumbnail.jpg",
+    image: import.meta.env.BASE_URL + "assets/urja-article-thumbnail.jpg",
     articleUrl: "https://audiencereports.in/anagh-ojha-engineering-a-sustainable-future-wit/",
     description: "A feature on Urja Mobility’s mission, Battery-as-a-Service model, and Anagh Ojha’s vision to democratize clean mobility in India.",
     keyPoints: [

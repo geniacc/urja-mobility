@@ -85,7 +85,7 @@ export default function BatteryIntelligence() {
               padding: "2rem"
             }}>
               <img 
-                src="/assets/industrial-power-main.png" 
+                src={import.meta.env.BASE_URL + "assets/industrial-power-main.png"} 
                 alt="Battery Intelligence" 
                 style={{ width: "100%", height: "auto", display: "block", filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.5))" }} 
               />

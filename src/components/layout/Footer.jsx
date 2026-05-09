@@ -22,7 +22,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-topline">
           <div className="footer-ev">
-            <img className="footer-ev-img" src="/assets/tuk-tuk.png" alt="ev" />
+            <img className="footer-ev-img" src={import.meta.env.BASE_URL + "assets/tuk-tuk.png"} alt="ev" />
           </div>
         </div>
         <div className="footer-ambient" />
@@ -33,7 +33,7 @@ export default function Footer() {
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 5, repeatDelay: 2 }}
               >
-                <img src="/assets/logo.png" alt="Logo" style={{ width: 72, height: 72, objectFit: "contain", transform: "scale(1.33)", transformOrigin: "center" }} />
+                <img src={import.meta.env.BASE_URL + "assets/logo.png"} alt="Logo" style={{ width: 72, height: 72, objectFit: "contain", transform: "scale(1.33)", transformOrigin: "center" }} />
               </motion.div>
             </div>
             <p className="footer-desc">

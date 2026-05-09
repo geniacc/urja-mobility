@@ -23,22 +23,22 @@ export default function Products() {
     const t = title.toLowerCase();
 
     // Inverters
-    if (t.includes("mppt")) return "/assets/24V%20MPPT%20Solar%20Inverter.jpeg";
-    if (t.includes("3000va") || t.includes("3kva")) return "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-    if (t.includes("2000va") || t.includes("2kva")) return "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-    if (t.includes("1050va")) return "/assets/1050VA%20Solar%20UPS.jpeg";
-    if (t.includes("1000va") || t.includes("1kva")) return "/assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg";
-    if (t.includes("850va")) return "/assets/850VA%2012V%20Solar%20UPS.jpeg";
-    if (t.includes("300va")) return "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("mppt")) return import.meta.env.BASE_URL + "assets/24V%20MPPT%20Solar%20Inverter.jpeg";
+    if (t.includes("3000va") || t.includes("3kva")) return import.meta.env.BASE_URL + "assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("2000va") || t.includes("2kva")) return import.meta.env.BASE_URL + "assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
+    if (t.includes("1050va")) return import.meta.env.BASE_URL + "assets/1050VA%20Solar%20UPS.jpeg";
+    if (t.includes("1000va") || t.includes("1kva")) return import.meta.env.BASE_URL + "assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg";
+    if (t.includes("850va")) return import.meta.env.BASE_URL + "assets/850VA%2012V%20Solar%20UPS.jpeg";
+    if (t.includes("300va")) return import.meta.env.BASE_URL + "assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
 
     // Batteries
-    if (t.includes("232")) return "/assets/51.2v%20232ah%201.png";
-    if (t.includes("230")) return "/assets/51.2v%20230ah%201.png";
-    if (t.includes("64v") && t.includes("105")) return "/assets/64%20v%20105ah%201.png";
-    if (t.includes("105") && !t.includes("1050")) return "/assets/51.2v%20105ah%201.png";
-    if (t.includes("100") && !t.includes("1000")) return "/assets/51.2v%20100ah%201.png";
-    if (t.includes("50a")) return "/assets/51.2v%2050a%201.png";
-    if (t.includes("25a")) return "/assets/51.2v%2025a%201.png";
+    if (t.includes("232")) return import.meta.env.BASE_URL + "assets/51.2v%20232ah%201.png";
+    if (t.includes("230")) return import.meta.env.BASE_URL + "assets/51.2v%20230ah%201.png";
+    if (t.includes("64v") && t.includes("105")) return import.meta.env.BASE_URL + "assets/64%20v%20105ah%201.png";
+    if (t.includes("105") && !t.includes("1050")) return import.meta.env.BASE_URL + "assets/51.2v%20105ah%201.png";
+    if (t.includes("100") && !t.includes("1000")) return import.meta.env.BASE_URL + "assets/51.2v%20100ah%201.png";
+    if (t.includes("50a")) return import.meta.env.BASE_URL + "assets/51.2v%2050a%201.png";
+    if (t.includes("25a")) return import.meta.env.BASE_URL + "assets/51.2v%2025a%201.png";
 
     return null;
   };
@@ -342,7 +342,7 @@ export default function Products() {
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: isMobile ? "center" : "flex-start", gap: "0.75rem", marginBottom: "1rem" }}>
                 <div style={{ background: "rgba(34,197,94,0.15)", padding: "0.4rem", borderRadius: "10px", display: "grid", placeItems: "center" }}>
-                  <img src="/assets/zuice_logo.png" alt="Zuice Logo" style={{ width: isMobile ? "70px" : "100px", height: isMobile ? "70px" : "100px", objectFit: "contain" }} />
+                  <img src={import.meta.env.BASE_URL + "assets/zuice_logo.png"} alt="Zuice Logo" style={{ width: isMobile ? "70px" : "100px", height: isMobile ? "70px" : "100px", objectFit: "contain" }} />
                 </div>
                 <span style={{ color: "#22c55e", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", fontSize: "0.85rem" }}>Partner Brand</span>
               </div>

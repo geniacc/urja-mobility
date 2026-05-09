@@ -109,7 +109,7 @@ export default function Navbar() {
               transition={{ duration: 0.6 }}
             >
               <div className="brand-glow" />
-              <img src="/assets/logo.png" alt="Logo" style={{ width: 92, height: 92, objectFit: "contain" }} />
+              <img src={import.meta.env.BASE_URL + "assets/logo.png"} alt="Logo" style={{ width: 92, height: 92, objectFit: "contain" }} />
             </motion.div>
           </NavLink>
 

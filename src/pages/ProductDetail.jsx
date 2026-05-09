@@ -123,10 +123,10 @@ export default function ProductDetail() {
     if (t.includes("232")) return getAngles("51.2v%20232ah");
     if (t.includes("230")) return getAngles("51.2v%20230ah");
     if (t.includes("64v") && t.includes("105")) return [
-      "/assets/64%20v%20105ah%201.png",
-      "/assets/64%20v%20105ah%202.png",
-      "/assets/64v%20105ah%203.png",
-      "/assets/64v%20105ah%204.png"
+      import.meta.env.BASE_URL + "assets/64%20v%20105ah%201.png",
+      import.meta.env.BASE_URL + "assets/64%20v%20105ah%202.png",
+      import.meta.env.BASE_URL + "assets/64v%20105ah%203.png",
+      import.meta.env.BASE_URL + "assets/64v%20105ah%204.png"
     ];
     if (t.includes("105") && !t.includes("1050")) return getAngles("51.2v%20105ah");
     if (t.includes("100") && !t.includes("1000")) return getAngles("51.2v%20100ah");

@@ -5,11 +5,11 @@ import VideoCard from "./VideoCard";
 export default function FeaturedVideos({ onOpen }) {
   const isWide = useMemo(() => (typeof window !== "undefined" ? window.innerWidth >= 1024 : false), []);
   const videos = [
-    { src: "/assets/driver response 1 .mp4", title: "Driver Response 1" },
-    { src: "/assets/driver response 2 .mp4", title: "Driver Response 2" },
-    { src: "/assets/driver response 3 .mp4", title: "Driver Response 3" },
-    { src: "/assets/driver response 4 .mp4", title: "Driver Response 4" },
-    { src: "/assets/problem fixing 1 .mp4", title: "Problem Fixing" }
+    { src: import.meta.env.BASE_URL + "assets/driver response 1 .mp4", title: "Driver Response 1" },
+    { src: import.meta.env.BASE_URL + "assets/driver response 2 .mp4", title: "Driver Response 2" },
+    { src: import.meta.env.BASE_URL + "assets/driver response 3 .mp4", title: "Driver Response 3" },
+    { src: import.meta.env.BASE_URL + "assets/driver response 4 .mp4", title: "Driver Response 4" },
+    { src: import.meta.env.BASE_URL + "assets/problem fixing 1 .mp4", title: "Problem Fixing" }
   ];
   return (
     <section className="section">

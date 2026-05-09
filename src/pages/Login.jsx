@@ -595,7 +595,7 @@ export default function Login() {
                 boxShadow: "0 10px 20px rgba(59, 130, 246, 0.3)"
               }}
             >
-              <img src="/assets/logo.png" alt="Logo" style={{ width: "32px", filter: "brightness(0) invert(1)" }} />
+              <img src={import.meta.env.BASE_URL + "assets/logo.png"} alt="Logo" style={{ width: "32px", filter: "brightness(0) invert(1)" }} />
             </motion.div>
             <div
               style={{
