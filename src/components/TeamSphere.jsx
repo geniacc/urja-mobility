@@ -13,8 +13,8 @@ function Card({ position, member, onSelect }) {
   const [fallbackIndex, setFallbackIndex] = useState(0);
   const fallbacks = useMemo(() => {
     const norm = (member?.name || '').trim().replace(/[^A-Za-z0-9\s-]/g, '').replace(/\s+/g, '-');
-    const primaryPng = norm ? `/assets/${norm}.png` : '';
-    const primaryJpg = norm ? `/assets/${norm}.jpg` : '';
+    const primaryPng = norm ? `${import.meta.env.BASE_URL}assets/${norm}.png` : '';
+    const primaryJpg = norm ? `${import.meta.env.BASE_URL}assets/${norm}.jpg` : '';
     const provided = member?.image || '';
     const dicebear = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(member?.name || 'URJA')}`;
     return [primaryPng, primaryJpg, provided, dicebear].filter(Boolean);

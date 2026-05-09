@@ -5,7 +5,7 @@ import { PlayCircle, ExternalLink, ArrowRight } from "lucide-react";
 // Helper to resolve images safely
 function resolveAsset(filename) {
   if (!filename) return null;
-  return `/assets/${filename}`;
+  return `${import.meta.env.BASE_URL}assets/${filename}`;
 }
 
 export default function TimelineDemo() {

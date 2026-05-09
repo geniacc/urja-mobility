@@ -20,7 +20,7 @@ export const Timeline = ({ data }) => {
       const rect = ref.current.getBoundingClientRect();
       setHeight(rect.height);
     }
-  }, [ref, isMobile]);
+  }, [ref, isMobile, data]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -29,6 +29,21 @@ export const Timeline = ({ data }) => {
 
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+
+  // Helper function to automatically fix asset paths
+  const fixAssetPath = (path) => {
+    if (!path) return path;
+
+    // Already fixed
+    if (path.includes(import.meta.env.BASE_URL)) return path;
+
+    // Fix absolute asset paths
+    if (path.startsWith("/assets/")) {
+      return `${import.meta.env.BASE_URL}assets/${path.replace("/assets/", "")}`;
+    }
+
+    return path;
+  };
 
   return (
     <div
@@ -57,7 +72,6 @@ export const Timeline = ({ data }) => {
         >
           A timeline of highlights across our recent milestones.
         </h2>
-
       </div>
 
       <div
@@ -69,73 +83,115 @@ export const Timeline = ({ data }) => {
           paddingBottom: "4rem",
         }}
       >
-        {data.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "300px 1fr",
-              gap: isMobile ? "1rem" : "2rem",
-              paddingTop: index === 0 ? "1rem" : "3rem",
-              alignItems: "start",
-            }}
-          >
-            <motion.div
+        {data.map((item, index) => {
+          // Automatically fix image paths if present
+          const image =
+            item.image ||
+            item.img ||
+            item.previewSrc ||
+            item.thumbnail;
+
+          const fixedImage = fixAssetPath(image);
+
+          return (
+            <div
+              key={index}
               style={{
-                position: "sticky",
-                top: "100px",
-                alignSelf: "start",
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                zIndex: 2,
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "300px 1fr",
+                gap: isMobile ? "1rem" : "2rem",
+                paddingTop: index === 0 ? "1rem" : "3rem",
+                alignItems: "start",
               }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              animate={{ y: [0, -3, 0] }}
             >
-              <div
+              <motion.div
                 style={{
-                  position: "relative",
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  background: "var(--bg-2)",
+                  position: "sticky",
+                  top: "100px",
+                  alignSelf: "start",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "var(--shadow)",
-                  border: "1px solid var(--border)",
+                  gap: "1rem",
+                  zIndex: 2,
                 }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                animate={{ y: [0, -3, 0] }}
               >
                 <div
                   style={{
-                    width: "12px",
-                    height: "12px",
+                    position: "relative",
+                    width: "40px",
+                    height: "40px",
                     borderRadius: "50%",
-                    background: "var(--bg-3)",
+                    background: "var(--bg-2)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "var(--shadow)",
                     border: "1px solid var(--border)",
                   }}
-                />
-              </div>
-              <h3
+                >
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      borderRadius: "50%",
+                      background: "var(--bg-3)",
+                      border: "1px solid var(--border)",
+                    }}
+                  />
+                </div>
+
+                <h3
+                  style={{
+                    fontSize: isMobile ? "1.5rem" : "2.5rem",
+                    fontWeight: 800,
+                    letterSpacing: "-0.02em",
+                    color: "var(--text-muted)",
+                  }}
+                >
+                  {item.title}
+                </h3>
+              </motion.div>
+
+              <div
                 style={{
-                  fontSize: isMobile ? "1.5rem" : "2.5rem",
-                  fontWeight: 800,
-                  letterSpacing: "-0.02em",
-                  color: "var(--text-muted)",
+                  width: "100%",
+                  paddingLeft: isMobile ? "3.5rem" : "0",
                 }}
               >
-                {item.title}
-              </h3>
-            </motion.div>
+                {/* Timeline Image */}
+                {fixedImage && (
+                  <motion.img
+                    src={fixedImage}
+                    alt={item.title}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                    style={{
+                      width: "100%",
+                      maxWidth: "700px",
+                      borderRadius: "20px",
+                      marginBottom: "1.5rem",
+                      objectFit: "cover",
+                      border: "1px solid var(--border)",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
+                    }}
+                  />
+                )}
 
-            <div style={{ width: "100%", paddingLeft: isMobile ? "3.5rem" : "0" }}>{item.content}</div>
-          </div>
-        ))}
+                {/* Timeline Content */}
+                {item.content}
+              </div>
+            </div>
+          );
+        })}
 
+        {/* Vertical Progress Line */}
         <div
           style={{
             position: "absolute",
@@ -156,11 +212,15 @@ export const Timeline = ({ data }) => {
             style={{
               height: heightTransform,
               opacity: opacityTransform,
+              width: "100%",
+              background:
+                "linear-gradient(to bottom, #ff8c00, #ff5e00, #ff8c00)",
+              borderRadius: "999px",
+              boxShadow: "0 0 20px rgba(255,140,0,0.7)",
             }}
-            className="timeline-gradient-fill"
           />
         </div>
       </div>
     </div>
   );
-}
+};

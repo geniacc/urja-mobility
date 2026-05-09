@@ -96,18 +96,18 @@ export default function ProductDetail() {
 
     // Helper for battery images (.png format with ' 1', ' 2', etc.)
     const getAngles = (base) => [
-      `/assets/${base}%201.png`,
-      `/assets/${base}%202.png`,
-      `/assets/${base}%203.png`,
-      `/assets/${base}%204.png`
+      `${import.meta.env.BASE_URL}assets/${base}%201.png`,
+      `${import.meta.env.BASE_URL}assets/${base}%202.png`,
+      `${import.meta.env.BASE_URL}assets/${base}%203.png`,
+      `${import.meta.env.BASE_URL}assets/${base}%204.png`
     ];
 
     // Helper for inverter images (.jpeg format with base, ' 2', ' 3', ' 4')
     const getJpegAngles = (base, firstExt = ".jpeg") => [
-      `/assets/${base}${firstExt}`,
-      `/assets/${base}%202.jpeg`,
-      `/assets/${base}%203.jpeg`,
-      `/assets/${base}%204.jpeg`
+      `${import.meta.env.BASE_URL}assets/${base}${firstExt}`,
+      `${import.meta.env.BASE_URL}assets/${base}%202.jpeg`,
+      `${import.meta.env.BASE_URL}assets/${base}%203.jpeg`,
+      `${import.meta.env.BASE_URL}assets/${base}%204.jpeg`
     ];
 
     // --- Inverters ---
