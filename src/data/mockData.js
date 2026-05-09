@@ -39,7 +39,6 @@ export const categories = [
                   voltageProtection: "Cell voltage monitoring & balancing, Over-voltage / under-voltage protection",
                   currentProtection: "Over-charge / over-discharge protection, Over-current protection (charge & discharge), Short-circuit protection",
                   thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
-                  electricalIsolation: "-",
                   redundancyAndFailSafes: "Emergency cut-off",
                   communication: [
                     "CAN bus (ISO 11898)",
@@ -93,7 +92,6 @@ export const categories = [
                   voltageProtection: "Cell voltage monitoring, Over-voltage protection",
                   currentProtection: "Over-current protection, Short-circuit protection (400A)",
                   thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
-                  electricalIsolation: "",
                   redundancyAndFailSafes: "Emergency cut-off",
                   communication: ["BLE", "RS485", "CAN"]
                 },
@@ -136,7 +134,6 @@ export const categories = [
                   voltageProtection: "Cell voltage monitoring & balancing, Over-voltage / under-voltage protection",
                   currentProtection: "Over-charge / over-discharge protection, Over-current protection (charge & discharge), Short-circuit protection",
                   thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
-                  electricalIsolation: "-",
                   redundancyAndFailSafes: "Emergency cut-off",
                   communication: [
                     "CAN bus (ISO 11898)",
@@ -194,7 +191,6 @@ export const categories = [
                   voltageProtection: "Cell voltage monitoring & balancing, Over-voltage / under-voltage protection",
                   currentProtection: "Over-charge / over-discharge protection, Over-current protection (charge & discharge), Short-circuit protection",
                   thermalProtection: "Over-temperature & under-temperature protection, Thermal runaway prevention",
-                  electricalIsolation: "",
                   redundancyAndFailSafes: "Emergency cut-off",
                   communication: [
                     "CAN bus (ISO 11898)",
@@ -442,7 +438,7 @@ export const categories = [
                   voltageProtection: "Battery Low Alarm (11.3V) & Shutdown (11.0V)",
                   currentProtection: "Overload (>61 Amp, 6 retries), PV Reverse Polarity via terminal block",
                   thermalProtection: "Over-temperature (104°C ± 5°C)",
-                  electricalIsolation: "",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }
@@ -483,7 +479,7 @@ export const categories = [
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
                   currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
-                  electricalIsolation: "",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }
@@ -520,7 +516,7 @@ export const categories = [
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
                   currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
-                  electricalIsolation: "",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }
@@ -554,7 +550,7 @@ export const categories = [
                   voltageProtection: "",
                   currentProtection: "",
                   thermalProtection: "",
-                  electricalIsolation: "",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }
@@ -595,7 +591,7 @@ export const categories = [
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
                   currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
-                  electricalIsolation: "",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }
@@ -632,7 +628,7 @@ export const categories = [
                   voltageProtection: "Battery Over/Low Voltage & Deep Discharge",
                   currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
                   thermalProtection: "Over Temperature (Auto Recovery)",
-                  electricalIsolation: "",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }
@@ -662,10 +658,10 @@ export const categories = [
                   maxSolarCurrent: "Pending"
                 },
                 bms: {
-                  voltageProtection: "",
-                  currentProtection: "",
-                  thermalProtection: "",
-                  electricalIsolation: "",
+                  voltageProtection: "Battery Over/Low Voltage & Deep Discharge Protection",
+                  currentProtection: "Short Circuit (> 300% Load), Overload (Above 105%), PV Reverse Polarity",
+                  thermalProtection: "Over Temperature (Auto Recovery)",
+                  electricalIsolation: "Yes",
                   redundancyAndFailSafes: ""
                 }
               }

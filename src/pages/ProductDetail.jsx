@@ -94,19 +94,7 @@ export default function ProductDetail() {
     if (!title) return null;
     const t = title.toLowerCase();
 
-    let singleImg = null;
-    if (t.includes("mppt")) singleImg = "/assets/24V%20MPPT%20Solar%20Inverte.jpeg";
-    else if (t.includes("3000va") || t.includes("3kva")) singleImg = "/assets/3000VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-    else if (t.includes("2000va") || t.includes("2kva")) singleImg = "/assets/2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-    else if (t.includes("1050va")) singleImg = "/assets/1050VA%20Solar%20UPS.jpeg";
-    else if (t.includes("1000va") || t.includes("1kva")) return [
-      "/assets/1000VA%20DSP%20Solar%20Hybrid%20UPS%20.jpeg", null, null, null
-    ];
-    else if (t.includes("850va")) singleImg = "/assets/850VA%2012V%20Solar%20UPS.jpeg";
-    else if (t.includes("300va")) singleImg = "/assets/300VA%20DSP%20Solar%20Hybrid%20UPS.jpeg";
-
-    if (singleImg) return [singleImg, null, null, null];
-
+    // Helper for battery images (.png format with ' 1', ' 2', etc.)
     const getAngles = (base) => [
       `/assets/${base}%201.png`,
       `/assets/${base}%202.png`,
@@ -114,7 +102,26 @@ export default function ProductDetail() {
       `/assets/${base}%204.png`
     ];
 
+    // Helper for inverter images (.jpeg format with base, ' 2', ' 3', ' 4')
+    const getJpegAngles = (base, firstExt = ".jpeg") => [
+      `/assets/${base}${firstExt}`,
+      `/assets/${base}%202.jpeg`,
+      `/assets/${base}%203.jpeg`,
+      `/assets/${base}%204.jpeg`
+    ];
+
+    // --- Inverters ---
+    if (t.includes("mppt")) return getJpegAngles("24V%20MPPT%20Solar%20Inverter");
+    if (t.includes("3000va") || t.includes("3kva")) return getJpegAngles("3000VA%20DSP%20Solar%20Hybrid%20UPS");
+    if (t.includes("2000va") || t.includes("2kva")) return getJpegAngles("2000VA%20(2KVA)%2024V%20DSP%20Solar%20Hybrid%20UPS");
+    if (t.includes("1050va")) return getJpegAngles("1050VA%20Solar%20UPS");
+    if (t.includes("1000va") || t.includes("1kva")) return getJpegAngles("1000VA%20DSP%20Solar%20Hybrid%20UPS", "%20.jpeg");
+    if (t.includes("850va")) return getJpegAngles("850VA%2012V%20Solar%20UPS");
+    if (t.includes("300va")) return getJpegAngles("300VA%20DSP%20Solar%20Hybrid%20UPS");
+
+    // --- Batteries ---
     if (t.includes("232")) return getAngles("51.2v%20232ah");
+    if (t.includes("230")) return getAngles("51.2v%20230ah");
     if (t.includes("64v") && t.includes("105")) return [
       "/assets/64%20v%20105ah%201.png",
       "/assets/64%20v%20105ah%202.png",

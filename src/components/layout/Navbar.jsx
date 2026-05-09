@@ -66,6 +66,40 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Dynamic styles to handle ONLY the new top-right mobile menu without touching your CSS files */}
+      <style>
+        {`
+          .mobile-floating-wrapper {
+            display: none;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 9999;
+          }
+          @media (max-width: 768px) {
+            .mobile-floating-wrapper {
+              display: block;
+            }
+          }
+          .mobile-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 260px;
+            background: rgba(3, 7, 18, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            padding: 0.75rem;
+          }
+        `}
+      </style>
+
+      {/* Desktop Navbar */}
       <nav className={`navbar curved ${visible || isOpen ? 'visible' : 'hidden'} ${isOpen ? 'navbar-open' : ''}`}>
         <div className="container nav-inner" style={{ position: "relative" }}>
           <motion.div className="nav-progress" style={{ scaleX: scrollYProgress }} />
@@ -135,62 +169,86 @@ export default function Navbar() {
               </motion.div>
             ))}
           </motion.div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <motion.button
-              className="mobile-toggle"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-              whileTap={{ scale: 0.92, rotate: -8 }}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
-          </div>
-
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                className="mobile-menu"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {links.map((link) => (
-                  <NavLink
-                    key={link.path}
-                    to={link.path}
-                    className={({ isActive }) => isActive ? "mobile-menu-link active" : "mobile-menu-link"}
-                  >
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-                      {link.isCart && <ShoppingCart size={18} />}
-                      {link.label}
-                      {link.isCart && cartItemCount > 0 && (
-                        <span style={{
-                          minWidth: "20px",
-                          height: "20px",
-                          padding: "0 6px",
-                          borderRadius: "999px",
-                          background: "#22c55e",
-                          color: "#fff",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "0.75rem",
-                          fontWeight: 800
-                        }}>
-                          {cartItemCount}
-                        </span>
-                      )}
-                    </span>
-                  </NavLink>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </nav>
 
+      {/* NEW: Floating Mobile Hamburger Menu (Top Right) */}
+      <div className="mobile-floating-wrapper">
+        <motion.button
+          className="mobile-toggle"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+          whileTap={{ scale: 0.92, rotate: -8 }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(15, 23, 42, 0.85)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            padding: '10px',
+            borderRadius: '12px',
+            color: 'white',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+            width: '46px',
+            height: '46px',
+            marginLeft: 'auto'
+          }}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </motion.button>
+
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="mobile-dropdown"
+              initial={{ opacity: 0, y: -15, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -15, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              style={{ transformOrigin: "top right" }}
+            >
+              {links.map((link) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  className={({ isActive }) => isActive ? "mobile-menu-link active" : "mobile-menu-link"}
+                  style={{
+                    padding: '0.85rem 1rem',
+                    borderRadius: '10px',
+                    margin: '2px 0'
+                  }}
+                >
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "0.75rem", fontSize: "1rem" }}>
+                    {link.isCart && <ShoppingCart size={18} />}
+                    {link.label}
+                    {link.isCart && cartItemCount > 0 && (
+                      <span style={{
+                        minWidth: "20px",
+                        height: "20px",
+                        padding: "0 6px",
+                        borderRadius: "999px",
+                        background: "#22c55e",
+                        color: "#fff",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "0.75rem",
+                        fontWeight: 800,
+                        marginLeft: 'auto'
+                      }}>
+                        {cartItemCount}
+                      </span>
+                    )}
+                  </span>
+                </NavLink>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Bottom Nav (Kept intact for smaller mobile functionality as defined in your CSS) */}
       <nav className="bottom-nav">
         {bottomLinks.map((link) => (
           <NavLink
@@ -203,7 +261,6 @@ export default function Navbar() {
           >
             <span className="bottom-nav-icon">
               {link.icon}
-              {/* Added badge logic to bottom nav icon too */}
               {link.path === "/cart" && cartItemCount > 0 && (
                 <span style={{
                   position: "absolute", top: "-4px", right: "10px",

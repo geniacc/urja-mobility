@@ -8,7 +8,7 @@ import VideoCard from "../components/VideoCard";
 import { categories, stats, testimonials } from "../data/mockData";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
-import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf, X, ZoomIn, ZoomOut } from "lucide-react";
+import { CheckCircle, ChevronLeft, ChevronRight, ShieldCheck, Clock, Leaf, X, ZoomIn, ZoomOut, Wrench, Truck, Activity } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -112,38 +112,10 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const el = marqueeRef.current;
-    if (!el) return;
-    let raf = 0;
-    const tick = () => {
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cards = el.querySelectorAll(".product-card");
-      cards.forEach((card) => {
-        const r = card.getBoundingClientRect();
-        const x = r.left + r.width / 2;
-        const dist = Math.abs(x - cx) / (rect.width / 2);
-        const minScale = 0.85;
-        const maxScale = 1.15;
-        const scale = minScale + Math.min(dist, 1) * (maxScale - minScale);
-        card.style.setProperty("--pos-scale", scale.toFixed(3));
-      });
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
+  const isMobile = !isDesktop;
 
   return (
     <>
-      {/* 
-        CSS injected for:
-        1. STRICT overflow protection to stop things "getting out of the page"
-        2. Mobile swipe carousel
-        3. Global element size shrinking on mobile
-        4. Professional compression of the Strategic Roadmap
-      */}
       <style>{`
         /* 1. Global Overflow & Box Sizing Reset */
         html, body {
@@ -174,9 +146,8 @@ export default function Home() {
           flex-direction: column;
         }
 
-        /* 2. Mobile Specific Overrides & Shrinking */
+        /* 2. Mobile Specific Overrides */
         @media (max-width: 768px) {
-          /* Shrink all standard text globally by ~10-15% on mobile */
           .page-wrapper {
             font-size: 90%;
           }
@@ -186,22 +157,22 @@ export default function Home() {
             line-height: 1.2 !important;
           }
 
-          /* Compress section padding to save vertical space */
           .section {
             padding: 2.5rem 1rem !important;
           }
 
+          /* Horizontal Swipe Carousels for specific sections */
           .swipe-container {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            margin-left: -1rem;
-            margin-right: -1rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            padding-bottom: 1.5rem;
-            gap: 1rem;
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            margin-left: -1rem !important;
+            margin-right: -1rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-bottom: 1.5rem !important;
+            gap: 1rem !important;
             -ms-overflow-style: none;
             scrollbar-width: none;
           }
@@ -211,34 +182,26 @@ export default function Home() {
           }
 
           .swipe-item {
-            flex: 0 0 88vw; /* Cards take up slightly less width to show the next card peeking */
-            scroll-snap-align: center;
+            flex: 0 0 88vw !important;
+            scroll-snap-align: center !important;
+            min-width: 0 !important;
           }
 
-          /* 3. Strategic Vision Compression 
-             Forces the Roadmap component to become highly dense on mobile */
+          /* 3. STRATEGIC VISION SHRINK FIX 
+             Natively zooms out the component so it fits neatly without being massive */
           .compressed-roadmap-mobile {
-            transform-origin: top center;
-            /* Optionally use 'zoom: 0.85' if supported, but styling children is safer */
+            zoom: 0.7; /* Shrinks the entire component by 30% */
+            margin-top: -1rem; /* Pulls it up slightly */
+            padding: 0 1rem;
           }
-          .compressed-roadmap-mobile h2, 
-          .compressed-roadmap-mobile h3 {
-            margin-bottom: 0.5rem !important;
-          }
-          .compressed-roadmap-mobile p {
-            margin-bottom: 0.5rem !important;
-            font-size: 0.85rem !important;
-          }
-          .compressed-roadmap-mobile img,
-          .compressed-roadmap-mobile svg {
-            max-width: 100% !important;
-            height: auto !important;
-          }
-          /* Compress any grids/flexboxes inside the roadmap */
-          .compressed-roadmap-mobile > div,
-          .compressed-roadmap-mobile section {
-            gap: 0.75rem !important;
-            padding: 0.5rem !important;
+          
+          /* Fallback for Firefox which handles scaling differently */
+          @supports (-moz-appearance:none) {
+            .compressed-roadmap-mobile {
+              transform: scale(0.7);
+              transform-origin: top center;
+              margin-bottom: -15%; /* Removes empty space left by scaling */
+            }
           }
         }
       `}</style>
@@ -339,9 +302,11 @@ export default function Home() {
               <p className="section-subtitle">Real voices, real impact. Hear directly from the visionaries we work with.</p>
             </motion.div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(1rem, 4vw, 3rem)", alignItems: "center" }}>
+            {/* Applies swipe carousel logic automatically on mobile */}
+            <div className="swipe-container" style={{ display: isMobile ? undefined : "grid", gridTemplateColumns: isMobile ? undefined : "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(1rem, 4vw, 3rem)", alignItems: "center" }}>
               {/* Written Breakdown */}
               <motion.div
+                className="swipe-item"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -374,11 +339,12 @@ export default function Home() {
 
               {/* Video Component */}
               <motion.div
+                className="swipe-item"
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                style={{ width: "100%", overflow: "hidden" }}
+                style={{ overflow: "hidden" }}
               >
                 <VideoCard
                   src={"/assets/trusted partner 1 .mp4"}
@@ -409,13 +375,13 @@ export default function Home() {
               <p className="section-subtitle">Field teams resolve issues quickly to keep fleets on the move.</p>
             </motion.div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(1rem, 4vw, 3rem)", alignItems: "center" }}>
+            <div className="swipe-container" style={{ display: isMobile ? undefined : "grid", gridTemplateColumns: isMobile ? undefined : "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(1rem, 4vw, 3rem)", alignItems: "center" }}>
               <motion.div
+                className="swipe-item"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                style={{ width: "100%" }}
               >
                 <div style={{ display: "inline-block", padding: "0.35rem 0.85rem", background: "rgba(249, 115, 22, 0.1)", color: "#f97316", border: "1px solid rgba(249, 115, 22, 0.2)", borderRadius: "999px", fontSize: "0.8rem", fontWeight: 700, marginBottom: "1rem" }}>
                   Maximum Uptime Guaranteed
@@ -441,28 +407,62 @@ export default function Home() {
                 </ul>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                style={{ width: "100%", overflow: "hidden" }}
-              >
-                <VideoCard
-                  src={"/assets/problem fixing 1 .mp4"}
-                  title={"Problem Fixing"}
-                  onOpen={() => openModal({
-                    src: "/assets/problem fixing 1 .mp4",
-                    title: "Rapid Problem Fixing"
-                  })}
-                />
-              </motion.div>
+              {!isMobile ? (
+                <motion.div
+                  className="swipe-item"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <VideoCard
+                    src={"/assets/problem fixing 1 .mp4"}
+                    title={"Problem Fixing"}
+                    onOpen={() => openModal({
+                      src: "/assets/problem fixing 1 .mp4",
+                      title: "Rapid Problem Fixing"
+                    })}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  className="swipe-item"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  style={{ height: "100%" }}
+                >
+                  <div style={{
+                    background: "linear-gradient(135deg, var(--bg-2) 0%, rgba(249, 115, 22, 0.1) 100%)",
+                    border: "1px solid rgba(249, 115, 22, 0.2)",
+                    borderRadius: "16px",
+                    padding: "2rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justify: "center",
+                    gap: "1.5rem",
+                    height: "100%",
+                    minHeight: "250px",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+                  }}>
+                    <div style={{ display: "flex", gap: "1.5rem" }}>
+                      <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ repeat: Infinity, duration: 2 }}><Wrench size={44} color="#f97316" /></motion.div>
+                      <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}><Truck size={44} color="#f97316" /></motion.div>
+                      <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}><Activity size={44} color="#f97316" /></motion.div>
+                    </div>
+                    <div style={{ textAlign: "center", color: "#f97316", fontWeight: 700, fontSize: "1.1rem", lineHeight: "1.4" }}>
+                      Real-time fleet diagnostics <br />& direct dispatch
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </div>
           </div>
         </section>
 
-        {/* STRATEGIC VISION COMPRESSION WRAPPER */}
-        <div className="compressed-roadmap-mobile" style={{ width: "100%", maxWidth: "100vw", overflowX: "hidden" }}>
+        {/* --- STRATEGIC VISION COMPRESSION WRAPPER --- */}
+        <div className="compressed-roadmap-mobile" style={{ width: "100%", overflowX: "hidden" }}>
           <StrategicRoadmap />
         </div>
 
@@ -507,7 +507,7 @@ export default function Home() {
               {/* 2. Reality Document Image */}
               <div className="swipe-item">
                 <motion.div
-                  whileHover={{ y: -5 }}
+                  whileHover={isDesktop ? { y: -5 } : {}}
                   onClick={() => openModal({ src: "/assets/reality document .jpeg", title: "Reality Document" })}
                   style={{
                     borderRadius: "16px",

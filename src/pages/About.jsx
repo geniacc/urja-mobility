@@ -18,10 +18,38 @@ export default function About() {
   }, []);
 
   return (
-    <div style={{ paddingTop: "80px" }}> {/* Offset for fixed navbar */}
+    <div style={{ paddingTop: "80px" }}> {/* Removed overflowX: hidden to fix Journey Timeline scroll tracking */}
+
+      {/* Mobile-Only CSS to convert vertical stacking into horizontal swiping */}
+      <style>{`
+        @media (max-width: 768px) {
+          .mobile-horizontal-scroll {
+            display: flex !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            flex-wrap: nowrap !important;
+            margin-left: -1rem !important;
+            margin-right: -1rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-bottom: 1rem !important;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+          }
+          .mobile-horizontal-scroll::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+          }
+          .mobile-horizontal-scroll > * {
+            flex: 0 0 85% !important; /* Cards take up 85% of screen width */
+            scroll-snap-align: center !important;
+            min-width: 0 !important;
+          }
+        }
+      `}</style>
 
       {/* SECTION 1: OVERVIEW & MISSION/VISION */}
-      <section style={{ padding: isMobile ? "3rem 0" : "6rem 0", position: "relative", overflow: "hidden" }}>
+      <section style={{ padding: isMobile ? "2rem 0" : "6rem 0", position: "relative", overflow: "hidden" }}>
         {/* Background Glows */}
         <motion.div
           animate={{
@@ -61,43 +89,46 @@ export default function About() {
         <div className="container">
           <div className="section-header">
             <h1 className="section-title" style={{
+              fontSize: isMobile ? "2.2rem" : undefined,
               background: "linear-gradient(135deg, #fff 30%, #3b82f6 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent"
             }}>Urja Mobility</h1>
-            <p className="section-subtitle">Redefining how electric vehicles are powered and adopted <span style={{ color: "var(--secondary)" }}>across India</span>.</p>
+            <p className="section-subtitle" style={{ fontSize: isMobile ? "1rem" : undefined }}>
+              Redefining how electric vehicles are powered and adopted <span style={{ color: "var(--secondary)" }}>across India</span>.
+            </p>
           </div>
 
           {/* ABOUT US */}
-          <div style={{ marginTop: isMobile ? "2rem" : "4rem", maxWidth: "900px", margin: isMobile ? "2rem auto 0" : "4rem auto 0", textAlign: "center" }}>
+          <div style={{ marginTop: isMobile ? "2rem" : "4rem", maxWidth: "900px", margin: isMobile ? "1.5rem auto 0" : "4rem auto 0", textAlign: "center" }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.01 }}
+              whileHover={isMobile ? {} : { scale: 1.01 }}
               transition={{ duration: 0.6 }}
               style={{
                 background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.0) 100%)",
                 padding: isMobile ? "1.5rem" : "3rem",
-                borderRadius: isMobile ? "1.5rem" : "2rem",
+                borderRadius: isMobile ? "1rem" : "2rem",
                 border: "1px solid rgba(255,255,255,0.05)",
                 boxShadow: "0 0 40px rgba(0,0,0,0.2)"
               }}
             >
-              <h2 style={{ fontSize: isMobile ? '1.8rem' : '2.5rem', marginBottom: '1.5rem', background: "linear-gradient(to right, #f8fafc, #94a3b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>About Us</h2>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: isMobile ? '1rem' : '1.15rem', lineHeight: '1.8' }}>
+              <h2 style={{ fontSize: isMobile ? '1.5rem' : '2.5rem', marginBottom: isMobile ? '1rem' : '1.5rem', background: "linear-gradient(to right, #f8fafc, #94a3b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>About Us</h2>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: isMobile ? '1rem' : '1.5rem', fontSize: isMobile ? '0.9rem' : '1.15rem', lineHeight: '1.6' }}>
                 Urja Mobility is an Indian clean-energy technology company redefining how electric vehicles are powered and adopted across India. Focused primarily on the commercial electric vehicle segment, the company provides flexible and innovative energy solutions that make electric mobility more accessible and economically viable for businesses, drivers, and fleet operators.
               </p>
-              <p style={{ color: 'var(--muted)', marginBottom: '1.5rem', fontSize: isMobile ? '0.95rem' : '1.1rem', lineHeight: '1.8' }}>
+              <p style={{ color: 'var(--muted)', marginBottom: isMobile ? '1rem' : '1.5rem', fontSize: isMobile ? '0.85rem' : '1.1rem', lineHeight: '1.6' }}>
                 Urja Mobility specializes in Battery-as-a-Service (BaaS) and Energy-as-a-Service (EaaS) models that enable customers to lease high-performance lithium-ion batteries for electric two-wheelers and three-wheelers under structured usage plans. By converting upfront battery ownership costs into predictable operational expenses, Urja Mobility removes key financial barriers to EV adoption.
               </p>
-              <p style={{ color: 'var(--muted)', fontSize: isMobile ? '0.95rem' : '1.1rem', lineHeight: '1.8' }}>
+              <p style={{ color: 'var(--muted)', fontSize: isMobile ? '0.85rem' : '1.1rem', lineHeight: '1.6' }}>
                 Headquartered in New Delhi, India, the company is steadily expanding its footprint across multiple cities, supporting India’s transition toward cleaner and more sustainable transportation.
               </p>
             </motion.div>
           </div>
 
-          {/* MISSION & VISION GRID */}
-          <div className="hero-grid align-start" style={{ marginTop: isMobile ? "3rem" : "6rem", gap: isMobile ? "1.5rem" : "4rem", display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr' }}>
+          {/* MISSION & VISION GRID - Horizontally scrolled on mobile, pure grid on desktop */}
+          <div className={`hero-grid align-start ${isMobile ? "mobile-horizontal-scroll" : ""}`} style={{ marginTop: isMobile ? "2.5rem" : "6rem", gap: isMobile ? "1rem" : "4rem", display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
             {/* MISSION */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -106,11 +137,11 @@ export default function About() {
               viewport={{ once: true }}
               style={{ background: "rgba(255,255,255,0.03)", padding: isMobile ? "1.5rem" : "2rem", borderRadius: "1rem", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              <h2 style={{ fontSize: isMobile ? '1.5rem' : '2rem', marginBottom: '1rem', color: "var(--primary)" }}>Our Mission</h2>
-              <p style={{ color: 'var(--muted)', fontSize: isMobile ? '0.95rem' : '1.05rem', lineHeight: '1.7' }}>
+              <h2 style={{ fontSize: isMobile ? '1.3rem' : '2rem', marginBottom: '1rem', color: "var(--primary)" }}>Our Mission</h2>
+              <p style={{ color: 'var(--muted)', fontSize: isMobile ? '0.85rem' : '1.05rem', lineHeight: '1.6' }}>
                 To democratize access to sustainable electric mobility by delivering innovative, affordable, and flexible battery leasing and energy solutions that eliminate high upfront costs and empower commercial EV users to operate efficiently and profitably.
               </p>
-              <p style={{ color: 'var(--muted)', marginTop: '1rem', fontSize: isMobile ? '0.95rem' : '1.05rem', lineHeight: '1.7' }}>
+              <p style={{ color: 'var(--muted)', marginTop: '1rem', fontSize: isMobile ? '0.85rem' : '1.05rem', lineHeight: '1.6' }}>
                 Urja Mobility’s approach centres around making energy a service rather than a barrier to adoption, enabling drivers and businesses to focus on growth while accessing reliable, high-performance battery systems.
               </p>
             </motion.div>
@@ -123,46 +154,47 @@ export default function About() {
               viewport={{ once: true }}
               style={{ background: "rgba(255,255,255,0.03)", padding: isMobile ? "1.5rem" : "2rem", borderRadius: "1rem", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              <h2 style={{ fontSize: isMobile ? '1.5rem' : '2rem', marginBottom: '1rem', color: "var(--secondary)" }}>Our Vision</h2>
-              <p style={{ color: 'var(--muted)', fontSize: isMobile ? '0.95rem' : '1.05rem', lineHeight: '1.7' }}>
+              <h2 style={{ fontSize: isMobile ? '1.3rem' : '2rem', marginBottom: '1rem', color: "var(--secondary)" }}>Our Vision</h2>
+              <p style={{ color: 'var(--muted)', fontSize: isMobile ? '0.85rem' : '1.05rem', lineHeight: '1.6' }}>
                 To be a catalyst for India’s electric mobility transformation, where battery energy becomes universally accessible, seamlessly integrated, and economically viable — enabling EVs to become the preferred choice of transport across the country.
               </p>
-              <p style={{ color: 'var(--muted)', marginTop: '1rem', fontSize: isMobile ? '0.95rem' : '1.05rem', lineHeight: '1.7' }}>
+              <p style={{ color: 'var(--muted)', marginTop: '1rem', fontSize: isMobile ? '0.85rem' : '1.05rem', lineHeight: '1.6' }}>
                 This vision supports India’s broader clean-energy goals by advancing scalable, user-centric energy solutions that drive widespread EV adoption and reduce carbon emissions.
               </p>
             </motion.div>
           </div>
 
           {/* CORPORATE CULTURE */}
-          <div style={{ marginTop: isMobile ? "4rem" : "8rem" }}>
-            <div className="section-header" style={{ marginBottom: isMobile ? "2rem" : "4rem" }}>
-              <h2 className="section-title">Corporate Culture</h2>
-              <p className="section-subtitle" style={{ maxWidth: "800px", margin: "1rem auto 0", lineHeight: "1.6", fontSize: "1.1rem" }}>
+          <div style={{ marginTop: isMobile ? "3rem" : "8rem" }}>
+            <div className="section-header" style={{ marginBottom: isMobile ? "1.5rem" : "4rem" }}>
+              <h2 className="section-title" style={{ fontSize: isMobile ? "1.8rem" : undefined }}>Corporate Culture</h2>
+              <p className="section-subtitle" style={{ maxWidth: "800px", margin: "1rem auto 0", lineHeight: "1.5", fontSize: isMobile ? "0.9rem" : "1.1rem" }}>
                 Together, these cultural values create a work environment that balances high performance with purpose, encouraging every employee to drive impact through innovation, integrity, and customer-centricity.
               </p>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(300px, 1fr))", gap: isMobile ? "1rem" : "2rem" }}>
+            {/* Horizontally scrolled on mobile, pure grid on desktop */}
+            <div className={isMobile ? "mobile-horizontal-scroll" : ""} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: isMobile ? "1rem" : "2rem" }}>
               {[
-                { title: "Purpose-Driven Engagement", icon: <Lightbulb size={24} />, color: "#eab308", text: "We cultivate a workplace where individuals are aligned with a shared purpose — to make electric energy accessible and to contribute meaningfully to India’s clean energy transition." },
-                { title: "Collaborative & Adaptive Spirit", icon: <Users size={24} />, color: "#3b82f6", text: "Urja Mobility nurtures a culture of collaboration, agility, and cross-functional teamwork. Employees work closely with partners, field teams, and end-users to continuously refine products." },
-                { title: "Innovation & Customer Focus", icon: <Zap size={24} />, color: "#f97316", text: "Teams are encouraged to think creatively, experiment with new approaches, and take ownership of solutions that improve user experience, performance, and operational reliability." },
-                { title: "Sustainability & Impact", icon: <Globe size={24} />, color: "#22c55e", text: "Sustainability is not just a strategy — it is embedded in how we operate. The company promotes responsible practices that support environmental stewardship and long-term value creation." }
+                { title: "Purpose-Driven Engagement", icon: <Lightbulb size={isMobile ? 20 : 24} />, color: "#eab308", text: "We cultivate a workplace where individuals are aligned with a shared purpose — to make electric energy accessible and to contribute meaningfully to India’s clean energy transition." },
+                { title: "Collaborative & Adaptive Spirit", icon: <Users size={isMobile ? 20 : 24} />, color: "#3b82f6", text: "Urja Mobility nurtures a culture of collaboration, agility, and cross-functional teamwork. Employees work closely with partners, field teams, and end-users to continuously refine products." },
+                { title: "Innovation & Customer Focus", icon: <Zap size={isMobile ? 20 : 24} />, color: "#f97316", text: "Teams are encouraged to think creatively, experiment with new approaches, and take ownership of solutions that improve user experience, performance, and operational reliability." },
+                { title: "Sustainability & Impact", icon: <Globe size={isMobile ? 20 : 24} />, color: "#22c55e", text: "Sustainability is not just a strategy — it is embedded in how we operate. The company promotes responsible practices that support environmental stewardship and long-term value creation." }
               ].map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  whileHover={{
+                  whileHover={isMobile ? {} : {
                     y: -10,
                     backgroundColor: "rgba(255,255,255,0.08)",
                     borderColor: item.color
                   }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  transition={{ duration: 0.4, delay: isMobile ? 0 : index * 0.1 }}
                   viewport={{ once: true }}
                   style={{
                     background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-                    padding: "2rem",
+                    padding: isMobile ? "1.5rem" : "2rem",
                     borderRadius: "1rem",
                     border: "1px solid rgba(255,255,255,0.05)",
                     cursor: "default"
@@ -170,16 +202,16 @@ export default function About() {
                 >
                   <div style={{
                     display: "inline-flex",
-                    padding: "0.8rem",
+                    padding: isMobile ? "0.6rem" : "0.8rem",
                     borderRadius: "50%",
                     background: `${item.color}20`,
                     color: item.color,
-                    marginBottom: "1.5rem"
+                    marginBottom: isMobile ? "1rem" : "1.5rem"
                   }}>
                     {item.icon}
                   </div>
-                  <h3 style={{ fontSize: "1.25rem", marginBottom: "1rem", color: "#f8fafc" }}>{item.title}</h3>
-                  <p style={{ color: "var(--muted)", lineHeight: "1.6", fontSize: "0.95rem" }}>{item.text}</p>
+                  <h3 style={{ fontSize: isMobile ? "1.1rem" : "1.25rem", marginBottom: isMobile ? "0.75rem" : "1rem", color: "#f8fafc" }}>{item.title}</h3>
+                  <p style={{ color: "var(--muted)", lineHeight: "1.5", fontSize: isMobile ? "0.85rem" : "0.95rem" }}>{item.text}</p>
                 </motion.div>
               ))}
             </div>
@@ -203,60 +235,76 @@ export default function About() {
           pointerEvents: "none"
         }} />
         <div style={{ position: "relative", zIndex: 1 }}>
-          <div className="container" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
-            <div style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 9999, padding: 6, display: "inline-flex", gap: 6 }}>
-              <button
-                onClick={() => setTeamView("sphere")}
-                style={{
-                  padding: "0.6rem 1rem",
-                  borderRadius: 9999,
-                  border: "none",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                  background: teamView === "sphere" ? "var(--primary)" : "transparent",
-                  color: teamView === "sphere" ? "#fff" : "var(--text)"
-                }}
-              >
-                3D Sphere
-              </button>
-              <button
-                onClick={() => setTeamView("belt")}
-                style={{
-                  padding: "0.6rem 1rem",
-                  borderRadius: 9999,
-                  border: "none",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                  background: teamView === "belt" ? "var(--secondary)" : "transparent",
-                  color: teamView === "belt" ? "#031432" : "var(--text)"
-                }}
-              >
-                Animated Belt
-              </button>
+
+          {/* Hide the toggle buttons entirely on mobile */}
+          {!isMobile && (
+            <div className="container" style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+              <div style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 9999, padding: 6, display: "inline-flex", gap: 6 }}>
+                <button
+                  onClick={() => setTeamView("sphere")}
+                  style={{
+                    padding: "0.6rem 1rem",
+                    fontSize: "1rem",
+                    borderRadius: 9999,
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: 700,
+                    background: teamView === "sphere" ? "var(--primary)" : "transparent",
+                    color: teamView === "sphere" ? "#fff" : "var(--text)"
+                  }}
+                >
+                  3D Sphere
+                </button>
+                <button
+                  onClick={() => setTeamView("belt")}
+                  style={{
+                    padding: "0.6rem 1rem",
+                    fontSize: "1rem",
+                    borderRadius: 9999,
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: 700,
+                    background: teamView === "belt" ? "var(--secondary)" : "transparent",
+                    color: teamView === "belt" ? "#031432" : "var(--text)"
+                  }}
+                >
+                  Animated Belt
+                </button>
+              </div>
             </div>
-          </div>
-          {teamView === "sphere" ? (
+          )}
+
+          {/* Force rendering of TeamBelt on mobile, otherwise respect toggle state */}
+          {(!isMobile && teamView === "sphere") ? (
             <TeamSphere members={activeTeam} />
           ) : (
-            <TeamBelt members={activeTeam} />
+            <TeamBelt members={activeTeam} isMobile={isMobile} />
           )}
         </div>
       </section>
 
       {/* SECTION 3: TIMELINE */}
-      <section className="section" style={{ padding: isMobile ? '4rem 0' : '8rem 0' }}>
+      <section className="section" style={{ padding: isMobile ? '1.5rem 0' : '8rem 0' }}>
         <div className="container">
           <motion.div
             className="section-header"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            style={{ marginBottom: isMobile ? '1rem' : undefined }}
           >
-            <h2 className="section-title">Journey</h2>
-            <p className="section-subtitle">Highlights from our 12 milestone journey.</p>
+            <h2 className="section-title" style={{ fontSize: isMobile ? "1.8rem" : undefined }}>Journey</h2>
+            <p className="section-subtitle" style={{ fontSize: isMobile ? "0.85rem" : undefined }}>Highlights from our 12 milestone journey.</p>
           </motion.div>
         </div>
-        <div style={{ marginTop: isMobile ? "2rem" : "4rem" }}>
+
+        {/* Decrease size for mobile using scale, to leave desktop strictly untouched */}
+        <div style={{
+          marginTop: isMobile ? "0" : "4rem",
+          transform: isMobile ? "scale(0.85)" : "none",
+          transformOrigin: "top center",
+          width: "100%"
+        }}>
           <TimelineDemo />
         </div>
       </section>
@@ -265,8 +313,8 @@ export default function About() {
   );
 }
 
-function TeamBelt() {
-  const items = [...teamMembers, ...teamMembers];
+function TeamBelt({ members, isMobile }) {
+  const items = [...members, ...members];
   return (
     <div style={{ position: "relative", padding: "1rem 0" }}>
       <style>{`
@@ -286,7 +334,7 @@ function TeamBelt() {
           borderRadius: 24,
           border: "1px solid var(--border)",
           background: "linear-gradient(180deg, rgba(59,130,246,0.06), rgba(2,6,23,0.6))",
-          padding: "1rem 0"
+          padding: isMobile ? "0.75rem 0" : "1rem 0"
         }}
       >
         <div
@@ -294,7 +342,7 @@ function TeamBelt() {
           style={{
             display: "flex",
             width: "max-content",
-            gap: "1rem",
+            gap: isMobile ? "0.75rem" : "1rem",
             alignItems: "stretch",
             animation: "teamBeltScroll 80s linear infinite"
           }}
@@ -302,15 +350,15 @@ function TeamBelt() {
           {items.map((m, i) => (
             <motion.div
               key={`${m.name}-${i}`}
-              whileHover={{ y: -4, scale: 1.02 }}
+              whileHover={isMobile ? {} : { y: -4, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 260 }}
               style={{
-                width: 260,
+                width: isMobile ? 220 : 260,
                 background: "var(--bg-2)",
-                borderRadius: 18,
+                borderRadius: isMobile ? 14 : 18,
                 border: "1px solid var(--border)",
                 boxShadow: "0 18px 50px -28px rgba(0,0,0,0.55)",
-                padding: "0.9rem",
+                padding: isMobile ? "0.75rem" : "0.9rem",
                 flex: "0 0 auto",
                 position: "relative",
                 overflow: "hidden"
@@ -326,8 +374,8 @@ function TeamBelt() {
                       e.currentTarget.style.display = 'none';
                     }}
                     style={{
-                      width: 44,
-                      height: 44,
+                      width: isMobile ? 36 : 44,
+                      height: isMobile ? 36 : 44,
                       borderRadius: "50%",
                       border: "2px solid rgba(255,255,255,0.2)",
                       objectFit: "cover",
@@ -337,8 +385,8 @@ function TeamBelt() {
                 ) : (
                   <div
                     style={{
-                      width: 44,
-                      height: 44,
+                      width: isMobile ? 36 : 44,
+                      height: isMobile ? 36 : 44,
                       borderRadius: "50%",
                       border: "2px solid rgba(255,255,255,0.2)",
                       background: "linear-gradient(135deg, #3b82f6, #1e293b)",
@@ -347,7 +395,7 @@ function TeamBelt() {
                       justifyContent: "center",
                       color: "#ffffff",
                       fontWeight: "bold",
-                      fontSize: "1rem",
+                      fontSize: isMobile ? "0.85rem" : "1rem",
                       flexShrink: 0
                     }}
                   >
@@ -355,13 +403,13 @@ function TeamBelt() {
                   </div>
                 )}
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#f8fafc", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.name}</div>
-                  <div style={{ fontSize: "0.75rem", color: "#94a3b8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.role}</div>
+                  <div style={{ fontWeight: 800, fontSize: isMobile ? "0.85rem" : "0.95rem", color: "#f8fafc", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.name}</div>
+                  <div style={{ fontSize: isMobile ? "0.65rem" : "0.75rem", color: "#94a3b8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{m.role}</div>
                 </div>
               </div>
               <div style={{ marginTop: "0.6rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ fontSize: "0.7rem", color: "#64748b", textTransform: "uppercase", fontWeight: 800 }}>{m.department}</div>
-                <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.6)" }}>Team</div>
+                <div style={{ fontSize: isMobile ? "0.6rem" : "0.7rem", color: "#64748b", textTransform: "uppercase", fontWeight: 800 }}>{m.department}</div>
+                <div style={{ fontSize: isMobile ? "0.6rem" : "0.7rem", color: "rgba(255,255,255,0.6)" }}>Team</div>
               </div>
             </motion.div>
           ))}
