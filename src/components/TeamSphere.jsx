@@ -19,17 +19,18 @@ function Card({ position, member, onSelect }) {
     const dicebear = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(member?.name || 'URJA')}`;
     return [primaryPng, primaryJpg, provided, dicebear].filter(Boolean);
   }, [member]);
+
   useEffect(() => {
     setFallbackIndex(0);
     setImgSrc(fallbacks[0] || '');
   }, [fallbacks]);
-  
+
   useFrame((state) => {
     if (ref.current) {
       ref.current.lookAt(0, 0, 0);
     }
   });
-  
+
   return (
     <group position={position} ref={ref}>
       <Html transform distanceFactor={15} style={{ opacity: 1, transition: 'opacity 0.3s' }}>
@@ -72,21 +73,21 @@ function Card({ position, member, onSelect }) {
 
 function Sphere({ members, radius = 10, onSelect, velocityRef, draggingRef }) {
   const group = useRef();
-  
+
   const points = useMemo(() => {
     const p = [];
     const phi = Math.PI * (3 - Math.sqrt(5));
-    
+
     const count = members.length;
     for (let i = 0; i < count; i++) {
       const y = 1 - (i / (count - 1)) * 2;
       const radiusAtY = Math.sqrt(1 - y * y);
-      
+
       const theta = phi * i;
-      
+
       const x = Math.cos(theta) * radiusAtY;
       const z = Math.sin(theta) * radiusAtY;
-      
+
       p.push(new THREE.Vector3(x * radius, y * radius, z * radius));
     }
     return p;
@@ -123,9 +124,10 @@ export default function TeamSphere() {
   const velocityRef = useRef({ vx: 0, vy: 0 });
   const draggingRef = useRef(false);
   const posRef = useRef({ x: 0, y: 0 });
+
   return (
     <div style={{ width: '100%', height: '100vh', minHeight: '1000px', position: 'relative', background: 'transparent' }}>
-       <div className="section-header" style={{ position: 'absolute', top: '2rem', left: 0, right: 0, zIndex: 10, pointerEvents: 'none' }}>
+      <div className="section-header" style={{ position: 'absolute', top: '2rem', left: 0, right: 0, zIndex: 10, pointerEvents: 'none' }}>
         <h2 className="section-title">Our Global Team</h2>
         <p className="section-subtitle">Meet the 49+ experts driving our vision worldwide.</p>
       </div>
@@ -153,51 +155,49 @@ export default function TeamSphere() {
                   transition={{ type: 'spring', stiffness: 220, damping: 20 }}
                   style={{
                     width: '100%',
-                    height: 240,
+                    height: 280,
                     borderRadius: 16,
                     overflow: 'hidden',
                     border: '1px solid var(--border)',
-                    marginBottom: '1rem',
-                    background: 'var(--bg-3)',
+                    marginBottom: '1.5rem',
+                    background: 'rgba(0,0,0,0.25)',
                     boxShadow: '0 18px 50px -28px rgba(0,0,0,0.55)',
                     perspective: '1000px',
-                    transformStyle: 'preserve-3d'
+                    transformStyle: 'preserve-3d',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
-                  <img 
-                    src={selectedImg} 
-                    alt={selected?.name} 
-                    style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      objectFit: 'cover', 
-                      objectPosition: '50% 30%' 
-                    }} 
+                  <img
+                    src={selectedImg}
+                    alt={selected?.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      padding: '0.5rem'
+                    }}
                   />
                 </motion.div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                  <motion.div
-                    whileHover={{ scale: 1.06, rotateZ: 1.5 }}
-                    transition={{ type: 'spring', stiffness: 260 }}
-                    style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--border)' }}
-                  >
-                    <img src={selectedImg} alt={selected?.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 30%' }} />
-                  </motion.div>
-                  <div>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 900 }}>{selected?.name}</div>
-                    <div style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{selected?.role}</div>
-                    <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 800, color: '#031432', background: 'var(--secondary)', padding: '2px 8px', borderRadius: 999, display: 'inline-block', marginTop: 6 }}>
-                      {selected?.department}
-                    </div>
+
+                {/* Text section centered without the extra circular picture */}
+                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{selected?.name}</div>
+                  <div style={{ color: 'var(--text-muted)', fontWeight: 600, margin: '0.25rem 0' }}>{selected?.role}</div>
+                  <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 800, color: '#031432', background: 'var(--secondary, #22c55e)', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginTop: '6px' }}>
+                    {selected?.department}
                   </div>
                 </div>
-                <div style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+
+                <div style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.6, textAlign: 'center' }}>
                   Dedicated contributor to Urja Mobility’s mission.
                 </div>
-                <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+
+                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center' }}>
                   <button
                     onClick={() => { setSelected(null); setSelectedImg(''); }}
-                    style={{ padding: '0.6rem 1rem', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--bg-3)', color: 'var(--text)', fontWeight: 700, cursor: 'pointer' }}
+                    style={{ padding: '0.6rem 1.5rem', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--bg-3)', color: 'var(--text)', fontWeight: 700, cursor: 'pointer' }}
                   >
                     Clear
                   </button>
@@ -234,13 +234,13 @@ export default function TeamSphere() {
           >
             <fog attach="fog" args={['#020617', 20, 40]} />
             <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <Sphere
-          members={teamMembers}
-          onSelect={(m, img) => { setSelected(m); setSelectedImg(img); }}
-          velocityRef={velocityRef}
-          draggingRef={draggingRef}
-        />
+            <pointLight position={[10, 10, 10]} intensity={1} />
+            <Sphere
+              members={teamMembers}
+              onSelect={(m, img) => { setSelected(m); setSelectedImg(img); }}
+              velocityRef={velocityRef}
+              draggingRef={draggingRef}
+            />
             <OrbitControls enableZoom={false} />
           </Canvas>
         </div>

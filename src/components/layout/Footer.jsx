@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Youtube, Linkedin, Instagram } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Footer() {
   const socialIconVariants = {
     hover: {
       y: -5,
-      color: "var(--primary)",
-      scale: 1.1,
-      transition: { duration: 0.2 }
+      scale: 1.15,
+      transition: { type: "spring", stiffness: 300, damping: 10 }
     }
   };
+
   const colVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -109,7 +109,8 @@ export default function Footer() {
             </div>
 
             <h4 style={{ marginTop: '2rem' }}>Follow Us</h4>
-            <div className="social-links">
+            <div className="social-links" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              {/* Facebook - Blue */}
               <motion.a
                 href="https://www.facebook.com/share/1Ba3soCdek/"
                 target="_blank"
@@ -117,19 +118,25 @@ export default function Footer() {
                 aria-label="Facebook"
                 whileHover="hover"
                 variants={socialIconVariants}
+                style={{ color: "#1877F2", display: "inline-block" }}
               >
-                <Facebook size={20} />
+                <Facebook size={24} />
               </motion.a>
+
+              {/* YouTube - Red */}
               <motion.a
-                href="https://x.com/MobilityUrja/with_replies"
+                href="https://www.youtube.com/@UrjaMobility"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Twitter / X"
+                aria-label="YouTube"
                 whileHover="hover"
                 variants={socialIconVariants}
+                style={{ color: "#FF0000", display: "inline-block" }}
               >
-                <Twitter size={20} />
+                <Youtube size={24} />
               </motion.a>
+
+              {/* LinkedIn - Blue */}
               <motion.a
                 href="https://www.linkedin.com/company/urjamobility/"
                 target="_blank"
@@ -137,9 +144,12 @@ export default function Footer() {
                 aria-label="LinkedIn"
                 whileHover="hover"
                 variants={socialIconVariants}
+                style={{ color: "#0A66C2", display: "inline-block" }}
               >
-                <Linkedin size={20} />
+                <Linkedin size={24} />
               </motion.a>
+
+              {/* Instagram - Pink/Magenta */}
               <motion.a
                 href="https://www.instagram.com/urja_mobility?igsh=MWpwd3V5M2wwb3NmMA=="
                 target="_blank"
@@ -147,8 +157,9 @@ export default function Footer() {
                 aria-label="Instagram"
                 whileHover="hover"
                 variants={socialIconVariants}
+                style={{ color: "#E1306C", display: "inline-block" }}
               >
-                <Instagram size={20} />
+                <Instagram size={24} />
               </motion.a>
             </div>
           </motion.div>

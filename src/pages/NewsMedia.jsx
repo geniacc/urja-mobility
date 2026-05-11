@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { YoutubeFilled, InstagramFilled, ReadOutlined, PlayCircleFilled, FacebookFilled, PlayCircleOutlined, StarFilled } from "@ant-design/icons";
-import { ExternalLink, ChevronRight, Twitter, Facebook, X } from "lucide-react";
+import { ExternalLink, ChevronRight, Facebook, X } from "lucide-react";
 
 // 1. Separate Data Pools
 const featuredStories = [
@@ -126,11 +126,11 @@ const social = [
   },
   {
     id: 6,
-    title: "Follow on X",
-    subtitle: "@MobilityUrja",
-    link: "https://x.com/MobilityUrja/with_replies",
-    platform: "x",
-    bg: "linear-gradient(135deg, #0b1220 0%, #111827 100%)"
+    title: "Subscribe on YouTube",
+    subtitle: "@UrjaMobility",
+    link: "https://www.youtube.com/@UrjaMobility",
+    platform: "youtube_channel",
+    bg: "linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%)"
   },
   {
     id: 7,
@@ -587,7 +587,6 @@ function DrawnLogo({ href, label, icon, color, previewSrc, isMobile }) {
         {label}
       </span>
 
-      {/* Hide desktop hover preview on mobile for better UX */}
       <AnimatePresence>
         {hovered && previewSrc && !isMobile && (
           <motion.div
@@ -637,7 +636,6 @@ function TiltImage({ src, alt }) {
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
   const onMove = (e) => {
-    // Disable heavy 3D calculations on touch/mobile for performance
     if (window.innerWidth <= 768) return;
 
     const r = e.currentTarget.getBoundingClientRect();
@@ -735,7 +733,7 @@ export default function NewsMedia() {
     scrollSnapType: "x mandatory",
     scrollBehavior: "smooth",
     WebkitOverflowScrolling: "touch",
-    paddingBottom: "24px", // Increased padding bottom to prevent clipping during animation
+    paddingBottom: "24px",
     margin: "0 -14px",
     padding: "0 14px 24px 14px",
     gap: "16px",
@@ -1082,7 +1080,7 @@ export default function NewsMedia() {
                 ) : item.platform === "facebook" ? (
                   <Facebook size={26} color="white" />
                 ) : (
-                  <Twitter size={26} color="white" />
+                  <YoutubeFilled style={{ color: "white", fontSize: 28 }} />
                 )}
               </div>
               <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: 4 }}>{item.title}</h3>
