@@ -427,8 +427,8 @@ export default function Career() {
             <p style={{ color: "var(--muted)", marginBottom: "2rem", maxWidth: "500px", marginInline: "auto" }}>We are always looking for exceptional talent. Send us your resume directly and our HR team will reach out when a suitable role opens up.</p>
 
             <div style={{ display: "flex", gap: "2rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="mailto:careers@urjamobility.in" style={{ color: "var(--primary)", fontWeight: "600", display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem 1.5rem", borderRadius: "50px", background: "rgba(34, 197, 94, 0.1)" }}>
-                careers@urjamobility.in
+              <a href="mailto:hr1@urjamobility.in" style={{ color: "var(--primary)", fontWeight: "600", display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem 1.5rem", borderRadius: "50px", background: "rgba(34, 197, 94, 0.1)" }}>
+                hr1@urjamobility.in
               </a>
               <a href="mailto:hr@urjamobility.in" style={{ color: "var(--primary)", fontWeight: "600", display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem 1.5rem", borderRadius: "50px", background: "rgba(34, 197, 94, 0.1)" }}>
                 hr@urjamobility.in
