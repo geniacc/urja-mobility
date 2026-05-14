@@ -294,20 +294,66 @@ export default function Home() {
         <section className="section">
           <div className="container">
             <h2 className="section-title">Data + Reality</h2>
-            <div className="swipe-container">
-              <div className="swipe-item">
-                <div style={{ padding: "1.25rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)" }}>
-                  <div style={{ fontWeight: 700, marginBottom: "0.75rem" }}>Live Grid Status</div>
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div><small>Online</small><br /><strong style={{ color: "#4ade80" }}>96%</strong></div>
-                    <div><small>Charging</small><br /><strong style={{ color: "#38bdf8" }}>84%</strong></div>
-                    <div><small>Tickets</small><br /><strong style={{ color: "#f97316" }}>7 Open</strong></div>
+
+            {/* Live Grid Status - Moved to top for better hierarchy */}
+            <div style={{ padding: "1.25rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", marginBottom: "2rem" }}>
+              <div style={{ fontWeight: 700, marginBottom: "0.75rem" }}>Live Grid Status</div>
+              <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+                <div><small>Online</small><br /><strong style={{ color: "#4ade80" }}>96%</strong></div>
+                <div><small>Charging</small><br /><strong style={{ color: "#38bdf8" }}>84%</strong></div>
+                <div><small>Tickets</small><br /><strong style={{ color: "#f97316" }}>7 Open</strong></div>
+              </div>
+            </div>
+
+            {/* Video & Document Side-by-Side Grid */}
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "2rem" }}>
+
+              {/* Driver Feedback Video */}
+              <div>
+                <VideoCard
+                  src={import.meta.env.BASE_URL + "assets/driver response 5 .mp4"}
+                  title="Driver Feedback"
+                  onOpen={openModal}
+                />
+              </div>
+
+              {/* Reality Document */}
+              <div>
+                <div
+                  onClick={() => openModal({ src: import.meta.env.BASE_URL + "assets/reality document .jpeg", title: "Reality Document" })}
+                  style={{
+                    background: "var(--bg-2)",
+                    borderRadius: "16px",
+                    border: "1px solid var(--border)",
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    position: "relative",
+                    aspectRatio: "16 / 9",
+                    height: "100%", // Ensures it fills the grid column height nicely
+                  }}
+                >
+                  <img
+                    src={import.meta.env.BASE_URL + "assets/reality document .jpeg"}
+                    alt="Reality Document"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      padding: "0.6rem 0.9rem",
+                      backdropFilter: "blur(10px)",
+                      background: "rgba(15,23,42,0.45)",
+                      borderTop: "1px solid rgba(148,163,184,0.2)"
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, color: "var(--text)" }}>Reality Document</div>
                   </div>
                 </div>
               </div>
-              <div className="swipe-item">
-                <VideoCard src={import.meta.env.BASE_URL + "assets/driver response 5 .mp4"} title="Driver Feedback" onOpen={openModal} />
-              </div>
+
             </div>
           </div>
         </section>
