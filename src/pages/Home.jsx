@@ -253,7 +253,19 @@ export default function Home() {
                 <p style={{ color: "var(--muted)", margin: "1rem 0" }}>Pradeep Kandpal, Founder of Ecostar Innovation.</p>
                 <ul style={{ listStyle: "none", padding: 0 }}>
                   <li style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                    <CheckCircle size={18} color="#38bdf8" /> <span style={{ fontSize: "0.85rem" }}>10k+ successful battery finances together.</span>
+                    <CheckCircle size={18} color="#38bdf8" style={{ flexShrink: 0 }} /> <span style={{ fontSize: "0.85rem" }}>10,000 to 15,000+ successful battery finances across India.</span>
+                  </li>
+                  <li style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                    <CheckCircle size={18} color="#38bdf8" style={{ flexShrink: 0 }} /> <span style={{ fontSize: "0.85rem" }}>Exceptional commitment, strong discipline, and highly professional behavior.</span>
+                  </li>
+                  <li style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                    <CheckCircle size={18} color="#38bdf8" style={{ flexShrink: 0 }} /> <span style={{ fontSize: "0.85rem" }}>Massive footprint covering major cities like Delhi, Gurgaon, Jaipur, and Meerut.</span>
+                  </li>
+                  <li style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                    <CheckCircle size={18} color="#38bdf8" style={{ flexShrink: 0 }} /> <span style={{ fontSize: "0.85rem" }}>Dedicated testing lab for thorough battery evaluation before delivery.</span>
+                  </li>
+                  <li style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                    <CheckCircle size={18} color="#38bdf8" style={{ flexShrink: 0 }} /> <span style={{ fontSize: "0.85rem" }}>Rated 10/10 for excellent support and reliable order fulfillment.</span>
                   </li>
                 </ul>
               </motion.div>
@@ -262,7 +274,7 @@ export default function Home() {
                   src={import.meta.env.BASE_URL + "assets/trusted partner 1 .mp4"}
                   title="Ecostar Review"
                   poster={import.meta.env.BASE_URL + "assets/Pradeep Kantpal, Founder & Director of Ecostar Innovation.jpeg"}
-                  onOpen={() => openModal({ src: import.meta.env.BASE_URL + "assets/trusted partner 1 .mp4", title: "Ecostar Review" })}
+                  onOpen={() => openModal({ src: import.meta.env.BASE_URL + "assets/trusted partner 1 .mp4", title: "Ecostar Review", subtitle: import.meta.env.BASE_URL + "assets/trusted-partner-1.vtt" })}
                 />
               </motion.div>
             </div>
@@ -369,7 +381,9 @@ export default function Home() {
                 {modal.src.match(/\.(jpeg|jpg|png)$/) ? (
                   <img src={modal.src} alt={modal.title} style={{ width: "100%", maxHeight: "80vh", objectFit: "contain" }} />
                 ) : (
-                  <video src={modal.src} controls autoPlay style={{ width: "100%", maxHeight: "80vh" }} />
+                  <video src={modal.src} controls autoPlay style={{ width: "100%", maxHeight: "80vh" }}>
+                    {modal.subtitle && <track kind="captions" src={modal.subtitle} srcLang="en" label="English" default />}
+                  </video>
                 )}
               </motion.div>
             </motion.div>
