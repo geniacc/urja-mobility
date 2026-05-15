@@ -192,7 +192,6 @@ export default function Home() {
         <Hero categories={categories} />
         <ImpactStats />
 
-        {/* --- THE FIX IS APPLIED HERE --- */}
         <div className="performance-section-fix">
           <ZPatternFeature
             title="Real-World Performance You Can Trust"
@@ -281,17 +280,74 @@ export default function Home() {
           </div>
         </section>
 
+        {/* UPDATED RAPID SUPPORT SECTION */}
         <section className="section">
           <div className="container">
-            <h2 className="section-title">Rapid Support</h2>
-            <div className="swipe-container" style={{ display: isMobile ? undefined : "grid", gridTemplateColumns: isMobile ? undefined : "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
-              <div className="swipe-item">
-                <h3 style={{ fontSize: "1.5rem", fontWeight: 800 }}>On-the-ground Assistance</h3>
-                <p style={{ color: "var(--muted)", margin: "1rem 0" }}>Our field team keeps drivers moving with rapid hardware fixes.</p>
-              </div>
-              <div className="swipe-item">
-                <VideoCard src={import.meta.env.BASE_URL + "assets/problem fixing 1 .mp4"} title="Problem Fixing" onOpen={() => openModal({ src: import.meta.env.BASE_URL + "assets/problem fixing 1 .mp4", title: "Rapid Support" })} />
-              </div>
+            <h2 className="section-title" style={{ marginBottom: "3rem" }}>Rapid Support</h2>
+
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "3rem", alignItems: "center" }}>
+
+              {/* Left Side: Expanded Details */}
+              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <h3 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: "1rem" }}>Zero Downtime. Maximum Earnings.</h3>
+                <p style={{ color: "var(--muted)", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+                  Our dedicated field team understands that every minute your EV is grounded is lost revenue. We've engineered a rapid-response hardware support system to keep fleets moving across our entire network.
+                </p>
+                <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <li style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                    <ShieldCheck color="#38bdf8" style={{ marginTop: '3px', flexShrink: 0 }} />
+                    <span><strong>Pan-India Deployment:</strong> Instant dispatch of highly trained technicians across all active operational zones.</span>
+                  </li>
+                  <li style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                    <Clock color="#38bdf8" style={{ marginTop: '3px', flexShrink: 0 }} />
+                    <span><strong>Express Resolution:</strong> Targeting sub-4-hour hardware recovery in major metropolitan areas like Delhi and Gurgaon.</span>
+                  </li>
+                  <li style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                    <Wrench color="#38bdf8" style={{ marginTop: '3px', flexShrink: 0 }} />
+                    <span><strong>On-Site Swapping:</strong> Immediate diagnostic troubleshooting and physical hardware replacement on the spot.</span>
+                  </li>
+                </ul>
+              </motion.div>
+
+              {/* Right Side: The Response Protocol "Drawing" */}
+              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} style={{ background: "var(--bg-2)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border)", position: "relative" }}>
+                <h4 style={{ textAlign: "center", marginBottom: "2.5rem", color: "var(--text)", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", fontSize: "0.85rem" }}>
+                  Active Response Protocol
+                </h4>
+
+                <div style={{ position: "relative", paddingLeft: "1rem" }}>
+                  {/* Vertical Connecting Line */}
+                  <div style={{ position: "absolute", left: "2.75rem", top: "1rem", bottom: "2rem", width: "2px", background: "rgba(148, 163, 184, 0.2)", zIndex: 0 }}></div>
+
+                  {/* Step 1 */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "2rem", position: "relative", zIndex: 1 }}>
+                    <div style={{ background: "rgba(249, 115, 22, 0.1)", padding: "1rem", borderRadius: "50%", border: "1px solid rgba(249, 115, 22, 0.2)" }}><Activity color="#f97316" /></div>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: "1.1rem" }}>1. Anomaly Detected</div>
+                      <div style={{ color: "var(--muted)", fontSize: "0.9rem", marginTop: "0.25rem" }}>Driver reports issue via live network ticket.</div>
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "2rem", position: "relative", zIndex: 1 }}>
+                    <div style={{ background: "rgba(56, 189, 248, 0.1)", padding: "1rem", borderRadius: "50%", border: "1px solid rgba(56, 189, 248, 0.2)" }}><Truck color="#38bdf8" /></div>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: "1.1rem" }}>2. Unit Dispatched</div>
+                      <div style={{ color: "var(--muted)", fontSize: "0.9rem", marginTop: "0.25rem" }}>Nearest field agent is routed to the vehicle.</div>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", position: "relative", zIndex: 1 }}>
+                    <div style={{ background: "rgba(74, 222, 128, 0.1)", padding: "1rem", borderRadius: "50%", border: "1px solid rgba(74, 222, 128, 0.2)" }}><Wrench color="#4ade80" /></div>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: "1.1rem" }}>3. On-Site Resolution</div>
+                      <div style={{ color: "var(--muted)", fontSize: "0.9rem", marginTop: "0.25rem" }}>Hardware is swapped. Fleet resumes operations.</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
             </div>
           </div>
         </section>
@@ -307,7 +363,7 @@ export default function Home() {
           <div className="container">
             <h2 className="section-title">Data + Reality</h2>
 
-            {/* Live Grid Status - Moved to top for better hierarchy */}
+            {/* Live Grid Status */}
             <div style={{ padding: "1.25rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", marginBottom: "2rem" }}>
               <div style={{ fontWeight: 700, marginBottom: "0.75rem" }}>Live Grid Status</div>
               <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
@@ -319,7 +375,6 @@ export default function Home() {
 
             {/* Video & Document Side-by-Side Grid */}
             <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "2rem" }}>
-
               {/* Driver Feedback Video */}
               <div>
                 <VideoCard
@@ -341,7 +396,7 @@ export default function Home() {
                     cursor: "pointer",
                     position: "relative",
                     aspectRatio: "16 / 9",
-                    height: "100%", // Ensures it fills the grid column height nicely
+                    height: "100%",
                   }}
                 >
                   <img
@@ -365,7 +420,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
