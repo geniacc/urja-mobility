@@ -12,9 +12,6 @@ import Career from "./pages/Career";
 import NewsMedia from "./pages/NewsMedia";
 import Cart from "./pages/Cart";
 
-// This check detects if the app is running on GitHub (Production) or your laptop (Dev)
-const isProd = import.meta.env.PROD;
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,8 +56,7 @@ const router = createBrowserRouter([
     ],
   },
 ], {
-  // If live on GitHub, use the repo subfolder. If on local laptop, use the root.
-  basename: isProd ? "/urja-mobility" : ""
+  basename: import.meta.env.BASE_URL
 });
 
 export default function App() {
