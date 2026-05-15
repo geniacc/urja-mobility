@@ -251,8 +251,8 @@ export default function ProductDetail() {
         <div className="product-detail-main-grid" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(450px, 1fr))", gap: isMobile ? "2.5rem" : "4rem", marginBottom: isMobile ? "3rem" : "5rem" }}>
 
           {/* Left: Gallery */}
-          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <SpotlightCard spotlightColor={accentColor} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", height: isMobile ? "340px" : "500px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: isMobile ? "1rem" : "1.5rem" }}>
+            <SpotlightCard spotlightColor={accentColor} style={{ background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "24px", height: isMobile ? "260px" : "500px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
               <motion.div
                 animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -298,13 +298,13 @@ export default function ProductDetail() {
                 return (
                   <motion.button
                     key={idx} onClick={() => setActiveImage(idx)} whileHover={{ y: isMobile ? 0 : -5 }}
-                    style={{ position: "relative", height: isMobile ? "70px" : "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden", padding: 0 }}
+                    style={{ position: "relative", height: isMobile ? "55px" : "90px", borderRadius: "16px", background: "var(--bg-2)", border: activeImage === idx ? `2px solid ${accentColor}` : "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden", padding: 0 }}
                   >
                     {activeImage === idx && <motion.div layoutId="activeThumb" style={{ position: "absolute", inset: 0, background: `${accentColor}10` }} />}
                     {thumbImg ? (
                       <img src={thumbImg} style={{ width: "70%", height: "70%", objectFit: "contain", zIndex: 2, opacity: activeImage === idx ? 1 : 0.6 }} />
                     ) : (
-                      <Box size={isMobile ? 20 : 28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
+                      <Box size={isMobile ? 18 : 28} color={activeImage === idx ? accentColor : "var(--text-muted)"} style={{ zIndex: 2 }} />
                     )}
                   </motion.button>
                 )
@@ -324,10 +324,10 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.5rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: "1rem" }}>
+            <h1 style={{ fontSize: isMobile ? "1.5rem" : "clamp(1.8rem, 5vw, 2.5rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: isMobile ? "0.5rem" : "1rem" }}>
               {product.title}
             </h1>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: isMobile ? "1rem" : "1.5rem", paddingBottom: isMobile ? "1rem" : "1.5rem", borderBottom: "1px solid var(--border)" }}>
               <div style={{ display: "flex", color: "#f59e0b" }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="#f59e0b" />)}
               </div>
@@ -337,12 +337,12 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            <div style={{ marginBottom: "1.5rem" }}>
+            <div style={{ marginBottom: isMobile ? "1rem" : "1.5rem" }}>
               <div style={{ display: "flex", alignItems: "flex-end", gap: "1rem" }}>
-                <span style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>
+                <span style={{ fontSize: isMobile ? "2rem" : "2.5rem", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1 }}>
                   ₹{product.price || "85,999"}
                 </span>
-                <span style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--text-muted)", textDecoration: "line-through", marginBottom: "0.3rem" }}>
+                <span style={{ fontSize: isMobile ? "1rem" : "1.2rem", fontWeight: 600, color: "var(--text-muted)", textDecoration: "line-through", marginBottom: "0.3rem" }}>
                   ₹{product.msrp || "99,999"}
                 </span>
                 <span style={{ background: "#10b98115", color: "#10b981", padding: "4px 8px", borderRadius: "6px", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.4rem" }}>
@@ -352,33 +352,33 @@ export default function ProductDetail() {
               <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.5rem" }}>Includes GST. EMI starts at ₹4,100/mo.</p>
             </div>
 
-            <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: 1.6, marginBottom: "2rem" }}>
+            <p style={{ color: "var(--text-muted)", fontSize: isMobile ? "0.9rem" : "1.05rem", lineHeight: 1.6, marginBottom: isMobile ? "1.25rem" : "2rem" }}>
               {product.desc || "Engineered to the URJA MOBILITY standard for maximum reliability. Experience seamless LFP power delivery and smart energy management for heavy storage applications."}
             </p>
 
-            <div style={{ background: "var(--bg-2)", padding: "1.2rem", borderRadius: "12px", border: "1px solid var(--border)", marginBottom: "2rem" }}>
+            <div style={{ background: "var(--bg-2)", padding: isMobile ? "0.85rem" : "1.2rem", borderRadius: "12px", border: "1px solid var(--border)", marginBottom: isMobile ? "1.25rem" : "2rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
                 <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px #10b98180" }}></div>
-                <span style={{ fontWeight: 700, color: "var(--text-primary)" }}>In Stock & Ready to Ship</span>
+                <span style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: isMobile ? "0.95rem" : "1rem" }}>In Stock & Ready to Ship</span>
               </div>
-              <div style={{ color: "var(--text-muted)", fontSize: "0.9rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+              <div style={{ color: "var(--text-muted)", fontSize: isMobile ? "0.8rem" : "0.9rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                 <span><strong style={{ color: "var(--text-primary)" }}>Free Delivery</strong> to West Bengal via Urja Logistics.</span>
                 <span>Order within <strong style={{ color: "#f59e0b" }}>3 hrs 15 mins</strong> for dispatch today.</span>
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexDirection: isMobile ? "column" : "row" }}>
-              <div style={{ display: "flex", alignItems: "center", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.5rem", justifyContent: "space-between" }}>
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "40px", height: "40px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>-</button>
-                <span style={{ width: "40px", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: "40px", height: "40px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+            <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem", flexDirection: "row" }}>
+              <div style={{ display: "flex", alignItems: "center", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.5rem", justifyContent: "space-between", flex: isMobile ? "0 0 auto" : undefined }}>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: isMobile ? "30px" : "40px", height: "40px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>-</button>
+                <span style={{ width: isMobile ? "30px" : "40px", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: "var(--text-primary)" }}>{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} style={{ background: "transparent", border: "none", color: "var(--text-primary)", fontSize: "1.2rem", width: isMobile ? "30px" : "40px", height: "40px", cursor: "pointer", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
               </div>
 
               <motion.button
                 onClick={handleAddToCart}
                 whileHover={{ scale: isMobile ? 1 : 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: "1rem 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}
+                style={{ flex: 1, background: accentColor, color: "#fff", border: "none", padding: isMobile ? "0.85rem 1rem" : "1rem 1.5rem", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", fontWeight: 800, fontSize: isMobile ? "1rem" : "1.1rem", cursor: "pointer", boxShadow: `0 10px 25px ${accentColor}40` }}
               >
                 <ShoppingCart size={22} /> Add to Cart
               </motion.button>
@@ -404,8 +404,8 @@ export default function ProductDetail() {
               <button
                 key={tab.id} onClick={() => setActiveMainTab(tab.id)}
                 style={{
-                  flex: isMobile ? "0 0 auto" : 1, padding: isMobile ? "1.2rem" : "1.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem",
-                  background: "transparent", border: "none", whiteSpace: "nowrap",
+                  flex: isMobile ? "0 0 auto" : 1, padding: isMobile ? "0.8rem 1rem" : "1.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem",
+                  background: "transparent", border: "none", whiteSpace: "nowrap", fontSize: isMobile ? "0.9rem" : "1rem",
                   color: activeMainTab === tab.id ? accentColor : "var(--text-muted)",
                   fontWeight: activeMainTab === tab.id ? 800 : 600, cursor: "pointer", position: "relative", zIndex: 2
                 }}
@@ -427,7 +427,7 @@ export default function ProductDetail() {
                     { icon: <Leaf size={32} />, title: "Eco-Friendly Footprint", desc: "100% recyclable components with zero toxic heavy metals. Clean energy from manufacturing to end-of-life." },
                     { icon: <ShieldCheck size={32} />, title: "Drop-in Replacement", desc: "Designed to perfectly match standard form factors. Upgrade your legacy systems in minutes, not hours." }
                   ].map((feat, i) => (
-                    <SpotlightCard key={i} spotlightColor={accentColor} style={{ padding: isMobile ? "2rem" : "2.5rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "20px" }}>
+                    <SpotlightCard key={i} spotlightColor={accentColor} style={{ padding: isMobile ? "1.25rem" : "2.5rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "20px" }}>
                       <motion.div
                         whileHover={{ scale: isMobile ? 1 : 1.1, rotate: isMobile ? 0 : 5 }}
                         style={{ color: accentColor, marginBottom: "1.5rem", background: `${accentColor}15`, display: "inline-block", padding: "1rem", borderRadius: "16px", originX: 0 }}
@@ -468,7 +468,7 @@ export default function ProductDetail() {
 
                             return (
                               <motion.div key={section.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }}>
-                                <h3 style={{ fontSize: isMobile ? "1.5rem" : "1.8rem", fontWeight: 800, marginBottom: "2rem", color: "var(--text-primary)" }}>{section.label} Specs</h3>
+                                <h3 style={{ fontSize: isMobile ? "1.25rem" : "1.8rem", fontWeight: 800, marginBottom: isMobile ? "1rem" : "2rem", color: "var(--text-primary)" }}>{section.label} Specs</h3>
 
                                 {isList ? (
                                   <ul style={{ display: "grid", gap: "1rem", listStyle: "none", padding: 0 }}>
@@ -483,7 +483,7 @@ export default function ProductDetail() {
                                   <div className="tech-spec-table" style={{ display: "grid", gap: "0", background: "var(--bg)", borderRadius: "16px", border: "1px solid var(--border)", overflow: "hidden" }}>
                                     {entries.map(([key, value], idx) => (
                                       // Stack key and value vertically on mobile, side-by-side on desktop
-                                      <div className="tech-spec-row" key={key} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: isMobile ? "0.25rem" : "1rem", padding: "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
+                                      <div className="tech-spec-row" key={key} style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: isMobile ? "0.25rem" : "1rem", padding: isMobile ? "0.8rem 1rem" : "1.25rem 1.5rem", borderBottom: idx !== entries.length - 1 ? "1px solid var(--border)" : "none", background: idx % 2 === 0 ? "transparent" : "var(--bg-2)" }}>
                                         <div style={{ color: "var(--text-muted)", fontWeight: 600, display: "flex", alignItems: "center" }}>{humanizeKey(key)}</div>
                                         <div style={{ color: "var(--text-primary)", fontWeight: 700, fontFamily: "monospace", fontSize: "1.1rem", wordBreak: "break-word" }}>
                                           {Array.isArray(value) ? value.join(", ") : formatValue(value)}
@@ -516,7 +516,7 @@ export default function ProductDetail() {
                     { title: "Installation Manual", desc: "Wiring and mounting instructions", type: "PDF", size: "5.1 MB", fileUrl: "#" },
                     { title: "Warranty Document", desc: "Terms, conditions, and coverage details", type: "PDF", size: "1.2 MB", fileUrl: "#" }
                   ].map((doc, idx) => (
-                    <motion.div whileHover={{ y: isMobile ? 0 : -5, borderColor: accentColor }} key={idx} style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "20px", padding: isMobile ? "1.5rem" : "2rem", display: "flex", gap: "1.5rem", alignItems: "center", transition: "border-color 0.2s" }}>
+                    <motion.div whileHover={{ y: isMobile ? 0 : -5, borderColor: accentColor }} key={idx} style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "20px", padding: isMobile ? "1.25rem" : "2rem", display: "flex", gap: "1.5rem", alignItems: "center", transition: "border-color 0.2s" }}>
                       <div style={{ background: `${accentColor}15`, padding: "1rem", borderRadius: "16px", color: accentColor }}>
                         <FileText size={24} />
                       </div>
