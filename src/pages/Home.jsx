@@ -364,12 +364,46 @@ export default function Home() {
             <h2 className="section-title">Data + Reality</h2>
 
             {/* Live Grid Status */}
-            <div style={{ padding: "1.25rem", borderRadius: "16px", border: "1px solid var(--border)", background: "var(--bg-2)", marginBottom: "2rem" }}>
-              <div style={{ fontWeight: 700, marginBottom: "0.75rem" }}>Live Grid Status</div>
-              <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-                <div><small>Online</small><br /><strong style={{ color: "#4ade80" }}>96%</strong></div>
-                <div><small>Charging</small><br /><strong style={{ color: "#38bdf8" }}>84%</strong></div>
-                <div><small>Tickets</small><br /><strong style={{ color: "#f97316" }}>7 Open</strong></div>
+            <div style={{ padding: "1.5rem", borderRadius: "20px", border: "1px solid var(--border)", background: "var(--bg-2)", marginBottom: "2rem", boxShadow: "0 10px 30px -15px rgba(0,0,0,0.5)" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <Activity size={24} color="#38bdf8" />
+                  <div style={{ fontWeight: 800, fontSize: "1.25rem", color: "var(--text)" }}>Live Grid Status</div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "rgba(34, 197, 94, 0.1)", padding: "0.4rem 0.75rem", borderRadius: "99px", border: "1px solid rgba(34, 197, 94, 0.2)" }}>
+                  <motion.div
+                    animate={{ opacity: [1, 0.4, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    style={{ width: 8, height: 8, background: "#22c55e", borderRadius: "50%", boxShadow: "0 0 10px #22c55e" }}
+                  />
+                  <span style={{ fontSize: "0.75rem", color: "#4ade80", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>System Stable</span>
+                </div>
+              </div>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1rem" }}>
+                <div style={{ background: "rgba(74,222,128,0.05)", border: "1px solid rgba(74,222,128,0.15)", padding: "1.25rem", borderRadius: "16px" }}>
+                  <small style={{ color: "var(--muted)", fontSize: "0.75rem", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.5px" }}>Online Fleet</small>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#4ade80", marginTop: "0.5rem", lineHeight: 1 }}>96.4%</div>
+                  <div style={{ fontSize: "0.8rem", color: "#4ade80", marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.25rem" }}>↑ 0.2% vs yesterday</div>
+                </div>
+                
+                <div style={{ background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.15)", padding: "1.25rem", borderRadius: "16px" }}>
+                  <small style={{ color: "var(--muted)", fontSize: "0.75rem", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.5px" }}>Energy Delivered</small>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#38bdf8", marginTop: "0.5rem", lineHeight: 1 }}>42.8 <span style={{ fontSize: "1rem" }}>MWh</span></div>
+                  <div style={{ fontSize: "0.8rem", color: "var(--muted)", marginTop: "0.5rem" }}>Past 24 hours</div>
+                </div>
+                
+                <div style={{ background: "rgba(168,85,247,0.05)", border: "1px solid rgba(168,85,247,0.15)", padding: "1.25rem", borderRadius: "16px" }}>
+                  <small style={{ color: "var(--muted)", fontSize: "0.75rem", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.5px" }}>Active Swaps</small>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#a855f7", marginTop: "0.5rem", lineHeight: 1 }}>1,240</div>
+                  <div style={{ fontSize: "0.8rem", color: "var(--muted)", marginTop: "0.5rem" }}>Ongoing right now</div>
+                </div>
+                
+                <div style={{ background: "rgba(249,115,22,0.05)", border: "1px solid rgba(249,115,22,0.15)", padding: "1.25rem", borderRadius: "16px" }}>
+                  <small style={{ color: "var(--muted)", fontSize: "0.75rem", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.5px" }}>Open Tickets</small>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#f97316", marginTop: "0.5rem", lineHeight: 1 }}>7</div>
+                  <div style={{ fontSize: "0.8rem", color: "#f97316", marginTop: "0.5rem" }}>Avg response: 12m</div>
+                </div>
               </div>
             </div>
 

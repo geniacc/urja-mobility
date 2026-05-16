@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { Road } from "./3d/Environment/Road";
 import { Rikshaw } from "./3d/Vehicles/Rikshaw";
 import { Bird, WindTurbine, Forest, RockField } from "./3d/Environment/CityProps";
-import { HeroEffects } from "./3d/HeroEffects"; // Based on your first screenshot showing this is in the 3d folder
+import { HeroEffects } from "./3d/HeroEffects";
 
 const Scene = ({ isMobile }) => {
     const scroll = useScroll();
@@ -92,7 +92,6 @@ export default function Hero({ categories }) {
 
                 {/* 5 Pages: 1.Hero, 2.About, 3.Products, 4.Contact, 5.Transition Curtain */}
                 <ScrollControls pages={5} damping={0.3}>
-                    {/* Crucial Suspense Wrapper to prevent crashes while 3D models load */}
                     <Suspense fallback={null}>
                         <Scene isMobile={isMobile} />
                     </Suspense>
@@ -102,84 +101,273 @@ export default function Hero({ categories }) {
                         {/* Page 1: Hero Header */}
                         <div className="hero-scroll-panel hero-scroll-center" style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             <motion.div
-                                initial={{ opacity: 0, y: 16, scale: 0.98 }}
-                                animate={{ opacity: 1, y: [0, -2, 0], scale: 1 }}
-                                transition={{ duration: 0.7, y: { repeat: Infinity, duration: 8, ease: "easeInOut" } }}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
                                 className="hero-copy"
-                                style={{ position: 'relative', textAlign: 'center' }}
+                                style={{
+                                    position: 'relative',
+                                    textAlign: 'center',
+                                    background: 'radial-gradient(ellipse at center, rgba(5, 8, 16, 0.7) 0%, rgba(5, 8, 16, 0) 80%)',
+                                    padding: '4rem 3rem',
+                                    borderRadius: '50%',
+                                    zIndex: 100
+                                }}
                             >
-                                <motion.div style={{ position: 'absolute', top: '-20%', left: '-10%', width: '40%', height: '60%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[0]}60 0%, transparent 70%)`, filter: 'blur(12px)', zIndex: -1 }} animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 4, repeat: Infinity }} />
-                                <motion.div style={{ position: 'absolute', top: '10%', left: '20%', width: '50%', height: '40%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[1]}60 0%, transparent 70%)`, filter: 'blur(12px)', zIndex: -1 }} animate={{ scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 5, repeat: Infinity }} />
-                                <motion.div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '45%', height: '55%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[2 % palette.length]}60 0%, transparent 70%)`, filter: 'blur(12px)', zIndex: -1 }} animate={{ scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }} transition={{ duration: 6, repeat: Infinity }} />
+                                {/* Background Glowing Orbs */}
+                                <motion.div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '30%', height: '50%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[0]}50 0%, transparent 70%)`, filter: 'blur(25px)', zIndex: -1 }} animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.8, 0.6] }} transition={{ duration: 4, repeat: Infinity }} />
+                                <motion.div style={{ position: 'absolute', top: '10%', right: '-5%', width: '40%', height: '40%', borderRadius: '50%', background: `radial-gradient(circle, ${palette[1]}50 0%, transparent 70%)`, filter: 'blur(25px)', zIndex: -1 }} animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.7, 0.5] }} transition={{ duration: 5, repeat: Infinity }} />
 
-                                <motion.h1
-                                    className="hero-headline"
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.1 }}
-                                    style={{ fontSize: 'clamp(2.4rem, 6vw, 5.5rem)', lineHeight: 1.1, marginBottom: '1rem', color: '#fff', letterSpacing: '-1.2px', textShadow: '0 24px 48px rgba(0,0,0,0.55)', WebkitTextStroke: '0.6px rgba(0,0,0,0.25)' }}
+                                <h1
+                                    style={{
+                                        fontSize: 'clamp(3.2rem, 8vw, 6.5rem)',
+                                        fontWeight: 900,
+                                        lineHeight: 1.1,
+                                        marginBottom: '1.2rem',
+                                        color: '#ffffff',
+                                        letterSpacing: '-2px',
+                                        display: 'block'
+                                    }}
                                 >
                                     {"Drive the Future".split(" ").map((word, i) => (
-                                        <motion.span key={i} initial={{ opacity: 0, y: 50, rotate: 5 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ delay: i * 0.12 + 0.1, type: "spring", stiffness: 100, damping: 20 }} style={{ display: 'inline-block', marginRight: '0.3em' }}>{word}</motion.span>
+                                        <motion.span
+                                            key={i}
+                                            initial={{ opacity: 0, y: 35, scale: 0.85 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            transition={{
+                                                delay: i * 0.12 + 0.15,
+                                                duration: 0.6,
+                                                type: "spring",
+                                                stiffness: 140,
+                                                damping: 14
+                                            }}
+                                            style={{
+                                                display: 'inline-block',
+                                                marginRight: '0.3em',
+                                                color: '#ffffff',
+                                                textShadow: `0px 4px 12px rgba(0,0,0,0.95), 0px 12px 36px rgba(0,0,0,0.8), 0px 0px 40px ${palette[1]}30`
+                                            }}
+                                        >
+                                            {word}
+                                        </motion.span>
                                     ))}
-                                </motion.h1>
+                                </h1>
 
-                                <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: [1, 0.9, 1] }} transition={{ duration: 0.8, delay: 0.3, repeat: Infinity, repeatDelay: 2 }} style={{ height: '4px', width: '60%', transformOrigin: 'left', background: `linear-gradient(90deg, ${palette[0]}, ${palette[1]}, ${palette[2 % palette.length]})`, boxShadow: '0 10px 30px rgba(0,0,0,0.25)', borderRadius: '99px', margin: '0 auto 1rem auto' }} />
+                                <motion.div
+                                    initial={{ scaleX: 0, opacity: 0 }}
+                                    animate={{ scaleX: 1, opacity: 1 }}
+                                    transition={{ duration: 0.8, delay: 0.6, ease: "circOut" }}
+                                    style={{
+                                        height: '4px',
+                                        width: '45%',
+                                        background: `linear-gradient(90deg, transparent, ${palette[0]}, ${palette[1]}, transparent)`,
+                                        borderRadius: '99px',
+                                        margin: '0 auto 1.5rem auto',
+                                        boxShadow: `0 0 20px ${palette[1]}80`
+                                    }}
+                                />
 
                                 <motion.p
                                     className="hero-sub"
-                                    initial={{ opacity: 0, y: 8 }}
+                                    initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.2 }}
-                                    style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', maxWidth: '700px', margin: '0 auto', lineHeight: 1.8, background: `linear-gradient(90deg, ${palette[0]}, ${palette[1]}, ${palette[2 % palette.length]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '0 10px 32px rgba(0,0,0,0.6)' }}
+                                    transition={{ duration: 0.6, delay: 0.75, ease: "easeOut" }}
+                                    style={{
+                                        fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
+                                        fontWeight: 600,
+                                        maxWidth: '700px',
+                                        margin: '0 auto',
+                                        lineHeight: 1.6,
+                                        color: '#f8fafc',
+                                        letterSpacing: '0.5px',
+                                        textShadow: '0px 3px 12px rgba(0,0,0,0.95), 0px 6px 24px rgba(0,0,0,0.7)'
+                                    }}
                                 >
-                                    Explore Urja’s world of fun, clean energy.
+                                    Powering clean journeys with smart energy solutions for the future of mobility
                                 </motion.p>
 
-                                <motion.div className="hero-chips" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: [0, -2, 0] }} transition={{ duration: 0.5, delay: 0.35 }} style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', marginTop: '1.5rem' }}>
+                                <motion.div
+                                    className="hero-chips"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.9 }}
+                                    style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2.5rem' }}
+                                >
                                     {["EV", "Home", "Industrial"].map((label, i) => (
-                                        <motion.span key={label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: [0, -2, 0] }} transition={{ delay: 0.45 + i * 0.1, duration: 2, repeat: Infinity }} whileHover={{ scale: 1.08, rotate: 1 }} style={{ padding: '0.4rem 0.8rem', borderRadius: '999px', fontWeight: 600, color: '#fff', background: palette[i % palette.length], boxShadow: '0 6px 20px rgba(0,0,0,0.2)' }}>{label}</motion.span>
+                                        <motion.span
+                                            key={label}
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: 1.0 + i * 0.1, duration: 0.4 }}
+                                            whileHover={{ scale: 1.1, y: -3, boxShadow: `0 10px 25px ${palette[i % palette.length]}60` }}
+                                            style={{
+                                                padding: '0.5rem 1.4rem',
+                                                borderRadius: '999px',
+                                                fontWeight: 700,
+                                                fontSize: '0.9rem',
+                                                letterSpacing: '1px',
+                                                textTransform: 'uppercase',
+                                                color: '#fff',
+                                                background: palette[i % palette.length],
+                                                boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            {label}
+                                        </motion.span>
                                     ))}
                                 </motion.div>
                             </motion.div>
                         </div>
 
-                        {/* Page 2: About Us */}
+                        {/* Page 2: About Us (Clean Floating Styles) */}
                         <div className="hero-scroll-panel hero-scroll-left" style={{ height: '100vh', display: 'flex', alignItems: 'center', paddingLeft: '10vw' }}>
-                            <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-about">
-                                <motion.div className="hero-title" style={{ fontSize: '3rem', fontWeight: 800, background: `linear-gradient(90deg, ${palette[0]}, ${palette[1 % palette.length]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px', textShadow: '0 18px 48px rgba(0,0,0,0.6)' }}>
-                                    {"About Us".split(" ").map((w, i) => (<motion.span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>{w}</motion.span>))}
-                                </motion.div>
-                                <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.6, delay: 0.2 }} style={{ height: '3px', width: '40%', transformOrigin: 'left', background: `linear-gradient(90deg, ${palette[0]}, ${palette[1 % palette.length]})`, borderRadius: '99px', margin: '0.5rem 0' }} />
-                                <div className="hero-sub" style={{ fontSize: '1.2rem', color: '#cbd5e1' }}>We build safe, reliable batteries<br />for mobility, homes, and industry.</div>
+                            <motion.div
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: "-100px" }}
+                                variants={{
+                                    hidden: { opacity: 0, x: -30 },
+                                    visible: { opacity: 1, x: 0, transition: { staggerChildren: 0.08 } }
+                                }}
+                                className="hero-about"
+                                style={{
+                                    maxWidth: '650px',
+                                    zIndex: 10
+                                }}
+                            >
+                                <h2 style={{ fontSize: 'clamp(2.8rem, 5vw, 4.2rem)', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-1px', display: 'block' }}>
+                                    {"About Us".split(" ").map((w, i) => (
+                                        <motion.span
+                                            key={i}
+                                            variants={{
+                                                hidden: { opacity: 0, y: 20, scale: 0.95 },
+                                                visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 150, damping: 12 } }
+                                            }}
+                                            style={{
+                                                display: 'inline-block',
+                                                marginRight: '0.3em',
+                                                color: '#ffffff',
+                                                // High-intensity typography glow mapping directly to theme color
+                                                textShadow: `0 0 8px #ffffff, 0 0 20px ${palette[0]}, 0 0 40px ${palette[0]}, 0px 4px 10px rgba(0,0,0,0.9)`
+                                            }}
+                                        >
+                                            {w}
+                                        </motion.span>
+                                    ))}
+                                </h2>
+                                <motion.div
+                                    variants={{
+                                        hidden: { scaleX: 0, opacity: 0 },
+                                        visible: { scaleX: 1, opacity: 1, transition: { duration: 0.6, ease: "circOut" } }
+                                    }}
+                                    style={{ height: '4px', width: '180px', transformOrigin: 'left', background: palette[0], borderRadius: '99px', margin: '0.75rem 0 1.5rem 0', boxShadow: `0 0 25px ${palette[0]}` }}
+                                />
+                                <motion.p
+                                    variants={{
+                                        hidden: { opacity: 0, y: 15 },
+                                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                                    }}
+                                    style={{ fontSize: 'clamp(1.2rem, 2vw, 1.4rem)', fontWeight: 700, color: '#ffffff', lineHeight: 1.7, textShadow: '0px 3px 12px rgba(0,0,0,0.95), 0px 6px 20px rgba(0,0,0,0.65)' }}
+                                >
+                                    We build safe, reliable batteries<br />for mobility, homes, and industry.
+                                </motion.p>
                             </motion.div>
                         </div>
 
-                        {/* Page 3: Products */}
+                        {/* Page 3: Products (Clean Floating Styles) */}
                         <div className="hero-scroll-panel hero-scroll-right" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '10vw' }}>
-                            <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-products" style={{ textAlign: 'right' }}>
-                                <motion.div className="hero-title" style={{ fontSize: '3rem', fontWeight: 800, background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px', textShadow: '0 18px 48px rgba(0,0,0,0.6)' }}>
-                                    {"Products".split(" ").map((w, i) => (<motion.span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>{w}</motion.span>))}
-                                </motion.div>
-                                <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.6, delay: 0.2 }} style={{ height: '3px', width: '40%', transformOrigin: 'right', marginLeft: 'auto', background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`, borderRadius: '99px', margin: '0.5rem 0' }} />
-                                <div className="hero-sub" style={{ fontSize: '1.2rem', color: '#cbd5e1', marginBottom: '1.5rem' }}>Explore packs and systems engineered<br />for performance and safety.</div>
-                                <motion.button onClick={() => navigate('/products')} className="hero-btn" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} style={{ padding: '0.8rem 1.5rem', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer', pointerEvents: 'auto', background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`, color: '#fff' }}>See Catalog</motion.button>
+                            <motion.div
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: "-100px" }}
+                                variants={{
+                                    hidden: { opacity: 0, x: 30 },
+                                    visible: { opacity: 1, x: 0, transition: { staggerChildren: 0.08 } }
+                                }}
+                                className="hero-products"
+                                style={{
+                                    textAlign: 'right',
+                                    maxWidth: '650px',
+                                    zIndex: 10
+                                }}
+                            >
+                                <h2 style={{ fontSize: 'clamp(2.8rem, 5vw, 4.2rem)', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-1px', display: 'block' }}>
+                                    {"Products".split(" ").map((w, i) => (
+                                        <motion.span
+                                            key={i}
+                                            variants={{
+                                                hidden: { opacity: 0, y: 20, scale: 0.95 },
+                                                visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 150, damping: 12 } }
+                                            }}
+                                            style={{
+                                                display: 'inline-block',
+                                                marginLeft: '0.3em',
+                                                color: '#ffffff',
+                                                // High-intensity typography glow mapping directly to theme color
+                                                textShadow: `0 0 8px #ffffff, 0 0 20px ${palette[1 % palette.length]}, 0 0 40px ${palette[1 % palette.length]}, 0px 4px 10px rgba(0,0,0,0.9)`
+                                            }}
+                                        >
+                                            {w}
+                                        </motion.span>
+                                    ))}
+                                </h2>
+                                <motion.div
+                                    variants={{
+                                        hidden: { scaleX: 0, opacity: 0 },
+                                        visible: { scaleX: 1, opacity: 1, transition: { duration: 0.6, ease: "circOut" } }
+                                    }}
+                                    style={{ height: '4px', width: '180px', transformOrigin: 'right', marginLeft: 'auto', background: palette[1 % palette.length], borderRadius: '99px', margin: '0.75rem 0 1.5rem 0', boxShadow: `0 0 25px ${palette[1 % palette.length]}` }}
+                                />
+                                <motion.p
+                                    variants={{
+                                        hidden: { opacity: 0, y: 15 },
+                                        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                                    }}
+                                    style={{ fontSize: 'clamp(1.2rem, 2vw, 1.4rem)', fontWeight: 700, color: '#ffffff', marginBottom: '2.5rem', lineHeight: 1.7, textShadow: '0px 3px 12px rgba(0,0,0,0.95), 0px 6px 20px rgba(0,0,0,0.65)' }}
+                                >
+                                    Explore packs and systems engineered<br />for performance and safety.
+                                </motion.p>
+                                <motion.button
+                                    onClick={() => navigate('/products')}
+                                    className="hero-btn"
+                                    variants={{
+                                        hidden: { opacity: 0, scale: 0.85, y: 15 },
+                                        visible: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 110, delay: 0.15 } }
+                                    }}
+                                    whileHover={{ scale: 1.05, y: -2, boxShadow: `0 12px 30px ${palette[1]}80` }}
+                                    whileTap={{ scale: 0.98 }}
+                                    style={{
+                                        padding: '1rem 2.2rem',
+                                        borderRadius: '8px',
+                                        border: 'none',
+                                        fontWeight: 'bold',
+                                        fontSize: '1.05rem',
+                                        cursor: 'pointer',
+                                        pointerEvents: 'auto',
+                                        background: `linear-gradient(90deg, ${palette[1 % palette.length]}, ${palette[2 % palette.length]})`,
+                                        color: '#fff',
+                                        boxShadow: '0 4px 20px rgba(0,0,0,0.6)'
+                                    }}
+                                >
+                                    See Catalog
+                                </motion.button>
                             </motion.div>
                         </div>
 
                         {/* Page 4: Contact */}
                         <div className="hero-scroll-panel hero-scroll-center" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-contact" style={{ textAlign: 'center' }}>
+                            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }} className="hero-contact" style={{ textAlign: 'center', background: 'radial-gradient(circle, rgba(0,0,0,0.4) 0%, transparent 70%)', padding: '3rem' }}>
                                 <motion.div className="hero-title center" style={{ fontSize: '3rem', fontWeight: 800, background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px' }}>
                                     {"Say Hello".split(" ").map((w, i) => (<motion.span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>{w}</motion.span>))}
                                 </motion.div>
                                 <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.6, delay: 0.2 }} style={{ height: '3px', width: '40%', transformOrigin: 'center', background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`, borderRadius: '99px', margin: '0.5rem auto' }} />
-                                <div className="hero-sub center" style={{ fontSize: '1.2rem', margin: '2rem auto', color: '#cbd5e1' }}>Partner with us to power a cleaner future.</div>
-                                <motion.button onClick={() => navigate('/contact')} className="hero-btn large" whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.98 }} style={{ padding: '1rem 2rem', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer', pointerEvents: 'auto', background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`, color: '#fff' }}>Contact Us</motion.button>
+                                <div className="hero-sub" style={{ fontSize: '1.2rem', margin: '2rem auto', color: '#f8fafc', textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>Partner with us to power a cleaner future.</div>
+                                <motion.button onClick={() => navigate('/contact')} className="hero-btn large" whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.98 }} style={{ padding: '1rem 2rem', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer', pointerEvents: 'auto', background: `linear-gradient(90deg, ${palette[2 % palette.length]}, ${palette[0]})`, color: '#fff', boxShadow: '0 4px 15px rgba(0,0,0,0.5)' }}>Contact Us</motion.button>
                             </motion.div>
                         </div>
 
-                        {/* Page 5: The Interactive Transition Curtain */}
+                        {/* Page 5: Interactive Transition Curtain */}
                         <div className="hero-scroll-panel hero-scroll-center" style={{
                             height: '100vh',
                             width: '100%',
@@ -213,7 +401,7 @@ export default function Hero({ categories }) {
                                     The Journey <span style={{ color: '#0ea5e9' }}>Continues</span>
                                 </h2>
 
-                                <p style={{ fontSize: '1.2rem', color: '#94a3b8', maxWidth: '500px', lineHeight: 1.6, marginBottom: '3rem' }}>
+                                <p style={{ fontSize: '1.2rem', color: '#cbd5e1', maxWidth: '500px', lineHeight: 1.6, marginBottom: '3rem' }}>
                                     You've seen the vision. Now explore the high-performance battery packs powering the mobility ecosystem.
                                 </p>
 

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, useLayoutEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Box, Cylinder, Sphere, Text, Float, Torus, Cone } from "@react-three/drei";
+import { Box, Cylinder, Sphere, Text, Float, Torus, Cone, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 // --- Street Props ---
@@ -183,36 +183,62 @@ export const TrafficLight = ({ position, rotation }) => (
     </group>
 );
 
+// --- UPDATED BILLBOARD COMPONENT ---
 export const Billboard = ({ position, rotation }) => {
-    const screenRef = useRef();
+    // We'll use two refs now to animate the logo on both sides
+    const logoFrontRef = useRef();
+    const logoBackRef = useRef();
+
+    const logoTexture = useTexture(`${import.meta.env.BASE_URL}assets/logo.png`);
 
     useFrame((state) => {
-        if (screenRef.current) {
-            screenRef.current.material.opacity = 0.8 + Math.sin(state.clock.elapsedTime * 10) * 0.1;
-        }
+        // Create a subtle pulsing effect for the logo to make it feel "alive"
+        const pulse = 0.8 + Math.sin(state.clock.elapsedTime * 4) * 0.2;
+
+        if (logoFrontRef.current) logoFrontRef.current.opacity = pulse;
+        if (logoBackRef.current) logoBackRef.current.opacity = pulse;
     });
 
     return (
         <group position={position} rotation={rotation}>
-            {/* Main Frame */}
+            {/* Main Structural Frame */}
             <Box args={[4.5, 2.5, 0.2]} position={[0, 1.5, 0]}>
                 <meshStandardMaterial color="#0f172a" metalness={0.9} roughness={0.1} />
             </Box>
 
-            {/* Holographic Glowing Screen */}
-            <Box ref={screenRef} args={[4.3, 2.3, 0.25]} position={[0, 1.5, 0]}>
-                <meshBasicMaterial color="#0ea5e9" toneMapped={false} transparent opacity={0.8} />
+            {/* Black LED Screen Backdrop */}
+            <Box args={[4.3, 2.3, 0.22]} position={[0, 1.5, 0]}>
+                {/* Changed to a dark black/grey material */}
+                <meshStandardMaterial color="#050505" roughness={0.6} metalness={0.2} />
             </Box>
 
-            {/* Front Text */}
-            <Text position={[0, 1.5, 0.18]} fontSize={0.65} color="#ffffff" anchorX="center" anchorY="middle">
-                URJA MOBILITY
-            </Text>
+            {/* Front Facing Highlighted Logo */}
+            <mesh position={[0, 1.5, 0.12]}>
+                <planeGeometry args={[3.8, 1.8]} />
+                <meshBasicMaterial
+                    ref={logoFrontRef}
+                    map={logoTexture}
+                    transparent={true}
+                    alphaTest={0.05}
+                    depthWrite={false}
+                    toneMapped={false}       // Prevents the engine from darkening the glow
+                    color={[1.5, 1.5, 1.5]}  // Overdrives the brightness of your PNG
+                />
+            </mesh>
 
-            {/* Back Text */}
-            <Text position={[0, 1.5, -0.18]} rotation={[0, Math.PI, 0]} fontSize={0.65} color="#ffffff" anchorX="center" anchorY="middle">
-                URJA MOBILITY
-            </Text>
+            {/* Back Facing Highlighted Logo */}
+            <mesh position={[0, 1.5, -0.12]} rotation={[0, Math.PI, 0]}>
+                <planeGeometry args={[3.8, 1.8]} />
+                <meshBasicMaterial
+                    ref={logoBackRef}
+                    map={logoTexture}
+                    transparent={true}
+                    alphaTest={0.05}
+                    depthWrite={false}
+                    toneMapped={false}
+                    color={[1.5, 1.5, 1.5]}
+                />
+            </mesh>
 
             {/* Support Poles */}
             <Cylinder args={[0.1, 0.1, 1.5]} position={[-1.5, 0.75, 0]}>
@@ -224,6 +250,7 @@ export const Billboard = ({ position, rotation }) => {
         </group>
     );
 };
+
 export const BusStop = ({ position, rotation }) => (
     <group position={position} rotation={rotation}>
         <Box args={[3, 0.2, 1.5]} position={[0, 0.1, 0]}><meshStandardMaterial color="#cbd5e1" /></Box>
@@ -253,7 +280,6 @@ export const Pedestrian = ({ curve, startOffset, side, color }) => {
     const offsetRef = useRef(startOffset);
     const speed = 0.002 + Math.random() * 0.002;
 
-    // Refs for limbs
     const leftArm = useRef();
     const rightArm = useRef();
     const leftLeg = useRef();
@@ -272,7 +298,6 @@ export const Pedestrian = ({ curve, startOffset, side, color }) => {
             group.current.position.y = 0.5 + Math.abs(Math.sin(state.clock.elapsedTime * 8)) * 0.1;
         }
 
-        // Animate walking limbs
         const walkCycle = state.clock.elapsedTime * 10;
         if (leftArm.current && rightArm.current && leftLeg.current && rightLeg.current) {
             leftArm.current.rotation.x = Math.sin(walkCycle) * 0.5;
@@ -284,25 +309,19 @@ export const Pedestrian = ({ curve, startOffset, side, color }) => {
 
     return (
         <group ref={group} scale={0.45}>
-            {/* Head */}
             <Sphere args={[0.3]} position={[0, 1.7, 0]}><meshStandardMaterial color="#fca5a5" /></Sphere>
-            {/* Torso */}
             <Box args={[0.5, 0.45, 0.3]} position={[0, 1.25, 0]}><meshStandardMaterial color={color} /></Box>
 
-            {/* Left Arm */}
             <group ref={leftArm} position={[0.35, 1.4, 0]}>
                 <Box args={[0.15, 0.5, 0.15]} position={[0, -0.25, 0]}><meshStandardMaterial color={color} /></Box>
             </group>
-            {/* Right Arm */}
             <group ref={rightArm} position={[-0.35, 1.4, 0]}>
                 <Box args={[0.15, 0.5, 0.15]} position={[0, -0.25, 0]}><meshStandardMaterial color={color} /></Box>
             </group>
 
-            {/* Left Leg */}
             <group ref={leftLeg} position={[0.15, 1.0, 0]}>
                 <Box args={[0.18, 0.6, 0.2]} position={[0, -0.3, 0]}><meshStandardMaterial color="#1e293b" /></Box>
             </group>
-            {/* Right Leg */}
             <group ref={rightLeg} position={[-0.15, 1.0, 0]}>
                 <Box args={[0.18, 0.6, 0.2]} position={[0, -0.3, 0]}><meshStandardMaterial color="#1e293b" /></Box>
             </group>
@@ -310,9 +329,7 @@ export const Pedestrian = ({ curve, startOffset, side, color }) => {
     )
 };
 
-// --- UPGRADED BUILDINGS ---
-
-// --- HIGH-DETAIL CORPORATE TOWER (Line ~300) ---
+// --- Town Building ---
 export const TownBuilding = ({ position, rotation }) => {
     const height = 15;
     return (
@@ -334,19 +351,16 @@ export const TownBuilding = ({ position, rotation }) => {
     );
 };
 
-/// --- HIGH-DETAIL SMART HOME (Line ~268) ---
+// --- Small House ---
 export const SmallHouse = ({ position, rotation }) => (
     <group position={position} rotation={rotation}>
-        {/* Main Body */}
         <Box args={[5, 4, 5]} position={[0, 2, 0]} castShadow receiveShadow>
             <meshStandardMaterial color="#f8fafc" />
         </Box>
 
-        {/* Door & Porch Light */}
         <Box args={[1.2, 2.4, 0.2]} position={[0, 1.2, 2.5]}><meshStandardMaterial color="#1e293b" /></Box>
         <Sphere args={[0.1]} position={[0.8, 2.5, 2.6]}><meshBasicMaterial color="#fef08a" toneMapped={false} /></Sphere>
 
-        {/* Windows with Glowing Interiors */}
         {[[-1.5, 2.2], [1.5, 2.2]].map((pos, i) => (
             <group key={i} position={[pos[0], pos[1], 2.51]}>
                 <Box args={[1.2, 1.2, 0.05]}><meshStandardMaterial color="#bae6fd" roughness={0.1} /></Box>
@@ -355,7 +369,6 @@ export const SmallHouse = ({ position, rotation }) => (
             </group>
         ))}
 
-        {/* Slanted Solar Roof */}
         <group position={[0, 4, 0]}>
             <Box args={[5.8, 0.5, 5.8]} position={[0, 0.25, 0]}><meshStandardMaterial color="#334155" /></Box>
             <mesh rotation={[-0.3, 0, 0]} position={[0, 0.7, 0]}>
@@ -364,7 +377,6 @@ export const SmallHouse = ({ position, rotation }) => (
             </mesh>
         </group>
 
-        {/* Urja Battery Hub */}
         <Box args={[0.8, 1.8, 1.2]} position={[2.8, 1.2, 0]} castShadow>
             <meshStandardMaterial color="#22c55e" />
         </Box>
