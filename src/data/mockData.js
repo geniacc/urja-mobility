@@ -712,7 +712,9 @@ export const teamMembers = [
   { id: 36, name: "PINKI", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Pinki- Credit Executive.jpeg" },
   { id: 37, name: "BHAWANA", department: "OPERATIONS", role: "OPERATION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Bhawana - operations Executive.jpeg" },
   { id: 38, name: "SNEHA KHANDELWAL", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sneha Khandelwal- Credit Executive.jpeg" },
-  { id: 39, name: "JATIN SADANA", department: "CREDIT", role: "CREDIT MANAGER", image: "" }
+  { id: 39, name: "JATIN SADANA", department: "CREDIT", role: "CREDIT MANAGER", image: "" },
+  { id: 40, name: "KRISHNA", department: "ACCOUNTS", role: "SENIOR ACCOUNTS EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Krishna-Senior Accounts Executive.jpeg" },
+  { id: 41, name: "TWINKLE", department: "MANAGEMENT", role: "FOUNDER'S OFFICE", image: import.meta.env.BASE_URL + "assets/Twinkle- Founder's office.PNG" }
 ];
 
 export const stats = [
