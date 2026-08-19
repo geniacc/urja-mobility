@@ -684,23 +684,19 @@ export const teamMembers = [
   { id: 8, name: "VICKY", department: "ADMIN", role: "LAB ASSOCIATE", image: import.meta.env.BASE_URL + "assets/Vicky Paswan- Lab Associate.jpeg" },
   { id: 9, name: "RITU", department: "CUSTOMER SUPPORT", role: "EXECUTIVE- OPERATIONS & SUPPORT", image: import.meta.env.BASE_URL + "assets/Ritu-Executive-Operations & Support.jpeg" },
   { id: 10, name: "PAPAI ROY", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Papai Roy (Sales & Collection Executive).jpeg" },
-  { id: 11, name: "SUMIT KUMAR", department: "ACCOUNTS", role: "SR ACCOUNTS EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sumit- Sr. Accounts Excutive.jpeg" },
   { id: 12, name: "ANURAG SHARMA", department: "OPERATIONS", role: "ASST MANAGER OPERATIONS", image: import.meta.env.BASE_URL + "assets/Anurag Sharma-Assistant Manager Operations.jpg" },
   { id: 13, name: "ABHISHEK PRASAD", department: "COLLECTION", role: "COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Abhishek Prasad (Collection Executive).jpeg" },
   { id: 14, name: "ANKIT SINGH", department: "SALES & COLLECTION", role: "DRIVER ON-BOARDING & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Ankit Singh.jpeg" },
-  { id: 15, name: "ANJALI", department: "ACCOUNTS", role: "ACCOUNTS EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Anjali - Accounts Executive.jpeg" },
   { id: 16, name: "TAPAS BARMAN", department: "SALES & MARKETING", role: "SALES & MARKETING EXECUTIVE", image: "" },
   { id: 17, name: "BHARTI KUMARI", department: "CUSTOMER SUPPORT", role: "CUSTOMER SUPPORT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Bharti Mishra- Customer Support Executive.jpeg" },
   { id: 18, name: "SOURAV DEY", department: "SALES & MARKETING", role: "SALES AND MARKETING EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sourav Dey- Sales & Marketing Executive.jpg" },
   { id: 19, name: "SUJAL RATHORE", department: "HUMAN RESOURCE", role: "JUNIOR HR EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sujal-Junior HR Executive.jpeg" },
   { id: 20, name: "AMIT BHADOURIYA", department: "COLLECTION", role: "COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Amit Bhadouriya - collection Executive.png" },
-  { id: 21, name: "SHIVAM SINGH", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Shivam Singh.jpeg" },
   { id: 22, name: "DIPAM KAR", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Dipam Kar (Sales & Collection Executive).jpeg" },
   { id: 23, name: "RAHUL SINGH", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Rahul Singh- Sales & Collection Executive.jpeg" },
   { id: 24, name: "RAUSHAN KUMAR", department: "SUPPLY CHAIN", role: "DGM-SCM", image: import.meta.env.BASE_URL + "assets/RAUSHAN KUMAR (DGM-SCM).jpeg" },
   { id: 25, name: "MAHESH RAMDAS KADABA", department: "MANAGEMENT", role: "CHIEF STRATEGY OFFICER", image: import.meta.env.BASE_URL + "assets/Mahesh Ramdas Kadaba (Chief Strategy Officer).jpeg" },
   { id: 26, name: "SUBHASH CHAND", department: "TECHNICAL", role: "SERVICE TECHNICIAN", image: import.meta.env.BASE_URL + "assets/Subhash Chand- Service Technician.jpeg" },
-  { id: 27, name: "SANJIT DEY", department: "SALES & COLLECTION", role: "SALES & COLLECTION EXECUTIVE", image: "" },
   { id: 28, name: "ROSHNI KUMARI", department: "DATA", role: "DATA ANALYST", image: "" },
   { id: 29, name: "PRAVINDRA KUMAR", department: "COLLECTION", role: "DEALER FI & COLLECTION SUPERVISOR", image: "" },
   { id: 30, name: "ANTUL RAKESH", department: "SUPPLY CHAIN", role: "VICE PRESIDENT- SUPPLY CHAIN MANAGEMENT", image: "" },
@@ -711,10 +707,11 @@ export const teamMembers = [
   { id: 35, name: "ASHISH KUMAR", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Ashish- Credit Executive.jpeg" },
   { id: 36, name: "PINKI", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Pinki- Credit Executive.jpeg" },
   { id: 37, name: "BHAWANA", department: "OPERATIONS", role: "OPERATION EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Bhawana - operations Executive.jpeg" },
-  { id: 38, name: "SNEHA KHANDELWAL", department: "CREDIT", role: "CREDIT EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Sneha Khandelwal- Credit Executive.jpeg" },
-  { id: 39, name: "JATIN SADANA", department: "CREDIT", role: "CREDIT MANAGER", image: "" },
+  { id: 39, name: "JATIN SADANA", department: "CREDIT", role: "CREDIT MANAGER", image: import.meta.env.BASE_URL + "assets/JATIN SADANA-CREDIT MANAGER.png" },
   { id: 40, name: "KRISHNA", department: "ACCOUNTS", role: "SENIOR ACCOUNTS EXECUTIVE", image: import.meta.env.BASE_URL + "assets/Krishna-Senior Accounts Executive.jpeg" },
-  { id: 41, name: "TWINKLE", department: "MANAGEMENT", role: "FOUNDER'S OFFICE", image: import.meta.env.BASE_URL + "assets/Twinkle- Founder's office.PNG" }
+  { id: 41, name: "TWINKLE", department: "MANAGEMENT", role: "FOUNDER'S OFFICE", image: import.meta.env.BASE_URL + "assets/Twinkle- Founder's office.PNG" },
+  { id: 42, name: "ARMAN SINGH", department: "TECHNICAL", role: "WEB DEVELOPER", image: "" },
+  { id: 43, name: "ANMOL KUMAR", department: "FINANCE", role: "HEAD OF FINANCE", image: import.meta.env.BASE_URL + "assets/Anmol Kumar Head of Finance.jpeg" }
 ];
 
 export const stats = [

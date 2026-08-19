@@ -59,7 +59,7 @@ export default function Footer() {
             <ul>
               <li className="footer-contact-item" style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                 <MapPin size={16} style={{ flexShrink: 0, marginTop: '4px' }} />
-                <span>11th Floor, Bset Sky Tower, Netaji Subhash Palace, Pitampura, Delhi-110035</span>
+                <a href="https://maps.app.goo.gl/98494q94ASKEZDwg9" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline', textUnderlineOffset: '3px' }}>11th Floor, Bset Sky Tower, Netaji Subhash Palace, Pitampura, Delhi-110035</a>
               </li>
               <li className="footer-contact-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Phone size={16} style={{ flexShrink: 0 }} />

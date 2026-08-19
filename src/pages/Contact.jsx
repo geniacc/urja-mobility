@@ -179,6 +179,7 @@ export default function Contact() {
                   value="11th Floor, Bset Sky Tower"
                   subValue="Netaji Subhash Palace, Pitampura, Delhi-110035"
                   color="#f59e0b"
+                  href="https://maps.app.goo.gl/98494q94ASKEZDwg9"
                 />
               </div>
             </div>
@@ -434,12 +435,9 @@ export default function Contact() {
   );
 }
 
-function ContactItem({ icon, label, value, subValue, color }) {
-  return (
-    <motion.div
-      whileHover={{ x: 5 }}
-      style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}
-    >
+function ContactItem({ icon, label, value, subValue, color, href }) {
+  const content = (
+    <>
       <div style={{
         width: '56px',
         height: '56px',
@@ -459,6 +457,16 @@ function ContactItem({ icon, label, value, subValue, color }) {
         <div style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text)', lineHeight: '1.2' }}>{value}</div>
         {subValue && <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.25rem' }}>{subValue}</div>}
       </div>
+    </>
+  );
+
+  return (
+    <motion.div whileHover={{ x: 5 }} style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+      {href ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', color: 'inherit', textDecoration: 'none', width: '100%' }}>
+          {content}
+        </a>
+      ) : content}
     </motion.div>
   );
 }
